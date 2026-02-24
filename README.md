@@ -9,6 +9,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
 - [Project Overview](#project-overview)
 - [Architecture](#architecture)
 - [Repository Structure](#repository-structure)
+- [Role Documents](#role-documents)
 - [Prerequisites](#prerequisites)
 - [Local Development](#local-development)
   - [App Builder Actions](#app-builder-actions)
@@ -114,6 +115,21 @@ aem-eds-appbuilder/
     └── workflows/
         └── deploy.yml             # CI/CD — lint → build WCs → deploy
 ```
+
+---
+
+## Role Documents
+
+Role-specific onboarding and reference documents are located in the [`docs/`](docs/) directory:
+
+| Role | Document |
+|---|---|
+| Client Partner | [`docs/client-partner.md`](docs/client-partner.md) |
+| AEM Consultant (Functional) / Project Lead | [`docs/aem-consultant-functional-project-lead.md`](docs/aem-consultant-functional-project-lead.md) |
+| AEM Technical Architect | [`docs/aem-technical-architect.md`](docs/aem-technical-architect.md) |
+| Project Manager | [`docs/project-manager.md`](docs/project-manager.md) |
+| AEM Consultant (Tech/Dev) / UX Consultant | [`docs/aem-consultant-tech-dev-ux-consultant.md`](docs/aem-consultant-tech-dev-ux-consultant.md) |
+| Analytics Consultant | [`docs/analytics-consultant.md`](docs/analytics-consultant.md) |
 
 ---
 
