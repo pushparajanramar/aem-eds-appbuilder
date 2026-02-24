@@ -9,6 +9,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
 - [Project Overview](#project-overview)
 - [Architecture](#architecture)
 - [Repository Structure](#repository-structure)
+- [Project Lifecycle](#project-lifecycle)
 - [Role Documents](#role-documents)
 - [Prerequisites](#prerequisites)
 - [Local Development](#local-development)
@@ -117,6 +118,32 @@ aem-eds-appbuilder/
     └── workflows/
         └── deploy.yml             # CI/CD — lint → build WCs → deploy
 ```
+
+---
+
+## Project Lifecycle
+
+The full engagement follows five phases. Each phase has a dedicated runbook and set of reference documents in the [`docs/`](docs/) directory:
+
+| #  | Phase          | Activity                                      | Reference Document                                                                                                |
+|----|----------------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| 01 | Kickoff        | Read the Digital Foundation Blueprint Runbook | [Blueprint Runbook](docs/blueprint-runbook.md)                                                                   |
+| 02 | Kickoff        | Create the Kickoff Deck                       | [Kick-off Deck Template](docs/kickoff-deck-template.md)                                                          |
+| 03 | Discovery      | Follow the Discovery Runbook                  | [Discovery Runbook](docs/discovery-runbook.md)                                                                   |
+| 04 | Discovery      | Perform UX Solution Design                    | [UX Solution Design Runbook](docs/ux-solution-design-runbook.md)                                                 |
+| 05 | Discovery      | Perform Content Architecture Discovery        | [AEM Sites Discovery Checklist](docs/aem-sites-discovery-checklist.md)                                           |
+| 06 | Discovery      | Perform Analytics Discovery                   | [Analytics Discovery Template](docs/analytics-discovery-template.md)                                             |
+| 07 | Discovery      | Perform Optimisation Discovery                | [Optimisation Runbook — Chapter 1](docs/optimization-runbook.md#chapter-1-optimisation-discovery)                |
+| 08 | Implementation | Follow the Implementation Runbook             | [Implementation Runbook](docs/implementation-runbook.md)                                                         |
+| 09 | Implementation | Configure AEM Code & Environment              | [AEM Configuration Guide](docs/aem-configuration-guide.md)                                                       |
+| 10 | Implementation | AA / AT / Launch Automation                   | [Implementation Runbook §3.2.2](docs/implementation-runbook.md#322-aa--at--launch-automation)                    |
+| 11 | Implementation | Style the Templates / Components              | [Front-End (Site Styling) Runbook](docs/front-end-styling-runbook.md)                                            |
+| 12 | Implementation | Create site content                           | [Content Architecture Runbook](docs/content-architecture-runbook.md)                                             |
+| 13 | Go-Live        | Perform Go-Live Check                         | [Go-Live Checklist](docs/go-live-checklist.md)                                                                   |
+| 14 | Go-Live        | Cutover / Launch Site                         | [Go-Live Runbook](docs/go-live-runbook.md)                                                                       |
+| 15 | Optimisation   | Configure Audiences                           | [Optimisation Runbook — Chapter 3](docs/optimization-runbook.md#chapter-3-audience-configuration)                |
+| 16 | Optimisation   | Plan & Execute Tests                          | [Optimisation Runbook — Chapter 4](docs/optimization-runbook.md#chapter-4-planning--executing-tests)             |
+| 17 | Optimisation   | Optimise Tests                                | [Optimisation Runbook — Chapter 5](docs/optimization-runbook.md#chapter-5-optimising-tests)                      |
 
 ---
 
