@@ -1,0 +1,97 @@
+/* Promotion Banner Block */
+@import '../../styles/tokens.css';
+
+.promotion-banner {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.promotion-banner__inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.promotion-banner__media {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.promotion-banner__media picture,
+.promotion-banner__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promotion-banner__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background: var(--color-green-dark);
+  color: var(--color-white);
+}
+
+.promotion-banner__content h1,
+.promotion-banner__content h2,
+.promotion-banner__content h3 {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.promotion-banner__content p {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  color: var(--color-green-light);
+  line-height: var(--line-height-normal);
+  margin: 0;
+}
+
+.promotion-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-8);
+  background: var(--color-white);
+  color: var(--color-green-dark);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  align-self: flex-start;
+}
+
+.promotion-banner__cta:hover {
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+}
+
+@media (min-width: 768px) {
+  .promotion-banner__inner {
+    flex-direction: row;
+    min-height: 400px;
+  }
+
+  .promotion-banner__media {
+    width: 55%;
+  }
+
+  .promotion-banner__content {
+    width: 45%;
+    justify-content: center;
+  }
+
+  .promotion-banner__content h1,
+  .promotion-banner__content h2,
+  .promotion-banner__content h3 {
+    font-size: var(--font-size-3xl);
+  }
+}

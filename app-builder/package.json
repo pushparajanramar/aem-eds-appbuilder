@@ -1,0 +1,19 @@
+{
+  "name": "@starbucks/app-builder",
+  "version": "1.0.0",
+  "description": "Adobe App Builder BYOM actions for Starbucks EDS",
+  "private": true,
+  "scripts": {
+    "deploy": "aio app deploy",
+    "undeploy": "aio app undeploy",
+    "test": "jest",
+    "lint": "eslint actions --ext .js"
+  },
+  "dependencies": {
+    "@adobe/aio-sdk": "^5.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0"
+  }
+}
