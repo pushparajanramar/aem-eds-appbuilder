@@ -11,7 +11,7 @@ const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl } = require('../shared/url-utils');
 
 /**
- * Fetch menu items from the upstream product API.
+ * Fetch menu items from the BFF ordering menu endpoint.
  *
  * @param {string} edsHost
  * @param {string} category
@@ -19,7 +19,8 @@ const { safeUrl } = require('../shared/url-utils');
  * @returns {Promise<Array>}
  */
 async function fetchMenuItems(edsHost, category, locale) {
-  const url = `https://${edsHost}/menu-data/${locale}/${category}.json`;
+  const params = new URLSearchParams({ locale, category });
+  const url = `https://${edsHost}/bff/ordering/menu?${params}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Upstream menu fetch failed: ${res.status}`);
   const { data } = await res.json();

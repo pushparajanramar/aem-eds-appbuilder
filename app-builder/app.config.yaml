@@ -39,6 +39,28 @@ packages:
           market: us
           LOG_LEVEL: info
 
+      user-provider:
+        function: actions/user-provider/index.js
+        web: 'yes'
+        runtime: nodejs:18
+        annotations:
+          require-adobe-auth: true
+          final: true
+        inputs:
+          market: us
+          LOG_LEVEL: info
+
+      bff-proxy:
+        function: actions/bff-proxy/index.js
+        web: 'yes'
+        runtime: nodejs:18
+        annotations:
+          require-adobe-auth: true
+          final: true
+        inputs:
+          market: us
+          LOG_LEVEL: info
+
       webhook:
         function: actions/webhook/index.js
         web: 'yes'

@@ -105,5 +105,65 @@
         ]
       }
     ]
+  },
+  {
+    "id": "store-locator",
+    "fields": [
+      {
+        "component": "select",
+        "name": "market",
+        "label": "Market",
+        "valueType": "string",
+        "options": [
+          { "name": "United States", "value": "us" },
+          { "name": "United Kingdom", "value": "uk" },
+          { "name": "Japan", "value": "jp" }
+        ]
+      },
+      {
+        "component": "text",
+        "name": "radius",
+        "label": "Search Radius (km)",
+        "valueType": "number"
+      }
+    ]
+  },
+  {
+    "id": "user-profile",
+    "fields": [
+      {
+        "component": "select",
+        "name": "market",
+        "label": "Market",
+        "valueType": "string",
+        "options": [
+          { "name": "United States", "value": "us" },
+          { "name": "United Kingdom", "value": "uk" },
+          { "name": "Japan", "value": "jp" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rewards-feed",
+    "fields": [
+      {
+        "component": "select",
+        "name": "market",
+        "label": "Market",
+        "valueType": "string",
+        "options": [
+          { "name": "United States", "value": "us" },
+          { "name": "United Kingdom", "value": "uk" },
+          { "name": "Japan", "value": "jp" }
+        ]
+      },
+      {
+        "component": "text",
+        "name": "limit",
+        "label": "Max Items",
+        "valueType": "number"
+      }
+    ]
   }
 ]
