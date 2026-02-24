@@ -24,7 +24,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
   - [CI/CD Pipeline (Recommended)](#cicd-pipeline-recommended)
   - [Manual Deployment — App Builder](#manual-deployment--app-builder)
   - [Manual Deployment — EDS Sites](#manual-deployment--eds-sites)
-- [AEM Configuration Guide](docs/aem-configuration-guide.md)
+- [Process Documents](#process-documents)
 
 ---
 
@@ -132,6 +132,15 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | Project Manager | [`docs/project-manager.md`](docs/project-manager.md) |
 | AEM Consultant (Tech/Dev) / UX Consultant | [`docs/aem-consultant-tech-dev-ux-consultant.md`](docs/aem-consultant-tech-dev-ux-consultant.md) |
 | Analytics Consultant | [`docs/analytics-consultant.md`](docs/analytics-consultant.md) |
+
+---
+
+## Process Documents
+
+| Document | Description |
+|---|---|
+| [AEM Configuration Guide](docs/aem-configuration-guide.md) | End-to-end AEM ecosystem configuration (Archetype, Cloud Manager, SSO, security, Launch) |
+| [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
 
 ---
 
