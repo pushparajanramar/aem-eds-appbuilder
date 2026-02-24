@@ -1,0 +1,96 @@
+name: Delete Merged Branches
+
+on:
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch:
+    inputs:
+      pattern:
+        description: 'Branch name prefix to clean up (e.g. copilot/)'
+        required: false
+        default: 'copilot/'
+
+permissions:
+  contents: write
+
+jobs:
+  # ─── Auto-delete head branch when a PR is merged ────────────────────────
+  delete-branch-on-merge:
+    name: Delete merged PR branch
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    steps:
+      - name: Delete head branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            // Never delete the default branch
+            if (branch === context.payload.repository.default_branch) {
+              console.log(`Skipping default branch: ${branch}`);
+              return;
+            }
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${branch}`,
+              });
+              console.log(`Deleted branch: ${branch}`);
+            } catch (err) {
+              console.log(`Could not delete branch ${branch}: ${err.message}`);
+            }
+
+  # ─── Manual cleanup of stale merged branches matching a prefix ──────────
+  cleanup-stale-branches:
+    name: Clean up stale merged branches
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Delete merged branches matching prefix
+        uses: actions/github-script@v7
+        env:
+          BRANCH_PATTERN: ${{ github.event.inputs.pattern }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prefix = process.env.BRANCH_PATTERN || 'copilot/';
+            const defaultBranch = context.payload.repository.default_branch || 'main';
+
+            // List all branches matching the prefix
+            const branches = await github.paginate(github.rest.repos.listBranches, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
+            const targets = branches.filter(b => b.name.startsWith(prefix) && b.name !== defaultBranch);
+            console.log(`Found ${targets.length} branch(es) matching prefix "${prefix}": ${targets.map(b => b.name).join(', ')}`);
+
+            for (const branch of targets) {
+              // Check if the branch has a merged PR
+              const prs = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${branch.name}`,
+                state: 'closed',
+              });
+
+              const merged = prs.data.find(pr => pr.merged_at !== null);
+              if (merged) {
+                try {
+                  await github.rest.git.deleteRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: `heads/${branch.name}`,
+                  });
+                  console.log(`Deleted merged branch: ${branch.name} (was merged via PR #${merged.number})`);
+                } catch (err) {
+                  console.log(`Could not delete ${branch.name}: ${err.message}`);
+                }
+              } else {
+                console.log(`Skipping ${branch.name} — no merged PR found`);
+              }
+            }
