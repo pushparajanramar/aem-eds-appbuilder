@@ -4,14 +4,18 @@
     "components": [
       "promotion-banner",
       "product-detail",
-      "menu-item"
+      "menu-item",
+      "store-locator",
+      "user-profile",
+      "rewards-feed"
     ]
   },
   {
     "id": "landing-page",
     "components": [
       "promotion-banner",
-      "menu-item"
+      "menu-item",
+      "store-locator"
     ]
   },
   {
@@ -26,6 +30,19 @@
     "components": [
       "menu-item",
       "promotion-banner"
+    ]
+  },
+  {
+    "id": "account-page",
+    "components": [
+      "user-profile",
+      "rewards-feed"
+    ]
+  },
+  {
+    "id": "stores-page",
+    "components": [
+      "store-locator"
     ]
   }
 ]

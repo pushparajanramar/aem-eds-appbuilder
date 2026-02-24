@@ -1,0 +1,7 @@
+/* User Profile Block */
+@import '../../styles/tokens.css';
+
+.user-profile {
+  display: block;
+  width: 100%;
+}

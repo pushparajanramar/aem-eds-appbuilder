@@ -1,0 +1,7 @@
+/* Store Locator Block */
+@import '../../styles/tokens.css';
+
+.store-locator {
+  display: block;
+  width: 100%;
+}

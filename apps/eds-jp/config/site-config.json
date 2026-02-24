@@ -16,6 +16,16 @@
       "provider": "rewards-provider",
       "url": "https://{app-builder-host}/api/v1/web/starbucks/rewards-provider",
       "cacheTtl": 120
+    },
+    "/account": {
+      "provider": "user-provider",
+      "url": "https://{app-builder-host}/api/v1/web/starbucks/user-provider",
+      "cacheTtl": 60
+    },
+    "/rewards-feed": {
+      "provider": "bff-proxy",
+      "url": "https://{app-builder-host}/api/v1/web/starbucks/bff-proxy",
+      "cacheTtl": 60
     }
   },
   "auth": {

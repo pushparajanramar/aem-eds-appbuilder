@@ -1,0 +1,7 @@
+/* Rewards Feed Block */
+@import '../../styles/tokens.css';
+
+.rewards-feed {
+  display: block;
+  width: 100%;
+}

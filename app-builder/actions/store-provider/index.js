@@ -2,6 +2,7 @@
  * Store Provider Action — BYOM data-provider
  *
  * Returns EDS-compatible HTML block markup for the /stores overlay route.
+ * Proxies to /bff/locations with optional lat/lng/place params for nearby-store search.
  * RULE 5: market-aware, returns text/html with valid EDS block markup.
  * RULE 6: route must exist in site-config.json overlays.
  */
@@ -10,17 +11,26 @@ const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 
 /**
- * Fetch store locations from the upstream store locator API.
+ * Fetch store locations from the BFF locations endpoint.
+ * Supports coordinate-based search (lat/lng) or place-name search.
  *
  * @param {string} edsHost
  * @param {string} locale
- * @param {string} [city]
+ * @param {object} [opts]
+ * @param {string} [opts.city]
+ * @param {number|string} [opts.lat]
+ * @param {number|string} [opts.lng]
+ * @param {string} [opts.place]
  * @returns {Promise<Array>}
  */
-async function fetchStores(edsHost, locale, city) {
+async function fetchStores(edsHost, locale, opts = {}) {
   const params = new URLSearchParams({ locale });
+  const { city, lat, lng, place } = opts;
   if (city) params.set('city', city);
-  const url = `https://${edsHost}/store-data?${params}`;
+  if (place) params.set('place', String(place));
+  if (lat !== undefined && lat !== null && lat !== '') params.set('lat', String(Number(lat)));
+  if (lng !== undefined && lng !== null && lng !== '') params.set('lng', String(Number(lng)));
+  const url = `https://${edsHost}/bff/locations?${params}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Upstream store fetch failed: ${res.status}`);
   const { data } = await res.json();
@@ -78,6 +88,9 @@ function escapeHtml(str) {
  * @param {object} params
  * @param {string} [params.market='us']
  * @param {string} [params.city]
+ * @param {number|string} [params.lat]   - Latitude for nearby-store search
+ * @param {number|string} [params.lng]   - Longitude for nearby-store search
+ * @param {string} [params.place]        - Place name for nearby-store search
  * @param {string} [params.LOG_LEVEL='info']
  * @returns {Promise<{statusCode: number, headers: object, body: string}>}
  */
@@ -85,13 +98,13 @@ async function main(params) {
   const logger = Core.Logger('store-provider', { level: params.LOG_LEVEL || 'info' });
 
   const market = params.market || 'us';
-  const city = params.city;
+  const { city, lat, lng, place } = params;
   const { edsHost, locale } = getMarketConfig(market);
 
-  logger.info(`store-provider: market=${market}, city=${city || 'all'}, host=${edsHost}`);
+  logger.info(`store-provider: market=${market}, city=${city || 'all'}, lat=${lat || ''}, lng=${lng || ''}, place=${place || ''}, host=${edsHost}`);
 
   try {
-    const stores = await fetchStores(edsHost, locale, city);
+    const stores = await fetchStores(edsHost, locale, { city, lat, lng, place });
     const body = renderStoreHTML(stores);
 
     return {
