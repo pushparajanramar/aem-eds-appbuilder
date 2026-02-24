@@ -1,0 +1,109 @@
+[
+  {
+    "id": "promotion",
+    "fields": [
+      {
+        "component": "text",
+        "name": "title",
+        "label": "Headline",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string"
+      },
+      {
+        "component": "media",
+        "name": "bannerImage",
+        "label": "Banner Image",
+        "valueType": "string"
+      },
+      {
+        "component": "reference",
+        "name": "ctaLink",
+        "label": "CTA Link",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "ctaText",
+        "label": "CTA Button Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "product-detail",
+    "fields": [
+      {
+        "component": "text",
+        "name": "product-id",
+        "label": "Product ID",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "select",
+        "name": "market",
+        "label": "Market",
+        "valueType": "string",
+        "options": [
+          { "name": "United States", "value": "us" },
+          { "name": "United Kingdom", "value": "uk" },
+          { "name": "Japan", "value": "jp" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "menuitem",
+    "fields": [
+      {
+        "component": "text",
+        "name": "title",
+        "label": "Item Name",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string"
+      },
+      {
+        "component": "media",
+        "name": "image",
+        "label": "Product Image",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "price",
+        "label": "Price",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "item-id",
+        "label": "Item ID",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "select",
+        "name": "category",
+        "label": "Category",
+        "valueType": "string",
+        "options": [
+          { "name": "Drinks", "value": "drinks" },
+          { "name": "Food", "value": "food" },
+          { "name": "Merchandise", "value": "merchandise" }
+        ]
+      }
+    ]
+  }
+]

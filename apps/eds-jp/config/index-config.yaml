@@ -1,0 +1,82 @@
+indices:
+  - name: menu-index
+    target: /menu
+    include:
+      - /menu/**
+    properties:
+      - name: title
+        value: >-
+          {{title}}
+      - name: image
+        value: >-
+          {{image}}
+      - name: description
+        value: >-
+          {{description}}
+      - name: price
+        value: >-
+          {{price}}
+      - name: category
+        value: >-
+          {{category}}
+      - name: itemId
+        value: >-
+          {{item-id}}
+      - name: lastModified
+        value: >-
+          {{lastModified}}
+  - name: store-index
+    target: /stores
+    include:
+      - /stores/**
+    properties:
+      - name: title
+        value: >-
+          {{title}}
+      - name: address
+        value: >-
+          {{address}}
+      - name: city
+        value: >-
+          {{city}}
+      - name: state
+        value: >-
+          {{state}}
+      - name: zip
+        value: >-
+          {{zip}}
+      - name: phone
+        value: >-
+          {{phone}}
+      - name: hours
+        value: >-
+          {{hours}}
+      - name: lat
+        value: >-
+          {{lat}}
+      - name: lng
+        value: >-
+          {{lng}}
+      - name: lastModified
+        value: >-
+          {{lastModified}}
+  - name: rewards-index
+    target: /rewards
+    include:
+      - /rewards/**
+    properties:
+      - name: title
+        value: >-
+          {{title}}
+      - name: description
+        value: >-
+          {{description}}
+      - name: stars
+        value: >-
+          {{stars}}
+      - name: image
+        value: >-
+          {{image}}
+      - name: lastModified
+        value: >-
+          {{lastModified}}

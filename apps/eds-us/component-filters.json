@@ -1,0 +1,31 @@
+[
+  {
+    "id": "main",
+    "components": [
+      "promotion-banner",
+      "product-detail",
+      "menu-item"
+    ]
+  },
+  {
+    "id": "landing-page",
+    "components": [
+      "promotion-banner",
+      "menu-item"
+    ]
+  },
+  {
+    "id": "product-page",
+    "components": [
+      "product-detail",
+      "menu-item"
+    ]
+  },
+  {
+    "id": "menu-page",
+    "components": [
+      "menu-item",
+      "promotion-banner"
+    ]
+  }
+]

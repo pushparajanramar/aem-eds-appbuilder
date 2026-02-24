@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "siteId": "sbux-us",
+  "overlays": {
+    "/menu": {
+      "provider": "menu-provider",
+      "url": "https://{app-builder-host}/api/v1/web/starbucks/menu-provider",
+      "cacheTtl": 300
+    },
+    "/stores": {
+      "provider": "store-provider",
+      "url": "https://{app-builder-host}/api/v1/web/starbucks/store-provider",
+      "cacheTtl": 600
+    },
+    "/rewards": {
+      "provider": "rewards-provider",
+      "url": "https://{app-builder-host}/api/v1/web/starbucks/rewards-provider",
+      "cacheTtl": 120
+    }
+  },
+  "auth": {
+    "clientId": "{IMS_CLIENT_ID}",
+    "scope": "openid,AdobeID,read_organizations"
+  },
+  "market": "us",
+  "edsHost": "main--sbux-us--org.aem.live"
+}
