@@ -18,6 +18,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
   - [Site Configuration](#site-configuration)
   - [GitHub Secrets](#github-secrets)
 - [App Builder Actions Reference](#app-builder-actions-reference)
+- [Content Supply Chain](docs/content-supply-chain.md)
 - [Deployment Guide](#deployment-guide)
   - [CI/CD Pipeline (Recommended)](#cicd-pipeline-recommended)
   - [Manual Deployment — App Builder](#manual-deployment--app-builder)
