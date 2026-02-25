@@ -9,40 +9,22 @@ export default function decorate(block) {
     label: 'Accordion',
   });
 
-  window.adobeDataLayer = window.adobeDataLayer || [];
-
-  [...block.children].forEach((row, index) => {
+  const rows = [...block.querySelectorAll(':scope > div')];
+  const items = rows.map((row) => {
     const labelCol = row.children[0];
     const bodyCol = row.children[1];
-
     annotateField(labelCol, { prop: 'label', type: 'text', label: 'Accordion Label' });
     annotateField(bodyCol, { prop: 'body', type: 'richtext', label: 'Accordion Body' });
-
-    const details = document.createElement('details');
-    details.className = 'accordion__item';
-
-    const summary = document.createElement('summary');
-    summary.className = 'accordion__summary';
-    summary.append(...labelCol.childNodes);
-
-    const body = document.createElement('div');
-    body.className = 'accordion__body';
-    body.append(...bodyCol.childNodes);
-
-    const labelText = summary.textContent.trim();
-
-    details.addEventListener('toggle', () => {
-      window.adobeDataLayer.push({
-        event: 'component:accordion:toggle',
-        component: {
-          itemIndex: index,
-          label: labelText,
-          isOpen: details.open,
-        },
-      });
-    });
-
-    details.append(summary, body);
-    row.replaceWith(details);
+    return { label: labelCol.innerHTML, body: bodyCol.innerHTML };
   });
+
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/accordion/qsr-accordion.js');
+    const wc = document.createElement('qsr-accordion');
+    wc.setAttribute('items', JSON.stringify(items));
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

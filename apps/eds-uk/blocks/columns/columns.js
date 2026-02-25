@@ -9,26 +9,29 @@ export default function decorate(block) {
     label: 'Columns',
   });
 
-  const cols = [...block.firstElementChild.children];
-  block.classList.add(`columns-${cols.length}-cols`);
-
-  cols.forEach((col, i) => {
-    const img = col.querySelector('img');
-    const picture = col.querySelector('picture');
-    const hasPictureOnly = picture && col.textContent.trim() === '';
-
-    if (hasPictureOnly || picture) {
-      col.classList.add('columns__img-col');
-      if (img) {
-        annotateField(picture || img, { prop: `col-${i}-image`, type: 'media', label: `Column ${i + 1} Image` });
-        img.setAttribute('loading', 'lazy');
-        img.setAttribute('decoding', 'async');
-      }
-    } else {
-      const text = col.querySelector('p, h2, h3');
-      if (text) {
-        annotateField(text, { prop: `col-${i}-content`, type: 'richtext', label: `Column ${i + 1} Content` });
-      }
-    }
+  const rows = [...block.querySelectorAll(':scope > div')];
+  const columndata = rows.flatMap((row) => {
+    return [...row.children].map((col, i) => {
+      annotateField(col, { prop: `col-${i}`, type: 'richtext', label: `Column ${i + 1}` });
+      const img = col.querySelector('img');
+      const picture = col.querySelector('picture');
+      const isImage = !!(img || picture) && col.children.length === 1;
+      return {
+        isImage,
+        imageUrl: img?.src || '',
+        imageAlt: img?.alt || '',
+        contentHtml: col.innerHTML,
+      };
+    });
   });
+
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/columns/qsr-columns.js');
+    const wc = document.createElement('qsr-columns');
+    wc.setAttribute('columndata', JSON.stringify(columndata));
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

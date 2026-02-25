@@ -1,59 +1,30 @@
-import { loadCSS, loadBlock, decorateBlock } from '../../scripts/aem.js';
 import { annotateBlock, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
 
 export async function createModal(contentNodes) {
-  await loadCSS(`${window.hlx?.codeBasePath || ''}/blocks/modal/modal.css`);
+  await import('/blocks/modal/qsr-modal.js');
   window.adobeDataLayer = window.adobeDataLayer || [];
 
-  const dialog = document.createElement('dialog');
-  dialog.className = 'modal__dialog';
-  dialog.setAttribute('aria-modal', 'true');
+  const html = contentNodes
+    ? (Array.isArray(contentNodes) ? contentNodes : [contentNodes])
+        .map((n) => (n instanceof Node ? n.outerHTML || '' : String(n)))
+        .join('')
+    : '';
 
-  const header = document.createElement('div');
-  header.className = 'modal__header';
-
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'modal__close';
-  closeBtn.setAttribute('aria-label', 'Close dialog');
-  closeBtn.textContent = '×';
-  header.append(closeBtn);
-
-  const content = document.createElement('div');
-  content.className = 'modal__content';
-  if (contentNodes) {
-    const nodes = Array.isArray(contentNodes) ? contentNodes : [contentNodes];
-    nodes.forEach((n) => content.append(n));
-  }
-
-  dialog.append(header, content);
-  document.body.append(dialog);
-
-  closeBtn.addEventListener('click', () => {
-    dialog.close();
-    window.adobeDataLayer.push({ event: 'component:modal:close' });
-  });
-
-  dialog.addEventListener('click', (e) => {
-    const rect = dialog.getBoundingClientRect();
-    const outside = e.clientX < rect.left || e.clientX > rect.right
-      || e.clientY < rect.top || e.clientY > rect.bottom;
-    if (outside) {
-      dialog.close();
-      window.adobeDataLayer.push({ event: 'component:modal:close' });
-    }
-  });
-
-  dialog.addEventListener('close', () => {
-    window.adobeDataLayer.push({ event: 'component:modal:close' });
-  });
+  const wc = document.createElement('qsr-modal');
+  wc.setAttribute('contenthtml', html);
+  wc.setAttribute('label', 'Dialog');
+  document.body.append(wc);
 
   return {
-    dialog,
+    element: wc,
     show() {
-      dialog.showModal();
+      wc.setAttribute('open', 'true');
       window.adobeDataLayer.push({ event: 'component:modal:open' });
     },
-    close() { dialog.close(); },
+    close() {
+      wc.setAttribute('open', 'false');
+      window.adobeDataLayer.push({ event: 'component:modal:close' });
+    },
   };
 }
 
@@ -65,7 +36,7 @@ export async function openModal(fragmentUrl) {
   return modal;
 }
 
-export default async function decorate(block) {
+export default function decorate(block) {
   const cfPath = getCFPath(block);
   annotateBlock(block, {
     resource: buildAEMUrn(cfPath),

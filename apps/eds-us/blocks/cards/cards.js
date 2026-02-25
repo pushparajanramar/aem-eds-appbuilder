@@ -9,61 +9,32 @@ export default function decorate(block) {
     label: 'Cards',
   });
 
-  window.adobeDataLayer = window.adobeDataLayer || [];
+  const rows = [...block.querySelectorAll(':scope > div')];
+  const items = rows.map((row, i) => {
+    const cols = [...row.children];
+    const imgCol = cols.find((c) => c.querySelector('img, picture'));
+    const contentCols = cols.filter((c) => c !== imgCol);
+    if (imgCol) annotateField(imgCol, { prop: `image-${i}`, type: 'media', label: `Card ${i + 1} Image` });
+    contentCols.forEach((c, j) => annotateField(c, { prop: `content-${i}-${j}`, type: 'richtext', label: `Card ${i + 1} Content` }));
 
-  const ul = document.createElement('ul');
-  ul.className = 'cards__list';
-
-  [...block.children].forEach((row, cardIndex) => {
-    const li = document.createElement('li');
-    li.className = 'cards__item';
-
-    const picture = row.querySelector('picture');
-    const imgEl = row.querySelector('img');
-    const title = row.querySelector('h1, h2, h3, h4, h5, h6');
-    const body = [...row.querySelectorAll('p')].filter((p) => !p.querySelector('picture, img'));
-
-    if (picture || imgEl) {
-      const imgSrc = picture || imgEl;
-      annotateField(imgSrc, { prop: 'image', type: 'media', label: 'Card Image' });
-      if (imgEl) {
-        imgEl.setAttribute('loading', 'lazy');
-        imgEl.setAttribute('decoding', 'async');
-      }
-      const wrap = document.createElement('div');
-      wrap.className = 'cards__image-wrap';
-      wrap.append(imgSrc);
-      li.append(wrap);
-    }
-
-    const cardBody = document.createElement('div');
-    cardBody.className = 'cards__body';
-
-    if (title) {
-      annotateField(title, { prop: 'title', type: 'text', label: 'Card Title' });
-      title.className = 'cards__title';
-      cardBody.append(title);
-    }
-
-    body.forEach((p) => {
-      annotateField(p, { prop: 'body', type: 'richtext', label: 'Card Description' });
-      p.className = 'cards__description';
-      cardBody.append(p);
-    });
-
-    li.append(cardBody);
-
-    const cardTitle = title ? title.textContent.trim() : '';
-    li.addEventListener('click', () => {
-      window.adobeDataLayer.push({
-        event: 'component:cards:click',
-        component: { cardIndex, title: cardTitle },
-      });
-    });
-
-    ul.append(li);
+    const img = imgCol?.querySelector('img');
+    const heading = row.querySelector('h1,h2,h3,h4,h5,h6');
+    const bodyHtml = contentCols.map((c) => c.innerHTML).join('');
+    return {
+      imageUrl: img?.src || '',
+      imageAlt: img?.alt || '',
+      title: heading?.textContent.trim() || '',
+      bodyHtml,
+    };
   });
 
-  block.textContent = '';
-  block.append(ul);
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/cards/qsr-cards.js');
+    const wc = document.createElement('qsr-cards');
+    wc.setAttribute('items', JSON.stringify(items));
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

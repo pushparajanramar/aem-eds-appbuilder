@@ -9,44 +9,27 @@ export default function decorate(block) {
     label: 'Table',
   });
 
-  const isNoHeader = block.classList.contains('no-header');
-  const rows = [...block.children];
-
-  const wrapper = document.createElement('div');
-  wrapper.className = 'table__wrapper';
-
-  const table = document.createElement('table');
-  table.setAttribute('role', 'table');
-
-  if (!isNoHeader && rows.length > 0) {
-    const thead = document.createElement('thead');
-    const tr = document.createElement('tr');
-    [...rows[0].children].forEach((cell) => {
-      const th = document.createElement('th');
-      th.setAttribute('scope', 'col');
-      annotateField(cell, { prop: 'header', type: 'richtext', label: 'Table Header' });
-      th.innerHTML = cell.innerHTML;
-      tr.append(th);
-    });
-    thead.append(tr);
-    table.append(thead);
-  }
-
-  const tbody = document.createElement('tbody');
-  const bodyRows = isNoHeader ? rows : rows.slice(1);
-  bodyRows.forEach((row) => {
-    const tr = document.createElement('tr');
-    [...row.children].forEach((cell) => {
-      const td = document.createElement('td');
-      annotateField(cell, { prop: 'cell', type: 'richtext', label: 'Table Cell' });
-      td.innerHTML = cell.innerHTML;
-      tr.append(td);
-    });
-    tbody.append(tr);
+  const rows = [...block.querySelectorAll(':scope > div')];
+  const tabledata = rows.map((row, i) => {
+    const cols = [...row.children];
+    cols.forEach((col, j) => annotateField(col, { prop: `cell-${i}-${j}`, type: 'text', label: `Cell ${i + 1},${j + 1}` }));
+    return cols.map((col) => col.textContent.trim());
   });
 
-  table.append(tbody);
-  wrapper.append(table);
-  block.textContent = '';
-  block.append(wrapper);
+  const hasheader = block.classList.contains('no-header') ? 'false' : 'true';
+  const variantTokens = ['striped', 'bordered', 'no-header']
+    .filter((v) => block.classList.contains(v))
+    .join(' ');
+
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/table/qsr-table.js');
+    const wc = document.createElement('qsr-table');
+    wc.setAttribute('tabledata', JSON.stringify(tabledata));
+    wc.setAttribute('hasheader', hasheader);
+    wc.setAttribute('variants', variantTokens);
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

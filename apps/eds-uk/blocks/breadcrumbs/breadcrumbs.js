@@ -10,45 +10,22 @@ export default function decorate(block) {
   });
 
   const rows = [...block.querySelectorAll(':scope > div')];
-  const nav = document.createElement('nav');
-  nav.setAttribute('aria-label', 'Breadcrumb');
-
-  const ol = document.createElement('ol');
-  ol.className = 'breadcrumbs__list';
-
-  rows.forEach((row, i) => {
+  const items = rows.map((row, i) => {
     const cell = row.querySelector('div') || row;
     annotateField(cell, { prop: `item-${i}`, type: 'text', label: `Breadcrumb Item ${i + 1}` });
-
-    const li = document.createElement('li');
-    li.className = 'breadcrumbs__item';
-
-    const isLast = i === rows.length - 1;
-    if (isLast) {
-      li.classList.add('breadcrumbs__item--active');
-    }
-
     const link = cell.querySelector('a');
-    if (link) {
-      link.className = 'breadcrumbs__link';
-      if (isLast) {
-        link.setAttribute('aria-current', 'page');
-      }
-      li.append(link);
-    } else {
-      const span = document.createElement('span');
-      span.className = 'breadcrumbs__link';
-      span.textContent = cell.textContent.trim();
-      if (isLast) {
-        span.setAttribute('aria-current', 'page');
-      }
-      li.append(span);
-    }
-
-    ol.append(li);
+    return link
+      ? { title: link.textContent.trim(), path: link.href }
+      : { title: cell.textContent.trim() };
   });
 
-  nav.append(ol);
-  block.textContent = '';
-  block.append(nav);
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/breadcrumbs/qsr-breadcrumbs.js');
+    const wc = document.createElement('qsr-breadcrumbs');
+    wc.setAttribute('items', JSON.stringify(items));
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

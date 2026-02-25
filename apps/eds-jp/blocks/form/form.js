@@ -9,109 +9,40 @@ export default function decorate(block) {
     label: 'Form',
   });
 
-  window.adobeDataLayer = window.adobeDataLayer || [];
-
-  const rows = [...block.children];
-  const formEl = document.createElement('form');
-  formEl.className = 'form__fields';
-  formEl.setAttribute('novalidate', '');
-
-  const formId = block.dataset.formId || `form-${Date.now()}`;
-  const actionRow = rows.find((r) => r.querySelector('a'));
-  const action = actionRow?.querySelector('a')?.href || '#';
-  formEl.setAttribute('action', action);
-  formEl.setAttribute('id', formId);
+  const rows = [...block.querySelectorAll(':scope > div')];
+  let action = '/submit';
+  const fields = [];
 
   rows.forEach((row, i) => {
-    const cells = [...row.children];
-    const labelText = cells[0]?.textContent.trim();
-    const fieldType = cells[1]?.textContent.trim().toLowerCase() || 'text';
-    if (!labelText || labelText === action) return;
-
-    const group = document.createElement('div');
-    group.className = 'form__group';
-
-    const id = `field-${i}`;
-    const label = document.createElement('label');
-    label.className = 'form__label form__label--required';
-    label.setAttribute('for', id);
-    label.textContent = labelText;
-    annotateField(label, { prop: `label-${i}`, type: 'text', label: `Field Label ${i}` });
-
-    let input;
-    if (fieldType === 'textarea') {
-      input = document.createElement('textarea');
-      input.className = 'form__textarea';
-    } else {
-      input = document.createElement('input');
-      input.type = fieldType === 'email' ? 'email' : 'text';
-      input.className = 'form__input';
-    }
-    input.id = id;
-    input.name = id;
-    input.setAttribute('aria-required', 'true');
-    input.setAttribute('aria-describedby', `${id}-error`);
-
-    const error = document.createElement('span');
-    error.className = 'form__error';
-    error.id = `${id}-error`;
-    error.setAttribute('role', 'alert');
-    error.textContent = `${labelText} is required.`;
-
-    group.append(label, input, error);
-    formEl.append(group);
-  });
-
-  const submitBtn = document.createElement('button');
-  submitBtn.type = 'submit';
-  submitBtn.className = 'form__submit';
-  submitBtn.textContent = 'Submit';
-  formEl.append(submitBtn);
-
-  const message = document.createElement('div');
-  message.className = 'form__message';
-  message.setAttribute('role', 'status');
-  message.setAttribute('aria-live', 'polite');
-
-  formEl.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    let valid = true;
-    formEl.querySelectorAll('.form__group').forEach((g) => {
-      const inp = g.querySelector('input, textarea');
-      if (inp && inp.getAttribute('aria-required') === 'true' && !inp.value.trim()) {
-        g.classList.add('form__group--error');
-        valid = false;
-      } else if (inp) {
-        g.classList.remove('form__group--error');
-      }
-    });
-
-    if (!valid) {
-      window.adobeDataLayer.push({ event: 'component:form:error', component: { formId, action } });
+    const keyCell = row.children[0];
+    const valCell = row.children[1];
+    if (!keyCell) return;
+    const key = keyCell.textContent.trim().toLowerCase();
+    if (key === 'action') {
+      action = valCell?.textContent.trim() || '/submit';
       return;
     }
-
-    try {
-      submitBtn.disabled = true;
-      const formData = new FormData(formEl);
-      const resp = await fetch(action, { method: 'POST', body: formData });
-      if (resp.ok) {
-        message.className = 'form__message form__message--success';
-        message.textContent = 'Thank you! Your submission was received.';
-        formEl.reset();
-        window.adobeDataLayer.push({ event: 'component:form:submit', component: { formId, action } });
-      } else {
-        throw new Error('Server error');
-      }
-    } catch {
-      message.className = 'form__message form__message--error';
-      message.textContent = 'Something went wrong. Please try again.';
-      window.adobeDataLayer.push({ event: 'component:form:error', component: { formId, action } });
-    } finally {
-      submitBtn.disabled = false;
-    }
+    annotateField(keyCell, { prop: `field-${i}`, type: 'text', label: `Field ${i + 1}` });
+    const type = key === 'textarea' ? 'textarea' : key === 'select' ? 'select' : 'text';
+    const name = valCell?.children[0]?.textContent.trim() || `field_${i}`;
+    const label = valCell?.children[1]?.textContent.trim() || name;
+    const placeholder = valCell?.children[2]?.textContent.trim() || '';
+    const required = valCell?.children[3]?.textContent.trim() === 'true';
+    const optionsEl = valCell?.children[4];
+    const options = optionsEl
+      ? [...optionsEl.querySelectorAll('li')].map((li) => li.textContent.trim())
+      : [];
+    fields.push({ type, name, label, placeholder, required, options });
   });
 
-  block.textContent = '';
-  block.append(formEl, message);
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/form/qsr-form.js');
+    const wc = document.createElement('qsr-form');
+    wc.setAttribute('fields', JSON.stringify(fields));
+    wc.setAttribute('action', action);
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

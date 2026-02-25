@@ -1,6 +1,5 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { annotateBlock, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
-import { loadFragment } from '../fragment/fragment.js';
 
 export default async function decorate(block) {
   const cfPath = getCFPath(block);
@@ -12,20 +11,15 @@ export default async function decorate(block) {
   });
 
   const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(footerPath);
+  const path = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
 
-  block.textContent = '';
-  const inner = document.createElement('div');
-  inner.className = 'footer__inner';
-
-  if (fragment) {
-    while (fragment.firstElementChild) {
-      const section = fragment.firstElementChild;
-      section.className = 'footer__section';
-      inner.append(section);
-    }
-  }
-
-  block.append(inner);
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/footer/qsr-footer.js');
+    const wc = document.createElement('qsr-footer');
+    wc.setAttribute('path', path);
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }

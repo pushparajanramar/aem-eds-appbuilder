@@ -1,4 +1,4 @@
-import { decorateMain, loadBlock, decorateBlock } from '../../scripts/aem.js';
+import { decorateMain, loadBlock } from '../../scripts/aem.js';
 
 export async function loadFragment(path) {
   if (path && path.startsWith('/')) {
@@ -16,16 +16,17 @@ export async function loadFragment(path) {
   return null;
 }
 
-export default async function decorate(block) {
+export default function decorate(block) {
   const link = block.querySelector('a');
   const path = link ? link.getAttribute('href') : block.textContent.trim();
-  const fragment = await loadFragment(path);
-  if (fragment) {
-    const fragmentSection = fragment.querySelector(':scope .section');
-    if (fragmentSection) {
-      block.classList.add(...fragmentSection.classList);
-      block.classList.remove('section');
-      block.replaceChildren(...fragmentSection.childNodes);
-    }
-  }
+
+  const observer = new IntersectionObserver(async ([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    await import('/blocks/fragment/qsr-fragment.js');
+    const wc = document.createElement('qsr-fragment');
+    wc.setAttribute('path', path);
+    block.replaceWith(wc);
+  }, { rootMargin: '200px' });
+  observer.observe(block);
 }
