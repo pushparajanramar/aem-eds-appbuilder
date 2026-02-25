@@ -1,0 +1,81 @@
+.form form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form .field-wrapper {
+  margin-bottom: 20px;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="tel"],
+.form input[type="number"],
+.form input[type="date"],
+.form input[type="url"],
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--link-color);
+  box-shadow: 0 0 0 3px rgba(59, 99, 251, 0.1);
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form input[type="checkbox"],
+.form input[type="radio"] {
+  margin-right: 8px;
+}
+
+.form input[required] + label::after,
+.form label:has(+ input[required])::after,
+.form label:has(+ textarea[required])::after,
+.form label:has(+ select[required])::after {
+  content: '*';
+  color: #d00;
+  margin-left: 4px;
+}
+
+.form button[type="submit"] {
+  margin-top: 10px;
+}
+
+.form-confirmation {
+  padding: 20px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  color: #155724;
+  text-align: center;
+}
+
+.form-error {
+  padding: 15px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  color: #721c24;
+  margin-bottom: 20px;
+}
