@@ -2,7 +2,7 @@
 
 ## Role Overview
 
-The Project Manager is responsible for planning, monitoring and controlling the delivery of the AEM EDS + App Builder programme. They ensure that work is completed on time, within budget and to the agreed scope across all three markets (US, UK, JP), coordinating across a multi-disciplinary team of Adobe consultants and Starbucks stakeholders.
+The Project Manager is responsible for planning, monitoring and controlling the delivery of the AEM EDS + App Builder programme. They ensure that work is completed on time, within budget and to the agreed scope across all three markets (US, UK, JP), coordinating across a multi-disciplinary team of Adobe consultants and Quick Service Restaurant stakeholders.
 
 ---
 
@@ -14,7 +14,7 @@ The Project Manager is responsible for planning, monitoring and controlling the 
 | **Sprint Management** | Facilitate sprint planning, reviews and retrospectives in collaboration with the Functional Lead |
 | **Risk & Issue Management** | Maintain the RAID log; escalate blockers to the Client Partner and Technical Architect |
 | **Resource Management** | Track team capacity; coordinate leave, onboarding and ramp-up of new team members |
-| **Reporting** | Produce weekly status reports for Starbucks stakeholders and internal leadership |
+| **Reporting** | Produce weekly status reports for Quick Service Restaurant stakeholders and internal leadership |
 | **Budget Tracking** | Monitor actuals against forecast; flag variances to the Client Partner |
 | **Dependency Management** | Track cross-team and external dependencies (Adobe product roadmap, third-party APIs) |
 | **Change Control** | Assess and process change requests; update scope documentation and SOW as required |
@@ -27,7 +27,7 @@ The Project Manager is responsible for planning, monitoring and controlling the 
 |---|---|---|---|
 | Stand-up | Daily | Functional Lead / PM | Full delivery team |
 | Sprint Planning | Bi-weekly | PM + Functional Lead | Full delivery team |
-| Sprint Review | Bi-weekly | PM | Delivery team + Starbucks |
+| Sprint Review | Bi-weekly | PM | Delivery team + Quick Service Restaurant |
 | Retrospective | Bi-weekly | PM | Delivery team |
 | Executive Steering | Monthly | Client Partner | Exec stakeholders + PM |
 | Risk Review | Weekly | PM | Tech Architect + Functional Lead |
@@ -45,7 +45,7 @@ The Project Manager is responsible for planning, monitoring and controlling the 
 ### Phase 2 — Market Rollout
 
 - Content models and block library finalised
-- UAT with Starbucks content teams per market
+- UAT with Quick Service Restaurant content teams per market
 - Performance baseline (Core Web Vitals) captured
 - Analytics tagging verified
 
@@ -75,7 +75,7 @@ The Project Manager is responsible for planning, monitoring and controlling the 
 The PM must confirm the following before approving a market go-live:
 
 - [ ] All sprint acceptance criteria met for the target market
-- [ ] UAT sign-off obtained from Starbucks content lead
+- [ ] UAT sign-off obtained from Quick Service Restaurant content lead
 - [ ] Analytics tagging validated by Analytics Consultant
 - [ ] Core Web Vitals targets met (LCP < 2.5 s, CLS < 0.1)
 - [ ] App Builder actions passing health checks in production workspace
@@ -88,6 +88,6 @@ The PM must confirm the following before approving a market go-live:
 - [ ] GitHub repository access (read)
 - [ ] Project management tool access (Jira / ADO board)
 - [ ] Shared drive / SharePoint access for project artefacts
-- [ ] Starbucks stakeholder contact list obtained
+- [ ] Quick Service Restaurant stakeholder contact list obtained
 - [ ] Adobe Developer Console project access (read) for deployment visibility
 - [ ] GitHub Actions access to monitor CI/CD pipeline runs

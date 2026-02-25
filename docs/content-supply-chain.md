@@ -1,6 +1,6 @@
 # Content Supply Chain
 
-This document describes how content is created, managed, and delivered across the three Starbucks markets (US, UK, JP) using Adobe Experience Manager (AEM) and Edge Delivery Services (EDS).
+This document describes how content is created, managed, and delivered across the three Quick Service Restaurant markets (US, UK, JP) using Adobe Experience Manager (AEM) and Edge Delivery Services (EDS).
 
 ---
 
@@ -29,9 +29,9 @@ Pages are the primary delivery unit in Edge Delivery Services. Each market (`eds
 
 | Market | EDS Site ID | Live host |
 |--------|-------------|-----------|
-| US | `sbux-us` | `main--sbux-us--org.aem.live` |
-| UK | `sbux-uk` | `main--sbux-uk--org.aem.live` |
-| JP | `sbux-jp` | `main--sbux-jp--org.aem.live` |
+| US | `qsr-us` | `main--qsr-us--org.aem.live` |
+| UK | `qsr-uk` | `main--qsr-uk--org.aem.live` |
+| JP | `qsr-jp` | `main--qsr-jp--org.aem.live` |
 
 #### Page structure
 
@@ -138,7 +138,7 @@ Every EDS page carries a metadata block that is automatically indexed by EDS. St
 
 | Field | Description | Example |
 |-------|-------------|---------|
-| `title` | Page / document title | `"Starbucks Menu — US"` |
+| `title` | Page / document title | `"Quick Service Restaurant Menu — US"` |
 | `description` | SEO meta description | `"Explore our full menu..."` |
 | `image` | Open Graph / social sharing image | DAM asset path |
 | `lastModified` | ISO-8601 timestamp, set by EDS on publish | `"2025-06-01T10:00:00Z"` |
@@ -150,9 +150,9 @@ Market-specific locales are configured in [`app-builder/actions/shared/market-co
 ```js
 // market-config.js
 {
-  us: { locale: 'en-US', currency: 'USD', edsHost: 'main--sbux-us--org.aem.live' },
-  uk: { locale: 'en-GB', currency: 'GBP', edsHost: 'main--sbux-uk--org.aem.live' },
-  jp: { locale: 'ja-JP', currency: 'JPY', edsHost: 'main--sbux-jp--org.aem.live' },
+  us: { locale: 'en-US', currency: 'USD', edsHost: 'main--qsr-us--org.aem.live' },
+  uk: { locale: 'en-GB', currency: 'GBP', edsHost: 'main--qsr-uk--org.aem.live' },
+  jp: { locale: 'ja-JP', currency: 'JPY', edsHost: 'main--qsr-jp--org.aem.live' },
 }
 ```
 
@@ -278,7 +278,7 @@ The diagram below shows the end-to-end content supply chain, from authoring to d
 │  ┌─────────────────┐  ┌──────────────────┐  ┌──────────────────┐               │
 │  │   eds-us        │  │    eds-uk         │  │    eds-jp         │               │
 │  │  en-US / USD    │  │   en-GB / GBP     │  │   ja-JP / JPY    │               │
-│  │  sbux-us.aem.live│  │ sbux-uk.aem.live  │  │ sbux-jp.aem.live │               │
+│  │  qsr-us.aem.live│  │ qsr-uk.aem.live  │  │ qsr-jp.aem.live │               │
 │  └─────────────────┘  └──────────────────┘  └──────────────────┘               │
 │                                                                                  │
 │  Each site resolves overlay routes via site-config.json:                         │

@@ -1,10 +1,10 @@
 <!--
-  sbux-store-locator Web Component
+  qsr-store-locator Web Component
   Covers the /bff/locations endpoint: nearby-store search by lat/lng or place name.
   RULE 3: custom element declaration required
   RULE 4: CSS uses token values in :host block (Shadow DOM can't inherit from document tokens)
 -->
-<svelte:options customElement="sbux-store-locator" />
+<svelte:options customElement="qsr-store-locator" />
 
 <script>
   import { onMount } from 'svelte';

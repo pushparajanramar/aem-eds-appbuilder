@@ -7,19 +7,19 @@
 
 const MARKET_CONFIG = {
   us: {
-    edsHost: 'main--sbux-us--org.aem.live',
+    edsHost: 'main--qsr-us--org.aem.live',
     locale: 'en-US',
     currency: 'USD',
     timezone: 'America/Los_Angeles',
   },
   uk: {
-    edsHost: 'main--sbux-uk--org.aem.live',
+    edsHost: 'main--qsr-uk--org.aem.live',
     locale: 'en-GB',
     currency: 'GBP',
     timezone: 'Europe/London',
   },
   jp: {
-    edsHost: 'main--sbux-jp--org.aem.live',
+    edsHost: 'main--qsr-jp--org.aem.live',
     locale: 'ja-JP',
     currency: 'JPY',
     timezone: 'Asia/Tokyo',

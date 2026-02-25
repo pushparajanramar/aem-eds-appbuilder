@@ -1,7 +1,7 @@
 /**
  * Rewards Feed Block
  *
- * Lazy-loads the sbux-rewards-feed Web Component via IntersectionObserver.
+ * Lazy-loads the qsr-rewards-feed Web Component via IntersectionObserver.
  * Covers the /bff/proxy/stream/v1/me/streamItems endpoint: personalised
  * rewards and activity feed for the authenticated user.
  * Follows RULE 1 (Vanilla JS only) and RULE 2 (UE annotations required).
@@ -30,8 +30,8 @@ export default async function decorate(block) {
     async ([entry]) => {
       if (!entry.isIntersecting) return;
       observer.disconnect();
-      await import('/blocks/rewards-feed/sbux-rewards-feed.js');
-      const wc = Object.assign(document.createElement('sbux-rewards-feed'), { market, limit });
+      await import('/blocks/rewards-feed/qsr-rewards-feed.js');
+      const wc = Object.assign(document.createElement('qsr-rewards-feed'), { market, limit });
       block.replaceWith(wc);
     },
     { rootMargin: '200px' },

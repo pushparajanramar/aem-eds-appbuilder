@@ -1,8 +1,8 @@
 {
   "groups": [
     {
-      "title": "Starbucks Blocks",
-      "id": "sbux-blocks",
+      "title": "Quick Service Restaurant Blocks",
+      "id": "qsr-blocks",
       "components": [
         {
           "title": "Promotion Banner",

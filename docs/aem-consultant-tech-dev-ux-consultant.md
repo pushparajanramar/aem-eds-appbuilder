@@ -14,7 +14,7 @@ The AEM Consultant (Tech/Dev) / UX Consultant implements the front-end and back-
 |---|---|
 | **EDS Block Development** | Implement and maintain JavaScript/CSS blocks (`menu-item`, `product-detail`, `promotion-banner`) |
 | **App Builder Actions** | Develop and test serverless actions (`menu-provider`, `store-provider`, `rewards-provider`, `webhook`) |
-| **Svelte Web Components** | Build and maintain `sbux-menu-card` and `sbux-product-customizer` in `packages/eds-components` |
+| **Svelte Web Components** | Build and maintain `qsr-menu-card` and `qsr-product-customizer` in `packages/eds-components` |
 | **Unit Testing** | Write and maintain Jest tests for App Builder actions (`npm test` in `app-builder/`) |
 | **Linting & Quality** | Ensure code passes ESLint (`npm run lint`) and `svelte-check` before raising a PR |
 | **Universal Editor** | Implement `data-aue-*` instrumentation in `ue/instrumentation.js` for each market |
@@ -27,7 +27,7 @@ The AEM Consultant (Tech/Dev) / UX Consultant implements the front-end and back-
 | **Design System** | Define and maintain global CSS custom properties (design tokens) in `apps/eds-*/styles/` |
 | **Responsive Design** | Ensure blocks render correctly across mobile, tablet and desktop breakpoints |
 | **Accessibility** | Meet WCAG 2.1 AA standards for all components and page templates |
-| **Prototype & Validate** | Create interactive prototypes for UAT; incorporate feedback from Starbucks content teams |
+| **Prototype & Validate** | Create interactive prototypes for UAT; incorporate feedback from Quick Service Restaurant content teams |
 
 ---
 
@@ -46,8 +46,8 @@ app-builder/
 
 apps/eds-<market>/
 ├── blocks/
-│   ├── menu-item/             # Block JS + CSS + sbux-menu-card WC
-│   ├── product-detail/        # Block JS + CSS + sbux-product-customizer WC
+│   ├── menu-item/             # Block JS + CSS + qsr-menu-card WC
+│   ├── product-detail/        # Block JS + CSS + qsr-product-customizer WC
 │   └── promotion-banner/      # Block JS + CSS
 ├── scripts/aem.js             # EDS core runtime
 ├── styles/                    # Global CSS (design tokens, typography, layout)
@@ -56,8 +56,8 @@ apps/eds-<market>/
 packages/eds-components/
 └── src/
     ├── components/
-    │   ├── sbux-menu-card.svelte
-    │   └── sbux-product-customizer.svelte
+    │   ├── qsr-menu-card.svelte
+    │   └── qsr-product-customizer.svelte
     └── utils/
         ├── api.js             # Shared fetch helpers
         └── auth.js            # IMS token helpers
@@ -99,8 +99,8 @@ npm run build     # Production bundle → dist/
 Built bundles must be copied to the relevant market block directories:
 
 ```bash
-cp dist/sbux-menu-card.js          ../../apps/eds-us/blocks/menu-item/
-cp dist/sbux-product-customizer.js ../../apps/eds-us/blocks/product-detail/
+cp dist/qsr-menu-card.js          ../../apps/eds-us/blocks/menu-item/
+cp dist/qsr-product-customizer.js ../../apps/eds-us/blocks/product-detail/
 ```
 
 ### EDS Blocks
@@ -122,9 +122,9 @@ Market-specific configuration is resolved via `shared/market-config.js`:
 
 | Market | EDS Host | Locale | Currency |
 |---|---|---|---|
-| `us` | `main--sbux-us--org.aem.live` | `en-US` | USD |
-| `uk` | `main--sbux-uk--org.aem.live` | `en-GB` | GBP |
-| `jp` | `main--sbux-jp--org.aem.live` | `ja-JP` | JPY |
+| `us` | `main--qsr-us--org.aem.live` | `en-US` | USD |
+| `uk` | `main--qsr-uk--org.aem.live` | `en-GB` | GBP |
+| `jp` | `main--qsr-jp--org.aem.live` | `ja-JP` | JPY |
 
 ---
 

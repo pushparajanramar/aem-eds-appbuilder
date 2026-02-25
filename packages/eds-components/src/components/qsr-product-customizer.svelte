@@ -1,9 +1,9 @@
 <!--
-  sbux-product-customizer Web Component
+  qsr-product-customizer Web Component
   RULE 3: custom element declaration required
   RULE 4: CSS uses token values in :host block (Shadow DOM can't inherit from document tokens)
 -->
-<svelte:options customElement="sbux-product-customizer" />
+<svelte:options customElement="qsr-product-customizer" />
 
 <script>
   import { onMount } from 'svelte';
@@ -50,7 +50,7 @@
     };
     // RULE 3: inter-WC communication via CustomEvent with composed:true
     dispatchEvent(
-      new CustomEvent('sbux:add-to-cart', {
+      new CustomEvent('qsr:add-to-cart', {
         detail: item,
         bubbles: true,
         composed: true,

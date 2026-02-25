@@ -43,13 +43,13 @@ Discovery typically runs for **2–3 weeks** across parallel workstreams:
 
 ### 1.3 Participants
 
-| Workstream | Adobe Lead | Starbucks Stakeholders |
+| Workstream | Adobe Lead | Quick Service Restaurant Stakeholders |
 |---|---|---|
 | Content Architecture | AEM Consultant (Functional) | Content Lead, Digital Marketing Lead |
 | UX Solution Design | UX Consultant | Brand/UX team, Content Lead |
 | Analytics | Analytics Consultant | Digital Analytics team, Digital Marketing Lead |
 | Optimisation | Analytics Consultant + Functional Lead | Optimisation/CRO team |
-| Technical | AEM Technical Architect | Starbucks IT, Digital Engineering |
+| Technical | AEM Technical Architect | Quick Service Restaurant IT, Digital Engineering |
 
 ---
 
@@ -85,9 +85,9 @@ Reference document: [AEM Sites Discovery Checklist](aem-sites-discovery-checklis
 
 | Activity | Owner | Output |
 |---|---|---|
-| Content inventory workshop | AEM Consultant (Functional) + Starbucks Content Lead | Spreadsheet of page types and content types per market |
+| Content inventory workshop | AEM Consultant (Functional) + Quick Service Restaurant Content Lead | Spreadsheet of page types and content types per market |
 | Block definition workshop | AEM Consultant (Functional) + Tech/Dev | Draft `component-models.json` |
-| Taxonomy agreement | Functional Lead + Starbucks | Approved taxonomy options in `component-models.json` |
+| Taxonomy agreement | Functional Lead + Quick Service Restaurant | Approved taxonomy options in `component-models.json` |
 | Sitemap definition | Functional Lead + Content Lead | `sitemap.json` per market |
 
 ### 3.3 Key Questions
@@ -108,14 +108,14 @@ Reference document: [UX Solution Design Runbook](ux-solution-design-runbook.md)
 
 - Produce wireframes and high-fidelity designs for all page templates and blocks.
 - Define global design tokens (colours, typography, spacing).
-- Validate designs with Starbucks brand team.
+- Validate designs with Quick Service Restaurant brand team.
 - Prepare XD / Figma prototypes for UAT.
 
 ### 4.2 Activities
 
 | Activity | Owner | Output |
 |---|---|---|
-| Brand alignment workshop | UX Consultant + Starbucks brand team | Design token definitions |
+| Brand alignment workshop | UX Consultant + Quick Service Restaurant brand team | Design token definitions |
 | Wireframe creation | UX Consultant | Low-fidelity wireframes for all page types |
 | High-fidelity design | UX Consultant | XD / Figma designs per market |
 | Responsive design review | UX Consultant + Tech/Dev | Annotated designs with breakpoints |
@@ -142,7 +142,7 @@ Reference document: [Analytics Discovery Template](analytics-discovery-template.
 | Event taxonomy workshop | Analytics Consultant | Draft event taxonomy |
 | Adobe Analytics BRD | Analytics Consultant | AA BRD document (per market) |
 | Launch property planning | Analytics Consultant + Tech/Dev | Launch property and extension list |
-| Consent / privacy requirements | Analytics Consultant + Starbucks Legal | Privacy requirements per market (GDPR, CCPA, APPI) |
+| Consent / privacy requirements | Analytics Consultant + Quick Service Restaurant Legal | Privacy requirements per market (GDPR, CCPA, APPI) |
 
 ---
 
@@ -161,9 +161,9 @@ Reference document: [Optimisation Runbook — Chapter 1](optimization-runbook.md
 
 | Activity | Owner | Output |
 |---|---|---|
-| Baseline data review | Analytics Consultant + Starbucks | Current CWV scores and conversion benchmarks |
+| Baseline data review | Analytics Consultant + Quick Service Restaurant | Current CWV scores and conversion benchmarks |
 | Opportunity identification | Analytics Consultant + Functional Lead | Ranked optimisation opportunities |
-| Hypothesis workshop | Analytics + Starbucks CRO team | Initial test hypothesis backlog |
+| Hypothesis workshop | Analytics + Quick Service Restaurant CRO team | Initial test hypothesis backlog |
 | Target workspace planning | Analytics Consultant | Adobe Target workspace and property plan |
 
 ---
@@ -172,7 +172,7 @@ Reference document: [Optimisation Runbook — Chapter 1](optimization-runbook.md
 
 ### 7.1 Goals
 
-- Validate the architecture against actual Starbucks API contracts.
+- Validate the architecture against actual Quick Service Restaurant API contracts.
 - Confirm environment provisioning (Adobe Developer Console, Cloud Manager if applicable).
 - Agree GitHub repository structure and branch protection rules.
 - Document all ADRs arising from Discovery.
@@ -181,7 +181,7 @@ Reference document: [Optimisation Runbook — Chapter 1](optimization-runbook.md
 
 | Activity | Owner | Output |
 |---|---|---|
-| API contract review | AEM Technical Architect + Starbucks IT | Confirmed request/response schemas for App Builder actions |
+| API contract review | AEM Technical Architect + Quick Service Restaurant IT | Confirmed request/response schemas for App Builder actions |
 | Environment provisioning | Tech Architect + Platform Engineers | Adobe Developer Console project, IMS credentials |
 | GitHub setup | Tech Architect + Platform Engineers | Repository with CI/CD pipeline, branch protection |
 | ADR documentation | Tech Architect | `docs/adr/` entries for all key decisions |
@@ -192,7 +192,7 @@ Reference document: [Optimisation Runbook — Chapter 1](optimization-runbook.md
 | Question | Resolved by |
 |---|---|
 | Will all three markets use the same App Builder workspace or separate? | AEM Technical Architect |
-| What is the upstream product API authentication mechanism? | Starbucks IT |
+| What is the upstream product API authentication mechanism? | Quick Service Restaurant IT |
 | Is Adobe Target on-device decisioning required for JP (high-latency region)? | Analytics Consultant + Tech Architect |
 | What is the CDN caching strategy for App Builder overlay responses? | Tech Architect |
 
@@ -211,7 +211,7 @@ The following artefacts must be completed before sign-off:
 | Analytics Discovery document | Analytics Consultant | Shared drive |
 | Adobe Analytics BRD | Analytics Consultant | Shared drive |
 | Optimisation baseline report | Analytics Consultant | Shared drive |
-| Test hypothesis backlog | Analytics Consultant + Starbucks | Jira / ADO |
+| Test hypothesis backlog | Analytics Consultant + Quick Service Restaurant | Jira / ADO |
 | Architecture Decision Records | Tech Architect | `docs/adr/` |
 | Updated RAID log | Project Manager | Project management tool |
 | Implementation backlog (epics and stories) | Project Manager + Functional Lead | Jira / ADO |
@@ -229,14 +229,14 @@ A formal Discovery sign-off meeting is held at the end of the Discovery phase, c
 1. Review of all Discovery outputs (15 min)
 2. Open questions and risks (10 min)
 3. Confirmation of Implementation start date (5 min)
-4. Formal sign-off by Starbucks programme lead (5 min)
+4. Formal sign-off by Quick Service Restaurant programme lead (5 min)
 
 ### 9.2 Sign-off Checklist
 
-- [ ] Block inventory reviewed and approved by Starbucks Content Lead
-- [ ] UX designs reviewed and approved by Starbucks brand team
-- [ ] Analytics BRD reviewed and approved by Starbucks Analytics team
+- [ ] Block inventory reviewed and approved by Quick Service Restaurant Content Lead
+- [ ] UX designs reviewed and approved by Quick Service Restaurant brand team
+- [ ] Analytics BRD reviewed and approved by Quick Service Restaurant Analytics team
 - [ ] Test hypothesis backlog reviewed and prioritised
 - [ ] All ADRs documented and approved by Tech Architect
 - [ ] Implementation backlog groomed; first sprint stories estimated
-- [ ] Phase gate signed off: Starbucks Programme Lead + Client Partner
+- [ ] Phase gate signed off: Quick Service Restaurant Programme Lead + Client Partner

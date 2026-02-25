@@ -2,7 +2,7 @@
 
 ## Role Overview
 
-The Client Partner is the primary relationship owner between the delivery organisation and the Starbucks stakeholders. They act as a trusted advisor, ensuring the AEM Edge Delivery Services (EDS) and Adobe App Builder programme delivers measurable business value across all three markets (US, UK, JP).
+The Client Partner is the primary relationship owner between the delivery organisation and the Quick Service Restaurant stakeholders. They act as a trusted advisor, ensuring the AEM Edge Delivery Services (EDS) and Adobe App Builder programme delivers measurable business value across all three markets (US, UK, JP).
 
 ---
 
@@ -10,9 +10,9 @@ The Client Partner is the primary relationship owner between the delivery organi
 
 | Area | Description |
 |---|---|
-| **Executive Alignment** | Maintain executive-level relationships with Starbucks; present programme status, risks and outcomes |
+| **Executive Alignment** | Maintain executive-level relationships with Quick Service Restaurant; present programme status, risks and outcomes |
 | **Commercial Management** | Own the statement of work, change-order process and financial health of the engagement |
-| **Strategic Guidance** | Translate Starbucks business objectives (digital experience, loyalty, localisation) into programme priorities |
+| **Strategic Guidance** | Translate Quick Service Restaurant business objectives (digital experience, loyalty, localisation) into programme priorities |
 | **Risk & Escalation** | Identify and escalate risks that could affect scope, budget or timelines; drive resolution with senior stakeholders |
 | **Value Realisation** | Measure and communicate business value delivered — performance scores, time-to-publish, conversion uplift |
 | **Partner Ecosystem** | Coordinate with Adobe account teams, technology partners and third-party vendors as required |
@@ -22,7 +22,7 @@ The Client Partner is the primary relationship owner between the delivery organi
 ## Interaction With This Project
 
 ```
-Starbucks Stakeholders
+Quick Service Restaurant Stakeholders
         │
         ▼
    Client Partner ──────────────────────► Programme Status
@@ -63,6 +63,6 @@ The Client Partner does not make day-to-day technical decisions but must underst
 
 - [ ] Access to the GitHub repository (`pushparajanramar/aem-eds-appbuilder`)
 - [ ] Invited to Adobe Developer Console project (read access)
-- [ ] Starbucks stakeholder introductions completed
+- [ ] Quick Service Restaurant stakeholder introductions completed
 - [ ] Programme charter and statement of work signed
 - [ ] Recurring executive steering committee cadence established

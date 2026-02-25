@@ -1,6 +1,6 @@
 # Kick-off Deck Template
 
-This document is the canonical template for preparing and presenting the project kick-off deck at the start of the AEM EDS + App Builder engagement. The deck is presented to both the delivery team and Starbucks stakeholders to align on programme objectives, scope, team, timeline and ways of working.
+This document is the canonical template for preparing and presenting the project kick-off deck at the start of the AEM EDS + App Builder engagement. The deck is presented to both the delivery team and Quick Service Restaurant stakeholders to align on programme objectives, scope, team, timeline and ways of working.
 
 ---
 
@@ -19,7 +19,7 @@ This document is the canonical template for preparing and presenting the project
 
 The kick-off deck serves to:
 
-- Introduce the delivery team to Starbucks stakeholders.
+- Introduce the delivery team to Quick Service Restaurant stakeholders.
 - Confirm the agreed scope, objectives and success metrics.
 - Walk through the programme timeline and phase gates.
 - Establish ways of working, communication cadences and tooling.
@@ -55,10 +55,10 @@ Total: **12–18 slides**
 
 **Slide 1: Title Slide**
 
-- Programme name: `Starbucks AEM EDS + App Builder — Multi-Market Programme`
+- Programme name: `Quick Service Restaurant AEM EDS + App Builder — Multi-Market Programme`
 - Date
 - Client Partner name
-- Adobe delivery team logo + Starbucks logo (if permitted)
+- Adobe delivery team logo + Quick Service Restaurant logo (if permitted)
 
 **Slide 2: Introductions**
 
@@ -72,9 +72,9 @@ Table of team members with name, role and one-line responsibility:
 | (Name) | Adobe | AEM Consultant (Functional) | Backlog, content strategy, UAT |
 | (Name) | Adobe | AEM Consultant (Tech/Dev) | EDS blocks, App Builder actions |
 | (Name) | Adobe | Analytics Consultant | Measurement, tagging |
-| (Name) | Starbucks | Programme Lead | Business ownership, decisions |
-| (Name) | Starbucks | Content Lead | Authoring, UAT |
-| (Name) | Starbucks | Digital Marketing Lead | Analytics sign-off, optimisation |
+| (Name) | Quick Service Restaurant | Programme Lead | Business ownership, decisions |
+| (Name) | Quick Service Restaurant | Content Lead | Authoring, UAT |
+| (Name) | Quick Service Restaurant | Digital Marketing Lead | Analytics sign-off, optimisation |
 
 ---
 
@@ -82,10 +82,10 @@ Table of team members with name, role and one-line responsibility:
 
 **Slide 3: Business Objectives**
 
-Top 3–5 business objectives aligned to Starbucks' digital strategy:
+Top 3–5 business objectives aligned to Quick Service Restaurant' digital strategy:
 
 1. Deliver ultra-fast, accessible web experiences across US, UK and JP markets.
-2. Enable Starbucks content teams to author and publish pages without engineering support.
+2. Enable Quick Service Restaurant content teams to author and publish pages without engineering support.
 3. Power the menu, store-locator and rewards overlays through a composable, serverless back-end.
 4. Integrate Adobe Analytics and Target to measure and optimise digital experiences.
 5. Provide a repeatable delivery model that can extend to additional markets.
@@ -108,15 +108,15 @@ Top 3–5 business objectives aligned to Starbucks' digital strategy:
 
 | Market | EDS Site | Live Host |
 |---|---|---|
-| United States | `eds-us` | `main--sbux-us--org.aem.live` |
-| United Kingdom | `eds-uk` | `main--sbux-uk--org.aem.live` |
-| Japan | `eds-jp` | `main--sbux-jp--org.aem.live` |
+| United States | `eds-us` | `main--qsr-us--org.aem.live` |
+| United Kingdom | `eds-uk` | `main--qsr-uk--org.aem.live` |
+| Japan | `eds-jp` | `main--qsr-jp--org.aem.live` |
 
 **Slide 6: In-Scope Deliverables**
 
 - AEM EDS sites for all three markets (blocks, styles, scripts, sitemap)
 - Adobe App Builder actions: `menu-provider`, `store-provider`, `rewards-provider`, `webhook`
-- Shared Svelte web components: `sbux-menu-card`, `sbux-product-customizer`
+- Shared Svelte web components: `qsr-menu-card`, `qsr-product-customizer`
 - CI/CD pipeline (GitHub Actions): lint → build → deploy
 - Analytics tagging (Adobe Analytics + Adobe Target via Launch) for all markets
 - Content model definitions and Universal Editor instrumentation
@@ -124,9 +124,9 @@ Top 3–5 business objectives aligned to Starbucks' digital strategy:
 
 **Slide 7: Out of Scope**
 
-- Back-end product catalogue API (provided by Starbucks IT)
+- Back-end product catalogue API (provided by Quick Service Restaurant IT)
 - Corporate identity provider (IdP) configuration
-- Market-specific legal / compliance review (covered by Starbucks Legal)
+- Market-specific legal / compliance review (covered by Quick Service Restaurant Legal)
 - AEM Assets DAM migration
 
 ---
@@ -136,7 +136,7 @@ Top 3–5 business objectives aligned to Starbucks' digital strategy:
 **Slide 8: Engagement Model**
 
 ```
-Starbucks Stakeholders
+Quick Service Restaurant Stakeholders
         │
         ▼
    Client Partner ──────────────────────► Programme Status
@@ -241,7 +241,7 @@ Include a Gantt chart if available in the project management tool.
 
 | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|
-| Starbucks product API unavailable during development | Medium | High | Use mock data fixtures for App Builder actions |
+| Quick Service Restaurant product API unavailable during development | Medium | High | Use mock data fixtures for App Builder actions |
 | IdP integration for IMS SSO delayed | Low | Medium | Use personal IMS accounts for initial UAT |
 | JP market content model differences | Medium | Medium | Separate discovery session for JP authoring team |
 | Adobe Target licence not provisioned | Low | High | Confirm licence with Adobe account team in Week 1 |
@@ -254,7 +254,7 @@ Include a Gantt chart if available in the project management tool.
 
 | Action | Owner | Due |
 |---|---|---|
-| Share GitHub repository access with Starbucks team | PM | Day 1 |
+| Share GitHub repository access with Quick Service Restaurant team | PM | Day 1 |
 | Schedule Discovery workshops (content, analytics, UX, optimisation) | PM | Week 1 |
 | Confirm Adobe Developer Console project and licences | Tech Architect | Week 1 |
 | Set up project management board and backlog | PM | Week 1 |
@@ -277,7 +277,7 @@ Include a Gantt chart if available in the project management tool.
 
 - [ ] Deck reviewed by Client Partner and Project Manager
 - [ ] Technology slides reviewed by AEM Technical Architect
-- [ ] Timeline confirmed with Adobe account team and Starbucks programme lead
+- [ ] Timeline confirmed with Adobe account team and Quick Service Restaurant programme lead
 - [ ] Meeting invite sent with deck attached (PDF) at least 48 hours in advance
 - [ ] Dial-in / video call details confirmed
 - [ ] Any NDAs or confidentiality agreements in place
@@ -291,5 +291,5 @@ Include a Gantt chart if available in the project management tool.
 - [ ] Deck and recording shared with all attendees within 24 hours
 - [ ] Open questions and actions added to RAID log
 - [ ] Discovery Runbook distributed to all consultants
-- [ ] Discovery workshop schedule agreed with Starbucks stakeholders
+- [ ] Discovery workshop schedule agreed with Quick Service Restaurant stakeholders
 - [ ] Project management board populated with initial epics and stories

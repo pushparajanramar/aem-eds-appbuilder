@@ -1,7 +1,7 @@
 /**
  * Product Detail Block
  *
- * Lazy-loads the sbux-product-customizer Web Component via IntersectionObserver.
+ * Lazy-loads the qsr-product-customizer Web Component via IntersectionObserver.
  * Follows RULE 1 (Vanilla JS only) and RULE 2 (UE annotations required).
  */
 
@@ -28,8 +28,8 @@ export default async function decorate(block) {
     async ([entry]) => {
       if (!entry.isIntersecting) return;
       observer.disconnect();
-      await import('/blocks/product-detail/sbux-product-customizer.js');
-      const wc = Object.assign(document.createElement('sbux-product-customizer'), {
+      await import('/blocks/product-detail/qsr-product-customizer.js');
+      const wc = Object.assign(document.createElement('qsr-product-customizer'), {
         productid: productId,
         market,
       });

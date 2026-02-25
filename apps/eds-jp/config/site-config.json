@@ -1,30 +1,30 @@
 {
   "version": "1.0",
-  "siteId": "sbux-jp",
+  "siteId": "qsr-jp",
   "overlays": {
     "/menu": {
       "provider": "menu-provider",
-      "url": "https://{app-builder-host}/api/v1/web/starbucks/menu-provider",
+      "url": "https://{app-builder-host}/api/v1/web/qsr/menu-provider",
       "cacheTtl": 300
     },
     "/stores": {
       "provider": "store-provider",
-      "url": "https://{app-builder-host}/api/v1/web/starbucks/store-provider",
+      "url": "https://{app-builder-host}/api/v1/web/qsr/store-provider",
       "cacheTtl": 600
     },
     "/rewards": {
       "provider": "rewards-provider",
-      "url": "https://{app-builder-host}/api/v1/web/starbucks/rewards-provider",
+      "url": "https://{app-builder-host}/api/v1/web/qsr/rewards-provider",
       "cacheTtl": 120
     },
     "/account": {
       "provider": "user-provider",
-      "url": "https://{app-builder-host}/api/v1/web/starbucks/user-provider",
+      "url": "https://{app-builder-host}/api/v1/web/qsr/user-provider",
       "cacheTtl": 60
     },
     "/rewards-feed": {
       "provider": "bff-proxy",
-      "url": "https://{app-builder-host}/api/v1/web/starbucks/bff-proxy",
+      "url": "https://{app-builder-host}/api/v1/web/qsr/bff-proxy",
       "cacheTtl": 60
     }
   },
@@ -33,5 +33,5 @@
     "scope": "openid,AdobeID,read_organizations"
   },
   "market": "jp",
-  "edsHost": "main--sbux-jp--org.aem.live"
+  "edsHost": "main--qsr-jp--org.aem.live"
 }

@@ -116,9 +116,9 @@ Adobe Launch rule fires
 
 | Market | Dev/QA suite | Production suite |
 |---|---|---|
-| US | `sbux-us-dev` | `sbux-us-prod` |
-| UK | `sbux-uk-dev` | `sbux-uk-prod` |
-| JP | `sbux-jp-dev` | `sbux-jp-prod` |
+| US | `qsr-us-dev` | `qsr-us-prod` |
+| UK | `qsr-uk-dev` | `qsr-uk-prod` |
+| JP | `qsr-jp-dev` | `qsr-jp-prod` |
 
 ### 4.2 Report Suite Settings
 
@@ -127,7 +127,7 @@ Adobe Launch rule fires
 | Base currency | USD (US), GBP (UK), JPY (JP) |
 | Time zone | US: America/Chicago; UK: Europe/London; JP: Asia/Tokyo |
 | Default page | `home` |
-| IP exclusions | Adobe office IPs, Starbucks HQ IPs, agency IPs |
+| IP exclusions | Adobe office IPs, Quick Service Restaurant HQ IPs, agency IPs |
 | Bot filtering | Enabled (IAB list + custom rules) |
 | Character set | UTF-8 (all markets) |
 
@@ -167,7 +167,7 @@ Adobe Launch rule fires
 
 | Property | Markets covered | Notes |
 |---|---|---|
-| `Starbucks EDS — Global` | US, UK, JP | Single property with market-scoped rules |
+| `Quick Service Restaurant EDS — Global` | US, UK, JP | Single property with market-scoped rules |
 
 > Alternatively, create one property per market if market-specific configurations are extensive.
 
@@ -310,7 +310,7 @@ return window.__adobePrivacy?.hasOptedInToAll() === true;
 | `promotion_view` fires on banner impression | Dev | Analytics Consultant | ☐ |
 | Consent gate blocks AA before opt-in | Dev | Analytics Consultant | ☐ |
 | AA beacons contain correct `eVar1` (market) | Dev | Analytics Consultant | ☐ |
-| AA report suite receives data (UK = `sbux-uk-prod`) | Production | Analytics Consultant | ☐ |
+| AA report suite receives data (UK = `qsr-uk-prod`) | Production | Analytics Consultant | ☐ |
 
 ---
 
@@ -318,7 +318,7 @@ return window.__adobePrivacy?.hasOptedInToAll() === true;
 
 | Item | Owner | Status |
 |---|---|---|
-| KPIs agreed | Analytics Consultant + Starbucks Digital Marketing | ☐ Approved |
+| KPIs agreed | Analytics Consultant + Quick Service Restaurant Digital Marketing | ☐ Approved |
 | Event taxonomy agreed | Analytics Consultant | ☐ Approved |
 | BRD completed (US) | Analytics Consultant | ☐ Approved |
 | BRD completed (UK) | Analytics Consultant | ☐ Approved |
@@ -328,6 +328,6 @@ return window.__adobePrivacy?.hasOptedInToAll() === true;
 
 **Sign-off confirmed by:**
 
-- [ ] Starbucks Analytics team: _______________________
+- [ ] Quick Service Restaurant Analytics team: _______________________
 - [ ] Analytics Consultant: _______________________
 - [ ] Date: _______________________

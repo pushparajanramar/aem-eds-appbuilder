@@ -1,9 +1,9 @@
 <!--
-  sbux-menu-card Web Component
+  qsr-menu-card Web Component
   RULE 3: custom element declaration required
   RULE 4: CSS uses token values in :host block (Shadow DOM can't inherit from document tokens)
 -->
-<svelte:options customElement="sbux-menu-card" />
+<svelte:options customElement="qsr-menu-card" />
 
 <script>
   import { onMount } from 'svelte';
@@ -31,7 +31,7 @@
   function handleCustomize() {
     // RULE 3: inter-WC communication via CustomEvent with composed:true
     dispatchEvent(
-      new CustomEvent('sbux:customize', {
+      new CustomEvent('qsr:customize', {
         detail: { itemid, market, category },
         bubbles: true,
         composed: true,

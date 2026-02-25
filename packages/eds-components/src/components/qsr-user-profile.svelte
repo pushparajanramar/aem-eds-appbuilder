@@ -1,10 +1,10 @@
 <!--
-  sbux-user-profile Web Component
+  qsr-user-profile Web Component
   Covers the /bff/proxy/orchestra/get-user endpoint: authenticated user profile.
   RULE 3: custom element declaration required
   RULE 4: CSS uses token values in :host block (Shadow DOM can't inherit from document tokens)
 -->
-<svelte:options customElement="sbux-user-profile" />
+<svelte:options customElement="qsr-user-profile" />
 
 <script>
   import { onMount } from 'svelte';
@@ -36,7 +36,7 @@
   function handleSignOut() {
     // RULE 3: inter-WC communication via CustomEvent with composed:true
     dispatchEvent(
-      new CustomEvent('sbux:sign-out', {
+      new CustomEvent('qsr:sign-out', {
         bubbles: true,
         composed: true,
       }),

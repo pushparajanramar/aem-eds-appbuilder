@@ -33,8 +33,8 @@ The goal of Optimisation Discovery is to:
 |---|---|
 | Analytics Consultant | Lead Optimisation Discovery; produce baseline report |
 | AEM Consultant (Functional) | Map test hypotheses to content model and block capabilities |
-| Starbucks Digital Marketing Lead | Provide business context; prioritise opportunities |
-| Starbucks CRO / Optimisation team | Subject-matter experts on existing test results |
+| Quick Service Restaurant Digital Marketing Lead | Provide business context; prioritise opportunities |
+| Quick Service Restaurant CRO / Optimisation team | Subject-matter experts on existing test results |
 
 ### 1.3 Baseline Data Collection
 
@@ -77,7 +77,7 @@ Run a structured opportunity identification session using the following framewor
 | Output | Owner | Location |
 |---|---|---|
 | Baseline performance report | Analytics Consultant | Shared drive |
-| Opportunity backlog (prioritised) | Analytics Consultant + Starbucks | Jira / ADO |
+| Opportunity backlog (prioritised) | Analytics Consultant + Quick Service Restaurant | Jira / ADO |
 | Initial test hypothesis backlog | Analytics Consultant | Jira / ADO |
 | Adobe Target workspace plan | Analytics Consultant | Adobe Target admin |
 
@@ -89,10 +89,10 @@ Run a structured opportunity identification session using the following framewor
 
 | Workspace | Markets | Purpose |
 |---|---|---|
-| `Starbucks Global` | US, UK, JP | Shared audiences and global tests |
-| `Starbucks US` | US | US-specific tests |
-| `Starbucks UK` | UK | UK-specific tests |
-| `Starbucks JP` | JP | JP-specific tests |
+| `Quick Service Restaurant Global` | US, UK, JP | Shared audiences and global tests |
+| `Quick Service Restaurant US` | US | US-specific tests |
+| `Quick Service Restaurant UK` | UK | UK-specific tests |
+| `Quick Service Restaurant JP` | JP | JP-specific tests |
 
 ### 2.2 Launch Integration
 
@@ -314,7 +314,7 @@ A winner is declared when:
 - [ ] Minimum sample size achieved
 - [ ] Minimum runtime (2 business cycles) completed
 - [ ] No anomalous data (e.g., sudden traffic spike distorting results)
-- [ ] Results reviewed and approved by Analytics Consultant and Starbucks Digital Marketing Lead
+- [ ] Results reviewed and approved by Analytics Consultant and Quick Service Restaurant Digital Marketing Lead
 
 ### 5.3 Implementing the Winning Variant
 
@@ -339,7 +339,7 @@ Once a winner is declared:
 
 After each test cycle:
 
-1. **Conduct a test debrief** (30 min) with the Analytics Consultant, Functional Lead and Starbucks CRO team.
+1. **Conduct a test debrief** (30 min) with the Analytics Consultant, Functional Lead and Quick Service Restaurant CRO team.
 2. Extract **learnings** — what worked, what didn't and why.
 3. Use learnings to refine the next test hypothesis:
    - Winning variants may reveal further micro-optimisation opportunities.
@@ -376,7 +376,7 @@ Analyse results
 
 ### 5.6 Reporting to Stakeholders
 
-Produce a monthly **Optimisation Performance Report** for Starbucks Digital Marketing:
+Produce a monthly **Optimisation Performance Report** for Quick Service Restaurant Digital Marketing:
 
 | Section | Content |
 |---|---|

@@ -3,7 +3,7 @@ application:
   web: web-src
 
 packages:
-  starbucks:
+  qsr:
     license: Apache-2.0
     actions:
       menu-provider:

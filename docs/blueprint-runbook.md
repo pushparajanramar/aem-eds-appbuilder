@@ -158,9 +158,9 @@ See the main [`README.md`](../README.md) for detailed architecture diagrams and 
 
 | Market | Locale | Currency | EDS Host |
 |---|---|---|---|
-| `us` | `en-US` | USD | `main--sbux-us--org.aem.live` |
-| `uk` | `en-GB` | GBP | `main--sbux-uk--org.aem.live` |
-| `jp` | `ja-JP` | JPY | `main--sbux-jp--org.aem.live` |
+| `us` | `en-US` | USD | `main--qsr-us--org.aem.live` |
+| `uk` | `en-GB` | GBP | `main--qsr-uk--org.aem.live` |
+| `jp` | `ja-JP` | JPY | `main--qsr-jp--org.aem.live` |
 
 ---
 
@@ -221,7 +221,7 @@ All scope, budget or timeline changes must follow the Change Control process:
 
 1. Change request raised in the project management tool.
 2. Impact assessed by the Technical Architect and Project Manager.
-3. Approved by Client Partner and Starbucks programme lead.
+3. Approved by Client Partner and Quick Service Restaurant programme lead.
 4. SOW / schedule updated and communicated to the team.
 
 ### 8.2 Architecture Decision Records
@@ -240,5 +240,5 @@ AEM Technical Architect
 Project Manager + Client Partner
     │  (executive decision required)
     ▼
-Starbucks Programme Lead
+Quick Service Restaurant Programme Lead
 ```

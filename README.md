@@ -1,6 +1,6 @@
 # aem-eds-appbuilder
 
-Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project with Adobe App Builder serverless back-end actions for Starbucks (US, UK, JP).
+Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project with Adobe App Builder serverless back-end actions for Quick Service Restaurant (US, UK, JP).
 
 ---
 
@@ -43,7 +43,7 @@ Key capabilities:
 | **Store Provider** | Fetches store locations and returns EDS-compatible HTML block markup |
 | **Rewards Provider** | Fetches the rewards catalog (requires Adobe IMS authentication) |
 | **Webhook** | Listens for AEM Author publish / unpublish / delete events and triggers EDS cache invalidation |
-| **Svelte Web Components** | Shared `sbux-menu-card` and `sbux-product-customizer` web components bundled per market |
+| **Svelte Web Components** | Shared `qsr-menu-card` and `qsr-product-customizer` web components bundled per market |
 
 ---
 
@@ -61,9 +61,9 @@ Adobe App Builder (Adobe I/O Runtime)
             │
             ▼
 AEM Edge Delivery Services (aem.live)
-    ├─ apps/eds-us   (main--sbux-us--org.aem.live)
-    ├─ apps/eds-uk   (main--sbux-uk--org.aem.live)
-    └─ apps/eds-jp   (main--sbux-jp--org.aem.live)
+    ├─ apps/eds-us   (main--qsr-us--org.aem.live)
+    ├─ apps/eds-uk   (main--qsr-uk--org.aem.live)
+    └─ apps/eds-jp   (main--qsr-jp--org.aem.live)
 ```
 
 App Builder actions are invoked by EDS overlay routes defined in each market's `site-config.json`.
@@ -75,7 +75,7 @@ App Builder actions are invoked by EDS overlay routes defined in each market's `
 ```
 aem-eds-appbuilder/
 ├── app-builder/                   # Adobe App Builder application
-│   ├── app.config.yaml            # Action declarations (package: starbucks)
+│   ├── app.config.yaml            # Action declarations (package: qsr)
 │   ├── package.json
 │   └── actions/
 │       ├── menu-provider/         # BYOM action — /menu overlay
@@ -106,8 +106,8 @@ aem-eds-appbuilder/
 │   └── eds-components/            # Shared Svelte Web Components library
 │       ├── src/
 │       │   ├── components/
-│       │   │   ├── sbux-menu-card.svelte
-│       │   │   └── sbux-product-customizer.svelte
+│       │   │   ├── qsr-menu-card.svelte
+│       │   │   └── qsr-product-customizer.svelte
 │       │   └── utils/
 │       │       ├── api.js
 │       │       └── auth.js
@@ -248,9 +248,9 @@ Market-specific EDS hosts and locales are defined in [`app-builder/actions/share
 
 | Market | EDS Host | Locale | Currency |
 |---|---|---|---|
-| `us` | `main--sbux-us--org.aem.live` | `en-US` | USD |
-| `uk` | `main--sbux-uk--org.aem.live` | `en-GB` | GBP |
-| `jp` | `main--sbux-jp--org.aem.live` | `ja-JP` | JPY |
+| `us` | `main--qsr-us--org.aem.live` | `en-US` | USD |
+| `uk` | `main--qsr-uk--org.aem.live` | `en-GB` | GBP |
+| `jp` | `main--qsr-jp--org.aem.live` | `ja-JP` | JPY |
 
 ### Site Configuration
 
@@ -259,15 +259,15 @@ Each market has a `config/site-config.json` that maps overlay routes to App Buil
 ```json
 {
   "version": "1.0",
-  "siteId": "sbux-us",
+  "siteId": "qsr-us",
   "overlays": {
-    "/menu":    { "provider": "menu-provider",    "url": "https://{app-builder-host}/api/v1/web/starbucks/menu-provider", "cacheTtl": 300 },
-    "/stores":  { "provider": "store-provider",   "url": "https://{app-builder-host}/api/v1/web/starbucks/store-provider", "cacheTtl": 600 },
-    "/rewards": { "provider": "rewards-provider", "url": "https://{app-builder-host}/api/v1/web/starbucks/rewards-provider", "cacheTtl": 120 }
+    "/menu":    { "provider": "menu-provider",    "url": "https://{app-builder-host}/api/v1/web/qsr/menu-provider", "cacheTtl": 300 },
+    "/stores":  { "provider": "store-provider",   "url": "https://{app-builder-host}/api/v1/web/qsr/store-provider", "cacheTtl": 600 },
+    "/rewards": { "provider": "rewards-provider", "url": "https://{app-builder-host}/api/v1/web/qsr/rewards-provider", "cacheTtl": 120 }
   },
   "auth": { "clientId": "{IMS_CLIENT_ID}", "scope": "openid,AdobeID,read_organizations" },
   "market": "us",
-  "edsHost": "main--sbux-us--org.aem.live"
+  "edsHost": "main--qsr-us--org.aem.live"
 }
 ```
 
@@ -286,13 +286,13 @@ The following repository secrets must be set before the CI/CD pipeline can deplo
 
 ## App Builder Actions Reference
 
-All actions live under the `starbucks` package as declared in [`app-builder/app.config.yaml`](app-builder/app.config.yaml).
+All actions live under the `qsr` package as declared in [`app-builder/app.config.yaml`](app-builder/app.config.yaml).
 
 ### `menu-provider`
 
 | Property | Value |
 |---|---|
-| Endpoint | `GET /api/v1/web/starbucks/menu-provider` |
+| Endpoint | `GET /api/v1/web/qsr/menu-provider` |
 | Auth | None (`require-adobe-auth: false`) |
 | Params | `market` (default `us`), `category` (default `drinks`), `LOG_LEVEL` |
 | Returns | `text/html` — EDS `menu-grid` / `menu-item` block markup |
@@ -301,7 +301,7 @@ All actions live under the `starbucks` package as declared in [`app-builder/app.
 
 | Property | Value |
 |---|---|
-| Endpoint | `GET /api/v1/web/starbucks/store-provider` |
+| Endpoint | `GET /api/v1/web/qsr/store-provider` |
 | Auth | None (`require-adobe-auth: false`) |
 | Params | `market` (default `us`), `city` (optional filter), `LOG_LEVEL` |
 | Returns | `text/html` — EDS `stores-list` / `store-locator` block markup |
@@ -310,7 +310,7 @@ All actions live under the `starbucks` package as declared in [`app-builder/app.
 
 | Property | Value |
 |---|---|
-| Endpoint | `GET /api/v1/web/starbucks/rewards-provider` |
+| Endpoint | `GET /api/v1/web/qsr/rewards-provider` |
 | Auth | **Required** (`require-adobe-auth: true`) — Adobe IMS bearer token |
 | Params | `market` (default `us`), `LOG_LEVEL` |
 | Returns | `text/html` — EDS `rewards-list` / `promotion-banner` block markup |
@@ -319,7 +319,7 @@ All actions live under the `starbucks` package as declared in [`app-builder/app.
 
 | Property | Value |
 |---|---|
-| Endpoint | `POST /api/v1/web/starbucks/webhook` |
+| Endpoint | `POST /api/v1/web/qsr/webhook` |
 | Auth | **Required** (`require-adobe-auth: true`) |
 | Params | `market` (default `us`), `path` (required), `event` (`publish` \| `unpublish` \| `delete`), `LOG_LEVEL` |
 | Returns | `application/json` — `{ result: 'ok', event, path, market, edsHost }` |
@@ -383,12 +383,12 @@ EDS sites are published through the [AEM Admin API](https://www.aem.live/docs/ad
 # Publish all pages for a market (replace <market> with us / uk / jp)
 curl -X POST \
   -H "Authorization: Bearer <EDS_TOKEN>" \
-  "https://admin.hlx.page/publish/org/sbux-<market>/main/*"
+  "https://admin.hlx.page/publish/org/qsr-<market>/main/*"
 
 # Publish a single path
 curl -X POST \
   -H "Authorization: Bearer <EDS_TOKEN>" \
-  "https://admin.hlx.page/publish/org/sbux-us/main/menu"
+  "https://admin.hlx.page/publish/org/qsr-us/main/menu"
 ```
 
 Build the Svelte Web Component bundles before publishing if you have changed components:
@@ -399,6 +399,6 @@ npm ci
 npm run build
 
 # Copy bundles to each market's blocks directories
-cp dist/sbux-product-customizer.js ../../apps/eds-us/blocks/product-detail/
-cp dist/sbux-menu-card.js          ../../apps/eds-us/blocks/menu-item/
+cp dist/qsr-product-customizer.js ../../apps/eds-us/blocks/product-detail/
+cp dist/qsr-menu-card.js          ../../apps/eds-us/blocks/menu-item/
 ```
