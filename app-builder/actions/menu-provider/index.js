@@ -12,7 +12,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl, buildDynamicMediaUrl, buildDynamicMediaSrcset } = require('../shared/url-utils');
-const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
+const { getDeviceType, getDeviceLayout, isHeadless } = require('../shared/device-utils');
 const { logRequest } = require('../shared/datalog');
 
 /**
@@ -108,6 +108,18 @@ async function main(params) {
 
   try {
     const items = await fetchMenuItems(edsHost, category, locale);
+
+    if (isHeadless(deviceType)) {
+      return {
+        statusCode: 200,
+        headers: {
+          'content-type': 'application/json',
+          'vary': 'X-Device-Type',
+        },
+        body: { market, category, locale, items },
+      };
+    }
+
     const body = renderMenuHTML(items, layout, deviceType);
 
     return {

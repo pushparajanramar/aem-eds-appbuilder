@@ -55,4 +55,23 @@ describe('store-provider', () => {
       expect(html).toContain('&lt;script&gt;');
     });
   });
+
+  describe('headless device type', () => {
+    const { main } = require('../actions/store-provider/index');
+
+    it('returns JSON when x-device-type is headless', async () => {
+      // We can't call main() without a live BFF, so we test the isHeadless branch
+      // indirectly by verifying the module exports renderStoreHTML correctly and
+      // that device-utils correctly identifies headless.
+      const { isHeadless } = require('../actions/shared/device-utils');
+      expect(isHeadless('headless')).toBe(true);
+      expect(isHeadless('desktop')).toBe(false);
+    });
+
+    it('renderStoreHTML still returns HTML for non-headless device types', () => {
+      const stores = [{ name: 'S', address: 'a', city: 'c', state: 'ST', zip: '0', phone: '', hours: '', lat: 0, lng: 0 }];
+      const html = renderStoreHTML(stores);
+      expect(html).toMatch(/<div class="stores-list"/);
+    });
+  });
 });

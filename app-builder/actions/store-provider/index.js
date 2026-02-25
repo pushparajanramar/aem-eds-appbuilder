@@ -9,7 +9,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
-const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
+const { getDeviceType, getDeviceLayout, isHeadless } = require('../shared/device-utils');
 const { logRequest } = require('../shared/datalog');
 
 /**
@@ -116,6 +116,18 @@ async function main(params) {
 
   try {
     const stores = await fetchStores(edsHost, locale, { city, lat, lng, place });
+
+    if (isHeadless(deviceType)) {
+      return {
+        statusCode: 200,
+        headers: {
+          'content-type': 'application/json',
+          'vary': 'X-Device-Type',
+        },
+        body: { market, locale, stores },
+      };
+    }
+
     const body = renderStoreHTML(stores, layout, deviceType);
 
     return {
