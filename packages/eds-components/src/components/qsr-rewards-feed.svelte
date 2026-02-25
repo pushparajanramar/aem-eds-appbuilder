@@ -123,6 +123,7 @@
 
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .feed--loading,
@@ -244,7 +245,7 @@
     outline-offset: 2px;
   }
 
-  @media (min-width: 768px) {
+  @container (min-width: 768px) {
     .feed__list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);

@@ -102,4 +102,21 @@ function buildDynamicMediaUrl(imageUrl, width, options = {}) {
   }
 }
 
-module.exports = { safeUrl, sanitizeBffModule, ALLOWED_BFF_MODULES, buildDynamicMediaUrl };
+/**
+ * Build a `srcset` string with multiple width-descriptor entries from Adobe Dynamic Media.
+ * Uses width descriptors (w) with a matching `sizes` attribute for optimal responsive delivery.
+ *
+ * @param {string} imageUrl        - Absolute Dynamic Media image URL
+ * @param {number} baseWidth       - Base (1×) pixel width for the largest rendition
+ * @param {string} [format='webp'] - Image format for all srcset entries
+ * @returns {string}  e.g. "https://…?wid=400&fmt=webp 400w, https://…?wid=800&fmt=webp 800w"
+ */
+function buildDynamicMediaSrcset(imageUrl, baseWidth, format = 'webp') {
+  if (!imageUrl) return '';
+  const widths = [Math.round(baseWidth * 0.5), baseWidth, Math.round(baseWidth * 2)];
+  return widths
+    .map((w) => `${buildDynamicMediaUrl(imageUrl, w, { format })} ${w}w`)
+    .join(', ');
+}
+
+module.exports = { safeUrl, sanitizeBffModule, ALLOWED_BFF_MODULES, buildDynamicMediaUrl, buildDynamicMediaSrcset };

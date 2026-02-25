@@ -112,6 +112,7 @@
 
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .card {
@@ -231,7 +232,7 @@
     outline-offset: 2px;
   }
 
-  @media (max-width: 480px) {
+  @container (max-width: 480px) {
     .card__btn-customize {
       min-height: 44px;
       padding: var(--space-3) var(--space-4);

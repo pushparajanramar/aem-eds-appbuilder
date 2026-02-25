@@ -71,5 +71,18 @@ describe('device-provider', () => {
       expect(result.body.deviceType).toBe('digital-menu-board');
       expect(result.body.layout.columns).toBe(4);
     });
+
+    it('recognises headless as a valid device type and returns JSON layout', async () => {
+      const result = await main({ deviceType: 'headless' });
+      expect(result.statusCode).toBe(200);
+      expect(result.headers['content-type']).toContain('application/json');
+      expect(result.body.deviceType).toBe('headless');
+      expect(typeof result.body.layout.columns).toBe('number');
+    });
+
+    it('returns Vary: X-Device-Type for headless device type', async () => {
+      const result = await main({ deviceType: 'headless' });
+      expect(result.headers.vary).toBe('X-Device-Type');
+    });
   });
 });

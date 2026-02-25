@@ -148,6 +148,7 @@
     --header-height: 64px;
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .header {
@@ -253,7 +254,7 @@
     to { transform: rotate(360deg); }
   }
 
-  @media (max-width: 768px) {
+  @container (max-width: 768px) {
     .header__hamburger {
       display: flex;
     }

@@ -2,10 +2,13 @@
 
 <script>
   import { onMount } from 'svelte';
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
 
   export let slides = '[]';
+  export let devicetype = 'desktop';
 
   $: parsedSlides = (() => { try { return JSON.parse(slides); } catch(e) { return []; } })();
+  $: imageWidth = getImageWidthForDevice(devicetype);
 
   let activeIndex = 0;
   let timer;
@@ -74,12 +77,17 @@
         role="group"
       >
         {#if slide.imageUrl}
-          <img
-            src={slide.imageUrl}
-            alt={slide.imageAlt || ''}
-            loading={i === 0 ? 'eager' : 'lazy'}
-            class="carousel__img"
-          />
+          <picture>
+            <source type="image/webp" srcset={buildDynamicMediaSrcset(slide.imageUrl, imageWidth)} />
+            <img
+              src={buildDynamicMediaUrl(slide.imageUrl, imageWidth, { format: 'jpeg' })}
+              alt={slide.imageAlt || ''}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              width={imageWidth}
+              class="carousel__img"
+            />
+          </picture>
         {/if}
         {#if slide.contentHtml}
           <div class="carousel__caption">{@html slide.contentHtml}</div>

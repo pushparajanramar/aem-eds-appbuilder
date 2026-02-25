@@ -2,7 +2,7 @@
  * Tests for shared/url-utils.js — buildDynamicMediaUrl
  */
 
-const { safeUrl, sanitizeBffModule, buildDynamicMediaUrl } = require('../actions/shared/url-utils');
+const { safeUrl, sanitizeBffModule, buildDynamicMediaUrl, buildDynamicMediaSrcset } = require('../actions/shared/url-utils');
 
 describe('url-utils', () => {
   describe('safeUrl', () => {
@@ -111,6 +111,38 @@ describe('url-utils', () => {
       const url2x = buildDynamicMediaUrl(BASE_URL, w1x * 2);
       expect(new URL(url1x).searchParams.get('wid')).toBe('600');
       expect(new URL(url2x).searchParams.get('wid')).toBe('1200');
+    });
+  });
+
+  describe('buildDynamicMediaSrcset', () => {
+    const BASE_URL = 'https://s7d9.scene7.com/is/image/QSR/product-hero';
+
+    it('returns empty string for falsy input', () => {
+      expect(buildDynamicMediaSrcset('', 800)).toBe('');
+      expect(buildDynamicMediaSrcset(null, 800)).toBe('');
+    });
+
+    it('generates three width-descriptor entries (0.5×, 1×, 2×)', () => {
+      const result = buildDynamicMediaSrcset(BASE_URL, 800);
+      const entries = result.split(', ');
+      expect(entries).toHaveLength(3);
+      expect(entries[0]).toContain('400w');
+      expect(entries[1]).toContain('800w');
+      expect(entries[2]).toContain('1600w');
+    });
+
+    it('uses webp format by default', () => {
+      const result = buildDynamicMediaSrcset(BASE_URL, 800);
+      result.split(', ').forEach((entry) => {
+        expect(new URL(entry.split(' ')[0]).searchParams.get('fmt')).toBe('webp');
+      });
+    });
+
+    it('respects a custom format', () => {
+      const result = buildDynamicMediaSrcset(BASE_URL, 600, 'jpeg');
+      result.split(', ').forEach((entry) => {
+        expect(new URL(entry.split(' ')[0]).searchParams.get('fmt')).toBe('jpeg');
+      });
     });
   });
 });

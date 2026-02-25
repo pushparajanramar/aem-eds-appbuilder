@@ -2,6 +2,9 @@
 
 <script>
   import { onMount } from 'svelte';
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset } from '../utils/image-utils.js';
+
+  const POSTER_IMAGE_WIDTH = 800;
 
   export let src = '';
   export let provider = 'default';
@@ -58,7 +61,17 @@
 <div class="embed" bind:this={containerEl}>
   {#if !loaded && posterurl}
     <div class="embed__poster" role="button" tabindex="0" aria-label="Play video" on:click={loadEmbed} on:keydown={(e) => e.key === 'Enter' && loadEmbed()}>
-      <img src={posterurl} alt="Video poster" class="embed__poster-img" loading="lazy" />
+      <picture>
+        <source type="image/webp" srcset={buildDynamicMediaSrcset(posterurl, POSTER_IMAGE_WIDTH)} />
+        <img
+          src={buildDynamicMediaUrl(posterurl, POSTER_IMAGE_WIDTH, { format: 'jpeg' })}
+          alt="Video poster"
+          class="embed__poster-img"
+          loading="lazy"
+          decoding="async"
+          width={POSTER_IMAGE_WIDTH}
+        />
+      </picture>
       <span class="embed__play-btn" aria-hidden="true">
         <svg viewBox="0 0 68 48" width="68" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="68" height="48" rx="8" fill="rgba(0,0,0,0.7)" />

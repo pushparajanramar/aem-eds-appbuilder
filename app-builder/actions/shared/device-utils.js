@@ -10,19 +10,22 @@
  *   desktop            – laptops / desktops (default)
  *   kiosk              – touch kiosks
  *   digital-menu-board – in-restaurant digital signage
+ *   headless           – API / JSON consumers (returns structured JSON instead of HTML)
  */
 
 /**
  * Exhaustive set of device type values recognised by this service.
  * Must stay in sync with the values in fastly/vcl/device-detection.vcl.
  */
-const DEVICE_TYPES = new Set(['mobile', 'tablet', 'desktop', 'kiosk', 'digital-menu-board']);
+const DEVICE_TYPES = new Set(['mobile', 'tablet', 'desktop', 'kiosk', 'digital-menu-board', 'headless']);
 
 const DEFAULT_DEVICE_TYPE = 'desktop';
 
 /**
  * Layout configuration keyed by device type.
  * Actions use these hints to adjust rendered HTML (column counts, image sizes, etc.).
+ * The headless layout uses desktop dimensions as a neutral baseline since the
+ * consumer drives its own presentation.
  *
  * @type {Record<string, {columns: number, imageWidth: number, fontSize: string, touch: boolean}>}
  */
@@ -55,6 +58,12 @@ const DEVICE_LAYOUT = {
     columns: 4,
     imageWidth: 800,
     fontSize: 'xlarge',
+    touch: false,
+  },
+  headless: {
+    columns: 3,
+    imageWidth: 800,
+    fontSize: 'base',
     touch: false,
   },
 };
@@ -107,10 +116,22 @@ function getDeviceLayout(deviceType) {
   return DEVICE_LAYOUT[deviceType] || DEVICE_LAYOUT[DEFAULT_DEVICE_TYPE];
 }
 
+/**
+ * Return true when the device type is 'headless'.
+ * Headless callers receive a raw JSON response instead of rendered HTML.
+ *
+ * @param {string} deviceType
+ * @returns {boolean}
+ */
+function isHeadless(deviceType) {
+  return deviceType === 'headless';
+}
+
 module.exports = {
   DEVICE_TYPES,
   DEFAULT_DEVICE_TYPE,
   DEVICE_LAYOUT,
   getDeviceType,
   getDeviceLayout,
+  isHeadless,
 };

@@ -8,16 +8,18 @@ const {
   DEVICE_LAYOUT,
   getDeviceType,
   getDeviceLayout,
+  isHeadless,
 } = require('../actions/shared/device-utils');
 
 describe('device-utils', () => {
   describe('DEVICE_TYPES', () => {
-    it('contains all five supported device classes', () => {
+    it('contains all six supported device classes', () => {
       expect(DEVICE_TYPES.has('mobile')).toBe(true);
       expect(DEVICE_TYPES.has('tablet')).toBe(true);
       expect(DEVICE_TYPES.has('desktop')).toBe(true);
       expect(DEVICE_TYPES.has('kiosk')).toBe(true);
       expect(DEVICE_TYPES.has('digital-menu-board')).toBe(true);
+      expect(DEVICE_TYPES.has('headless')).toBe(true);
     });
   });
 
@@ -38,6 +40,7 @@ describe('device-utils', () => {
       expect(getDeviceType({ __ow_headers: { 'x-device-type': 'mobile' } })).toBe('mobile');
       expect(getDeviceType({ __ow_headers: { 'x-device-type': 'kiosk' } })).toBe('kiosk');
       expect(getDeviceType({ __ow_headers: { 'x-device-type': 'digital-menu-board' } })).toBe('digital-menu-board');
+      expect(getDeviceType({ __ow_headers: { 'x-device-type': 'headless' } })).toBe('headless');
     });
 
     it('falls back to desktop for an unknown header value', () => {
@@ -51,6 +54,7 @@ describe('device-utils', () => {
     it('reads ?device= from __ow_query when no header or param is present', () => {
       expect(getDeviceType({ __ow_query: 'device=kiosk' })).toBe('kiosk');
       expect(getDeviceType({ __ow_query: 'foo=bar&device=mobile' })).toBe('mobile');
+      expect(getDeviceType({ __ow_query: 'device=headless' })).toBe('headless');
     });
 
     it('prefers header over param and query string', () => {
@@ -97,6 +101,34 @@ describe('device-utils', () => {
     it('kiosk and digital-menu-board are touch or non-touch accordingly', () => {
       expect(getDeviceLayout('kiosk').touch).toBe(true);
       expect(getDeviceLayout('digital-menu-board').touch).toBe(false);
+    });
+
+    it('headless has a valid layout entry', () => {
+      const layout = getDeviceLayout('headless');
+      expect(typeof layout.columns).toBe('number');
+      expect(typeof layout.imageWidth).toBe('number');
+      expect(typeof layout.fontSize).toBe('string');
+      expect(typeof layout.touch).toBe('boolean');
+    });
+  });
+
+  describe('isHeadless', () => {
+    it('returns true for headless device type', () => {
+      expect(isHeadless('headless')).toBe(true);
+    });
+
+    it('returns false for all non-headless device types', () => {
+      expect(isHeadless('mobile')).toBe(false);
+      expect(isHeadless('tablet')).toBe(false);
+      expect(isHeadless('desktop')).toBe(false);
+      expect(isHeadless('kiosk')).toBe(false);
+      expect(isHeadless('digital-menu-board')).toBe(false);
+    });
+
+    it('returns false for unknown / falsy values', () => {
+      expect(isHeadless('')).toBe(false);
+      expect(isHeadless(null)).toBe(false);
+      expect(isHeadless(undefined)).toBe(false);
     });
   });
 });

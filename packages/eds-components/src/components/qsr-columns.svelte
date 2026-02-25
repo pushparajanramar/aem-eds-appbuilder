@@ -1,21 +1,30 @@
 <svelte:options customElement="qsr-columns" />
 
 <script>
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
+
   export let columndata = '[]';
+  export let devicetype = 'desktop';
 
   $: parsedCols = (() => { try { return JSON.parse(columndata); } catch(e) { return []; } })();
+  $: imageWidth = getImageWidthForDevice(devicetype);
 </script>
 
 <div class="columns__row columns__row--{parsedCols.length}-cols">
   {#each parsedCols as col}
     {#if col.isImage}
       <div class="columns__img-col">
-        <img
-          src={col.imageUrl}
-          alt={col.imageAlt || ''}
-          loading="lazy"
-          class="columns__img"
-        />
+        <picture>
+          <source type="image/webp" srcset={buildDynamicMediaSrcset(col.imageUrl, imageWidth)} />
+          <img
+            src={buildDynamicMediaUrl(col.imageUrl, imageWidth, { format: 'jpeg' })}
+            alt={col.imageAlt || ''}
+            loading="lazy"
+            decoding="async"
+            width={imageWidth}
+            class="columns__img"
+          />
+        </picture>
       </div>
     {:else}
       <div class="columns__text-col">
@@ -94,6 +103,7 @@
     --header-height: 64px;
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .columns__row {
@@ -107,7 +117,7 @@
   .columns__row--3-cols { grid-template-columns: repeat(3, 1fr); }
   .columns__row--4-cols { grid-template-columns: repeat(4, 1fr); }
 
-  @media (max-width: 768px) {
+  @container (max-width: 768px) {
     .columns__row--2-cols,
     .columns__row--3-cols,
     .columns__row--4-cols {
@@ -115,7 +125,7 @@
     }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  @container (min-width: 769px) and (max-width: 1024px) {
     .columns__row--3-cols,
     .columns__row--4-cols {
       grid-template-columns: repeat(2, 1fr);

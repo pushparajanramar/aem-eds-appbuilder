@@ -11,6 +11,7 @@
 #   desktop            – traditional browsers on laptops / desktops
 #   kiosk              – touch kiosks (detected via query param or custom UA)
 #   digital-menu-board – in-restaurant digital signage
+#   headless           – API / JSON consumers (returns structured JSON, not HTML)
 #
 # Integration points:
 #   1. vcl_recv  – sets req.http.X-Device-Type before cache lookup
@@ -31,10 +32,10 @@ sub vcl_recv {
   if (req.http.X-Device-Type) {
     # Honour an upstream-set header (e.g. from a shield or origin).
     # Validate to prevent header injection from untrusted callers.
-    if (req.http.X-Device-Type !~ "^(mobile|tablet|desktop|kiosk|digital-menu-board)$") {
+    if (req.http.X-Device-Type !~ "^(mobile|tablet|desktop|kiosk|digital-menu-board|headless)$") {
       set req.http.X-Device-Type = "desktop";
     }
-  } else if (req.url ~ "[?&]device=(mobile|tablet|desktop|kiosk|digital-menu-board)(&|$)") {
+  } else if (req.url ~ "[?&]device=(mobile|tablet|desktop|kiosk|digital-menu-board|headless)(&|$)") {
     # ── Step 2: Query-parameter override (?device=…) ─────────────────────
     # Useful for QA, preview environments and forced layout testing.
     set req.http.X-Device-Type = re.group.1;

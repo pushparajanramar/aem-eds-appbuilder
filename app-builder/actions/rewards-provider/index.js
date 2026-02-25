@@ -9,6 +9,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl } = require('../shared/url-utils');
+const { getDeviceType, isHeadless } = require('../shared/device-utils');
 const { logRequest } = require('../shared/datalog');
 
 /**
@@ -73,8 +74,11 @@ function escapeHtml(str) {
  *
  * @param {object} params
  * @param {string} [params.market='us']
+ * @param {string} [params.deviceType]   - Explicit device-type override
+ * @param {object} [params.__ow_headers] - Request headers from runtime (X-Device-Type set by Fastly VCL)
+ * @param {string} [params.__ow_query]   - Raw query string from runtime
  * @param {string} [params.LOG_LEVEL='info']
- * @returns {Promise<{statusCode: number, headers: object, body: string}>}
+ * @returns {Promise<{statusCode: number, headers: object, body: string|object}>}
  */
 async function main(params) {
   const logger = Core.Logger('rewards-provider', { level: params.LOG_LEVEL || 'info' });
@@ -82,16 +86,29 @@ async function main(params) {
 
   const market = params.market || 'us';
   const { edsHost, locale } = getMarketConfig(market);
+  const deviceType = getDeviceType(params);
 
-  logger.info(`rewards-provider: market=${market}, host=${edsHost}`);
+  logger.info(`rewards-provider: market=${market}, device=${deviceType}, host=${edsHost}`);
 
   try {
     const rewards = await fetchRewards(edsHost, locale);
+
+    if (isHeadless(deviceType)) {
+      return {
+        statusCode: 200,
+        headers: {
+          'content-type': 'application/json',
+          'vary': 'X-Device-Type',
+        },
+        body: { market, locale, rewards },
+      };
+    }
+
     const body = renderRewardsHTML(rewards);
 
     return {
       statusCode: 200,
-      headers: { 'content-type': 'text/html; charset=utf-8' },
+      headers: { 'content-type': 'text/html; charset=utf-8', 'vary': 'X-Device-Type' },
       body,
     };
   } catch (err) {
@@ -104,4 +121,4 @@ async function main(params) {
   }
 }
 
-module.exports = { main };
+module.exports = { main, renderRewardsHTML };
