@@ -34,6 +34,7 @@ export default function decorate(block) {
     await import('/blocks/cards/qsr-cards.js');
     const wc = document.createElement('qsr-cards');
     wc.setAttribute('items', JSON.stringify(items));
+    wc.setAttribute('devicetype', document.documentElement.dataset.device || 'desktop');
     block.replaceWith(wc);
   }, { rootMargin: '200px' });
   observer.observe(block);

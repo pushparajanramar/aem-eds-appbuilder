@@ -1,22 +1,31 @@
 <svelte:options customElement="qsr-hero" />
 
 <script>
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
+
   export let imageurl = '';
   export let imagealt = '';
   export let contenthtml = '';
+  export let devicetype = 'desktop';
+
+  $: imageWidth = getImageWidthForDevice(devicetype);
 </script>
 
 <section class="hero">
   {#if imageurl}
     <div class="hero__media">
-      <img
-        src={imageurl}
-        alt={imagealt}
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
-        class="hero__img"
-      />
+      <picture>
+        <source type="image/webp" srcset={buildDynamicMediaSrcset(imageurl, imageWidth)} />
+        <img
+          src={buildDynamicMediaUrl(imageurl, imageWidth, { format: 'jpeg' })}
+          alt={imagealt}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          width={imageWidth}
+          class="hero__img"
+        />
+      </picture>
     </div>
   {/if}
   {#if contenthtml}

@@ -31,6 +31,7 @@ export default function decorate(block) {
     await import('/blocks/columns/qsr-columns.js');
     const wc = document.createElement('qsr-columns');
     wc.setAttribute('columndata', JSON.stringify(columndata));
+    wc.setAttribute('devicetype', document.documentElement.dataset.device || 'desktop');
     block.replaceWith(wc);
   }, { rootMargin: '200px' });
   observer.observe(block);

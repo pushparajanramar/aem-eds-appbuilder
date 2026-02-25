@@ -1,9 +1,13 @@
 <svelte:options customElement="qsr-cards" />
 
 <script>
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
+
   export let items = '[]';
+  export let devicetype = 'desktop';
 
   $: parsedItems = (() => { try { return JSON.parse(items); } catch(e) { return []; } })();
+  $: imageWidth = getImageWidthForDevice(devicetype);
 
   function handleClick(i, title) {
     dispatchEvent(new CustomEvent('qsr:cards:click', {
@@ -33,20 +37,30 @@
           <div class="cards__media">
             {#if item.href}
               <a href={item.href} tabindex="-1" aria-hidden="true">
-                <img
-                  src={item.imageUrl}
-                  alt={item.imageAlt || ''}
-                  loading="lazy"
-                  class="cards__img"
-                />
+                <picture>
+                  <source type="image/webp" srcset={buildDynamicMediaSrcset(item.imageUrl, imageWidth)} />
+                  <img
+                    src={buildDynamicMediaUrl(item.imageUrl, imageWidth, { format: 'jpeg' })}
+                    alt={item.imageAlt || ''}
+                    loading="lazy"
+                    decoding="async"
+                    width={imageWidth}
+                    class="cards__img"
+                  />
+                </picture>
               </a>
             {:else}
-              <img
-                src={item.imageUrl}
-                alt={item.imageAlt || ''}
-                loading="lazy"
-                class="cards__img"
-              />
+              <picture>
+                <source type="image/webp" srcset={buildDynamicMediaSrcset(item.imageUrl, imageWidth)} />
+                <img
+                  src={buildDynamicMediaUrl(item.imageUrl, imageWidth, { format: 'jpeg' })}
+                  alt={item.imageAlt || ''}
+                  loading="lazy"
+                  decoding="async"
+                  width={imageWidth}
+                  class="cards__img"
+                />
+              </picture>
             {/if}
           </div>
         {/if}

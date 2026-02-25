@@ -32,6 +32,7 @@ export default function decorate(block) {
     wc.setAttribute('imageurl', imageurl);
     wc.setAttribute('imagealt', imagealt);
     wc.setAttribute('contenthtml', contenthtml);
+    wc.setAttribute('devicetype', document.documentElement.dataset.device || 'desktop');
     block.replaceWith(wc);
   }, { rootMargin: '200px' });
   observer.observe(block);

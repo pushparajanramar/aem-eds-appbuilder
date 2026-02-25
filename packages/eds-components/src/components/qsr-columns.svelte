@@ -1,21 +1,30 @@
 <svelte:options customElement="qsr-columns" />
 
 <script>
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
+
   export let columndata = '[]';
+  export let devicetype = 'desktop';
 
   $: parsedCols = (() => { try { return JSON.parse(columndata); } catch(e) { return []; } })();
+  $: imageWidth = getImageWidthForDevice(devicetype);
 </script>
 
 <div class="columns__row columns__row--{parsedCols.length}-cols">
   {#each parsedCols as col}
     {#if col.isImage}
       <div class="columns__img-col">
-        <img
-          src={col.imageUrl}
-          alt={col.imageAlt || ''}
-          loading="lazy"
-          class="columns__img"
-        />
+        <picture>
+          <source type="image/webp" srcset={buildDynamicMediaSrcset(col.imageUrl, imageWidth)} />
+          <img
+            src={buildDynamicMediaUrl(col.imageUrl, imageWidth, { format: 'jpeg' })}
+            alt={col.imageAlt || ''}
+            loading="lazy"
+            decoding="async"
+            width={imageWidth}
+            class="columns__img"
+          />
+        </picture>
       </div>
     {:else}
       <div class="columns__text-col">

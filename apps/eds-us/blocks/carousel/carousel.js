@@ -30,6 +30,7 @@ export default function decorate(block) {
     await import('/blocks/carousel/qsr-carousel.js');
     const wc = document.createElement('qsr-carousel');
     wc.setAttribute('slides', JSON.stringify(slides));
+    wc.setAttribute('devicetype', document.documentElement.dataset.device || 'desktop');
     block.replaceWith(wc);
   }, { rootMargin: '200px' });
   observer.observe(block);
