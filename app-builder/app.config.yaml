@@ -61,6 +61,17 @@ packages:
           market: us
           LOG_LEVEL: info
 
+      device-provider:
+        function: actions/device-provider/index.js
+        web: 'yes'
+        runtime: nodejs:18
+        annotations:
+          require-adobe-auth: false
+          final: true
+        inputs:
+          market: us
+          LOG_LEVEL: info
+
       webhook:
         function: actions/webhook/index.js
         web: 'yes'
