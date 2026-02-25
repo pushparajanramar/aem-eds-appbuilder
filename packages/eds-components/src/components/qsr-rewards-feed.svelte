@@ -238,4 +238,11 @@
   .feed-card__redeem:hover {
     background: var(--color-green-dark);
   }
+
+  @media (min-width: 768px) {
+    .feed__list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 </style>

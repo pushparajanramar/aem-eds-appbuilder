@@ -221,4 +221,15 @@
     background: var(--color-warm-neutral);
     color: var(--color-text-primary);
   }
+
+  @media (max-width: 480px) {
+    .profile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .profile__signout {
+      align-self: flex-end;
+    }
+  }
 </style>
