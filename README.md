@@ -57,9 +57,16 @@ Adobe App Builder (Adobe I/O Runtime)
     ├─ menu-provider    → text/html EDS block markup
     ├─ store-provider   → text/html EDS block markup
     ├─ rewards-provider → text/html EDS block markup (IMS-gated)
+    ├─ user-provider    → text/html EDS block markup (IMS-gated)
+    ├─ bff-proxy        → application/json BFF module proxy (IMS-gated)
+    ├─ device-provider  → text/html meta snippet or application/json layout hints
     └─ webhook          → triggers EDS Admin API cache purge / reindex
             │
             ▼
+Fastly CDN
+    │  (device detection via VCL — sets X-Device-Type header)
+    │  (URL routing — subdomain redirect / subdirectory rewrite)
+    ▼
 AEM Edge Delivery Services (aem.live)
     ├─ apps/eds-us   (main--qsr-us--org.aem.live)
     ├─ apps/eds-uk   (main--qsr-uk--org.aem.live)
@@ -81,10 +88,15 @@ aem-eds-appbuilder/
 │       ├── menu-provider/         # BYOM action — /menu overlay
 │       ├── store-provider/        # BYOM action — /stores overlay
 │       ├── rewards-provider/      # BYOM action — /rewards overlay (auth required)
+│       ├── user-provider/         # BYOM action — /account overlay (auth required)
+│       ├── bff-proxy/             # Secure BFF module proxy — /rewards-feed overlay (auth required)
+│       ├── device-provider/       # Device-aware layout hints action
 │       ├── webhook/               # AEM Author webhook handler
 │       └── shared/
-│           ├── market-config.js   # EDS host + locale per market
-│           └── url-utils.js       # Safe URL helpers
+│           ├── market-config.js   # EDS host + locale + timezone per market
+│           ├── url-utils.js       # Safe URL helpers + Dynamic Media URL builders
+│           ├── device-utils.js    # Device type detection and layout configuration
+│           └── datalog.js         # Structured request audit logging
 │
 ├── apps/                          # EDS site configurations (one per market)
 │   ├── eds-us/
@@ -113,6 +125,11 @@ aem-eds-appbuilder/
 │       │       └── auth.js
 │       ├── vite.config.js
 │       └── package.json
+│
+├── fastly/                        # Fastly CDN configuration
+│   └── vcl/
+│       ├── device-detection.vcl   # Dynamic Serving — sets X-Device-Type header
+│       └── url-routing.vcl        # Device-based URL routing (subdomain / subdirectory)
 │
 └── .github/
     └── workflows/
@@ -246,11 +263,11 @@ Built bundles are written to `packages/eds-components/dist/` and referenced by t
 
 Market-specific EDS hosts and locales are defined in [`app-builder/actions/shared/market-config.js`](app-builder/actions/shared/market-config.js):
 
-| Market | EDS Host | Locale | Currency |
-|---|---|---|---|
-| `us` | `main--qsr-us--org.aem.live` | `en-US` | USD |
-| `uk` | `main--qsr-uk--org.aem.live` | `en-GB` | GBP |
-| `jp` | `main--qsr-jp--org.aem.live` | `ja-JP` | JPY |
+| Market | EDS Host | Locale | Currency | Timezone |
+|---|---|---|---|---|
+| `us` | `main--qsr-us--org.aem.live` | `en-US` | USD | `America/Los_Angeles` |
+| `uk` | `main--qsr-uk--org.aem.live` | `en-GB` | GBP | `Europe/London` |
+| `jp` | `main--qsr-jp--org.aem.live` | `ja-JP` | JPY | `Asia/Tokyo` |
 
 ### Site Configuration
 
@@ -261,9 +278,11 @@ Each market has a `config/site-config.json` that maps overlay routes to App Buil
   "version": "1.0",
   "siteId": "qsr-us",
   "overlays": {
-    "/menu":    { "provider": "menu-provider",    "url": "https://{app-builder-host}/api/v1/web/qsr/menu-provider", "cacheTtl": 300 },
-    "/stores":  { "provider": "store-provider",   "url": "https://{app-builder-host}/api/v1/web/qsr/store-provider", "cacheTtl": 600 },
-    "/rewards": { "provider": "rewards-provider", "url": "https://{app-builder-host}/api/v1/web/qsr/rewards-provider", "cacheTtl": 120 }
+    "/menu":         { "provider": "menu-provider",    "url": "https://{app-builder-host}/api/v1/web/qsr/menu-provider", "cacheTtl": 300 },
+    "/stores":       { "provider": "store-provider",   "url": "https://{app-builder-host}/api/v1/web/qsr/store-provider", "cacheTtl": 600 },
+    "/rewards":      { "provider": "rewards-provider", "url": "https://{app-builder-host}/api/v1/web/qsr/rewards-provider", "cacheTtl": 120 },
+    "/account":      { "provider": "user-provider",    "url": "https://{app-builder-host}/api/v1/web/qsr/user-provider", "cacheTtl": 60 },
+    "/rewards-feed": { "provider": "bff-proxy",        "url": "https://{app-builder-host}/api/v1/web/qsr/bff-proxy", "cacheTtl": 60 }
   },
   "auth": { "clientId": "{IMS_CLIENT_ID}", "scope": "openid,AdobeID,read_organizations" },
   "market": "us",
@@ -323,6 +342,35 @@ All actions live under the `qsr` package as declared in [`app-builder/app.config
 | Auth | **Required** (`require-adobe-auth: true`) |
 | Params | `market` (default `us`), `path` (required), `event` (`publish` \| `unpublish` \| `delete`), `LOG_LEVEL` |
 | Returns | `application/json` — `{ result: 'ok', event, path, market, edsHost }` |
+
+### `user-provider`
+
+| Property | Value |
+|---|---|
+| Endpoint | `GET /api/v1/web/qsr/user-provider` |
+| Auth | **Required** (`require-adobe-auth: true`) — Adobe IMS bearer token |
+| Params | `market` (default `us`), `LOG_LEVEL` |
+| Returns | `text/html` — EDS `user-profile` block markup for the `/account` overlay |
+
+### `bff-proxy`
+
+| Property | Value |
+|---|---|
+| Endpoint | `GET\|POST /api/v1/web/qsr/bff-proxy` |
+| Auth | **Required** (`require-adobe-auth: true`) — Adobe IMS bearer token |
+| Params | `market` (default `us`), `module` (allowlisted BFF module name, required), `subpath` (optional), `method` (default `GET`), `body` (for POST), `LOG_LEVEL` |
+| Returns | `application/json` — proxied BFF response |
+
+### `device-provider`
+
+| Property | Value |
+|---|---|
+| Endpoint | `GET /api/v1/web/qsr/device-provider` |
+| Auth | None (`require-adobe-auth: false`) |
+| Params | `market` (default `us`), `deviceType` (override, optional), `LOG_LEVEL` |
+| Returns | `text/html` — `<meta>` snippet for `<head>` injection (when `Accept: text/html`), or `application/json` — `{ deviceType, layout, market, locale }` |
+
+The `device-provider` action reads the `X-Device-Type` header set by Fastly VCL (`fastly/vcl/device-detection.vcl`). Supported device types: `mobile`, `tablet`, `desktop`, `kiosk`, `digital-menu-board`, `headless`.
 
 ---
 

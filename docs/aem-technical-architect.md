@@ -48,14 +48,19 @@ All actions are declared under the `qsr` package in [`app-builder/app.config.yam
 | `menu-provider` | No | 300 s | `text/html` menu-item block markup |
 | `store-provider` | No | 600 s | `text/html` store-locator block markup |
 | `rewards-provider` | **Yes** (IMS bearer) | 120 s | `text/html` promotion-banner block markup |
+| `user-provider` | **Yes** (IMS bearer) | 60 s | `text/html` user-profile block markup |
+| `bff-proxy` | **Yes** (IMS bearer) | 60 s | `application/json` proxied BFF response |
+| `device-provider` | No | 0 s (Vary: X-Device-Type) | `text/html` meta snippet or `application/json` layout hints |
 | `webhook` | **Yes** | — | `application/json` purge result |
 
 ### Shared Utilities
 
 ```
 app-builder/actions/shared/
-├── market-config.js   # EDS host + locale per market (us / uk / jp)
-└── url-utils.js       # Safe URL construction helpers
+├── market-config.js   # EDS host + locale + timezone per market (us / uk / jp)
+├── url-utils.js       # Safe URL construction helpers + Dynamic Media URL builders
+├── device-utils.js    # Device type detection and layout configuration
+└── datalog.js         # Structured request audit logging (JSON lines)
 ```
 
 These are the only files shared across all actions. Changes here require cross-action regression testing.
@@ -70,6 +75,17 @@ Shared components live in `packages/eds-components/src/components/` and are bund
 | `qsr-product-customizer.svelte` | Size/milk/syrup customiser in the `product-detail` block |
 
 Build output is copied to `apps/eds-*/blocks/` during the CI/CD pipeline.
+
+### Fastly CDN
+
+Fastly sits in front of the EDS origin and provides device detection and URL routing via VCL:
+
+| File | Purpose |
+|---|---|
+| `fastly/vcl/device-detection.vcl` | Normalises the User-Agent into a compact `X-Device-Type` token (`mobile`, `tablet`, `desktop`, `kiosk`, `digital-menu-board`, `headless`) and sets the `Vary: X-Device-Type` response header |
+| `fastly/vcl/url-routing.vcl` | Implements subdomain redirect (Pattern B) and subdirectory rewrite (Pattern C) based on `X-Device-Type` |
+
+The `X-Device-Type` header is forwarded to App Builder actions; the `device-provider` action reads it to return device-appropriate HTML or JSON layout hints.
 
 ---
 
