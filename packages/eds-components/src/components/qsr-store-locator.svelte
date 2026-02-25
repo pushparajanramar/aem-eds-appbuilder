@@ -83,8 +83,8 @@
   </form>
 
   {#if isLoading}
-    <div class="locator__status" aria-busy="true">
-      <div class="spinner" aria-label="Searching for stores…"></div>
+    <div class="locator__status" role="status" aria-busy="true">
+      <div class="spinner" role="img" aria-label="Searching for stores…"></div>
     </div>
   {:else if error}
     <div class="locator__error" role="alert">{error}</div>
@@ -180,6 +180,16 @@
 
   .locator__btn--locate:hover {
     background: var(--color-border);
+  }
+
+  .locator__input:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+  }
+
+  .locator__btn:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
   }
 
   .locator__status {

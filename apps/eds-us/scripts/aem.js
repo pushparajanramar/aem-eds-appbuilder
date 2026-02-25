@@ -153,6 +153,15 @@ export async function decorateMain(main) {
 export async function loadPage() {
   const main = document.querySelector('main');
   if (main) {
+    // WCAG 2.4.1: Add skip-to-main-content link if not already present
+    if (!document.querySelector('.skip-to-main')) {
+      if (!main.id) main.id = 'main-content';
+      const skip = document.createElement('a');
+      skip.href = `#${main.id}`;
+      skip.className = 'skip-to-main';
+      skip.textContent = 'Skip to main content';
+      document.body.prepend(skip);
+    }
     await decorateMain(main);
     applyDeviceType();
     loadCSS('/styles/device.css');

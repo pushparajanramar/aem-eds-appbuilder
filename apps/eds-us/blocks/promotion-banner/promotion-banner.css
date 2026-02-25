@@ -74,6 +74,12 @@
   color: var(--color-green-dark);
 }
 
+/* ── Focus visibility (WCAG 2.4.7) ─────────────────────────────────────── */
+.promotion-banner__cta:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
 @media (min-width: 768px) {
   .promotion-banner__inner {
     flex-direction: row;
