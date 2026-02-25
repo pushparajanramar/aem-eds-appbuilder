@@ -11,7 +11,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
-const { safeUrl } = require('../shared/url-utils');
+const { safeUrl, buildDynamicMediaUrl } = require('../shared/url-utils');
 const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
 
 /**
@@ -55,6 +55,10 @@ function renderMenuHTML(items, layout = { columns: 3, imageWidth: 800, fontSize:
       <div><div>${escapeHtml(item.price || '')}</div></div>
       <div><div>item-id</div><div>${escapeHtml(item.id)}</div></div>
       <div><div>category</div><div>${escapeHtml(item.category || 'drinks')}</div></div>
+      ${item.imageUrl ? `<div><div><picture>
+        <source type="image/webp" srcset="${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth))} 1x, ${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth * 2))} 2x">
+        <img src="${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth, { format: 'jpeg' }))}" alt="${escapeHtml(item.title)}" loading="lazy" width="${layout.imageWidth}">
+      </picture></div></div>` : ''}
     </div>`,
     )
     .join('\n');
