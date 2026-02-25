@@ -9,6 +9,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl } = require('../shared/url-utils');
+const { logRequest } = require('../shared/datalog');
 
 /**
  * Fetch rewards catalog from the upstream rewards API.
@@ -77,6 +78,7 @@ function escapeHtml(str) {
  */
 async function main(params) {
   const logger = Core.Logger('rewards-provider', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'rewards-provider', params);
 
   const market = params.market || 'us';
   const { edsHost, locale } = getMarketConfig(market);

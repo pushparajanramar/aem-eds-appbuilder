@@ -9,6 +9,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
+const { logRequest } = require('../shared/datalog');
 
 /**
  * Fetch store locations from the BFF locations endpoint.
@@ -96,6 +97,7 @@ function escapeHtml(str) {
  */
 async function main(params) {
   const logger = Core.Logger('store-provider', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'store-provider', params);
 
   const market = params.market || 'us';
   const { city, lat, lng, place } = params;
