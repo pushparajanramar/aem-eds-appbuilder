@@ -1,7 +1,7 @@
 {
-  "name": "@starbucks/app-builder",
+  "name": "@qsr/app-builder",
   "version": "1.0.0",
-  "description": "Adobe App Builder BYOM actions for Starbucks EDS",
+  "description": "Adobe App Builder BYOM actions for Quick Service Restaurant EDS",
   "private": true,
   "scripts": {
     "deploy": "aio app deploy",

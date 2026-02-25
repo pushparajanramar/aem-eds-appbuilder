@@ -40,9 +40,9 @@ This checklist must be completed in full and signed off by the Project Manager a
 ### 1.2 EDS Sites
 
 - [ ] All three EDS sites accessible at production live hosts:
-  - [ ] `main--sbux-us--org.aem.live` (US)
-  - [ ] `main--sbux-uk--org.aem.live` (UK)
-  - [ ] `main--sbux-jp--org.aem.live` (JP)
+  - [ ] `main--qsr-us--org.aem.live` (US)
+  - [ ] `main--qsr-uk--org.aem.live` (UK)
+  - [ ] `main--qsr-jp--org.aem.live` (JP)
 - [ ] EDS Admin API `publish` confirmed for all required page paths per market
 - [ ] `fstab.yaml` confirmed and pointing to production content source
 - [ ] AEM Bot installed and verified on all market EDS repositories
@@ -70,7 +70,7 @@ This checklist must be completed in full and signed off by the Project Manager a
 
 ### 2.1 US Market
 
-- [ ] All required pages published and accessible at `main--sbux-us--org.aem.live`
+- [ ] All required pages published and accessible at `main--qsr-us--org.aem.live`
 - [ ] `/menu/query-index.json` populated with ≥ 20 menu items
 - [ ] `/stores/query-index.json` populated with ≥ 10 stores
 - [ ] `/rewards/query-index.json` populated (if rewards page is in scope for US go-live)
@@ -81,7 +81,7 @@ This checklist must be completed in full and signed off by the Project Manager a
 
 ### 2.2 UK Market
 
-- [ ] All required pages published and accessible at `main--sbux-uk--org.aem.live`
+- [ ] All required pages published and accessible at `main--qsr-uk--org.aem.live`
 - [ ] `/menu/query-index.json` populated (UK-specific menu items)
 - [ ] `/stores/query-index.json` populated (UK stores)
 - [ ] UK cookie consent banner present and functional (GDPR / PECR)
@@ -90,7 +90,7 @@ This checklist must be completed in full and signed off by the Project Manager a
 
 ### 2.3 JP Market
 
-- [ ] All required pages published and accessible at `main--sbux-jp--org.aem.live`
+- [ ] All required pages published and accessible at `main--qsr-jp--org.aem.live`
 - [ ] `/menu/query-index.json` populated (JP-specific menu items in Japanese)
 - [ ] `/stores/query-index.json` populated (JP stores)
 - [ ] Japanese character rendering verified (headings, body copy, product names)
@@ -105,7 +105,7 @@ This checklist must be completed in full and signed off by the Project Manager a
 
 ### 3.1 Adobe Analytics
 
-- [ ] Production report suites receiving data: `sbux-us-prod`, `sbux-uk-prod`, `sbux-jp-prod`
+- [ ] Production report suites receiving data: `qsr-us-prod`, `qsr-uk-prod`, `qsr-jp-prod`
 - [ ] All `page_view` events firing on every page with correct `eVar1` (market) values
 - [ ] `menu_click` events firing on menu item interactions
 - [ ] `product_view` events firing on product detail pages
@@ -115,7 +115,7 @@ This checklist must be completed in full and signed off by the Project Manager a
 
 ### 3.2 Adobe Target
 
-- [ ] Production Target workspace active: `Starbucks Global`, `Starbucks US`, `Starbucks UK`, `Starbucks JP`
+- [ ] Production Target workspace active: `Quick Service Restaurant Global`, `Quick Service Restaurant US`, `Quick Service Restaurant UK`, `Quick Service Restaurant JP`
 - [ ] Global mbox firing on all pages with correct mbox parameters (`market`, `pageType`)
 - [ ] No test activities active at go-live (clean baseline required)
 - [ ] On-device decisioning configured for JP (if enabled)
@@ -136,9 +136,9 @@ This checklist must be completed in full and signed off by the Project Manager a
 
 ## 4. Pre-Go-Live: UAT Sign-off
 
-- [ ] UAT completed for US market — Starbucks Content Lead sign-off obtained
-- [ ] UAT completed for UK market — Starbucks Content Lead sign-off obtained
-- [ ] UAT completed for JP market — Starbucks Content Lead sign-off obtained
+- [ ] UAT completed for US market — Quick Service Restaurant Content Lead sign-off obtained
+- [ ] UAT completed for UK market — Quick Service Restaurant Content Lead sign-off obtained
+- [ ] UAT completed for JP market — Quick Service Restaurant Content Lead sign-off obtained
 - [ ] All P1 and P2 UAT defects resolved
 - [ ] All UAT defects logged in project management tool and triaged
 - [ ] Regression test pass completed after final defect fixes
@@ -179,7 +179,7 @@ This checklist must be completed in full and signed off by the Project Manager a
   - [ ] EDS CDN error rate alert configured
   - [ ] Uptime monitoring for all three live EDS hosts
 - [ ] Incident response process communicated to the team
-- [ ] Starbucks IT contacts confirmed (for DNS cutover and infrastructure issues)
+- [ ] Quick Service Restaurant IT contacts confirmed (for DNS cutover and infrastructure issues)
 
 ---
 
@@ -207,7 +207,7 @@ Complete these within 24–72 hours of go-live:
 - [ ] Adobe Analytics report confirms data flowing correctly into production report suites
 - [ ] App Builder action error rate < 0.1 % in production (check I/O Runtime console)
 - [ ] Any P1 post-launch defects triaged and resolved within SLA
-- [ ] Starbucks stakeholders notified with go-live confirmation and initial performance snapshot
+- [ ] Quick Service Restaurant stakeholders notified with go-live confirmation and initial performance snapshot
 - [ ] Retrospective scheduled within 5 business days of go-live
 
 ---
@@ -217,7 +217,7 @@ Complete these within 24–72 hours of go-live:
 | Item | Verified by | Date |
 |---|---|---|
 | Technical readiness | AEM Technical Architect | |
-| Content readiness | Starbucks Content Lead | |
+| Content readiness | Quick Service Restaurant Content Lead | |
 | Analytics readiness | Analytics Consultant | |
 | UAT sign-off | AEM Consultant (Functional) | |
 | Performance sign-off | AEM Technical Architect | |
@@ -226,7 +226,7 @@ Complete these within 24–72 hours of go-live:
 
 **Final go-live approval:**
 
-- [ ] Starbucks Programme Lead: _______________________
+- [ ] Quick Service Restaurant Programme Lead: _______________________
 - [ ] Client Partner: _______________________
 - [ ] Project Manager: _______________________
 - [ ] Date approved: _______________________

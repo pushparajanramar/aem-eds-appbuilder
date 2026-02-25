@@ -1,7 +1,7 @@
 /**
  * Menu Item Block
  *
- * Lazy-loads the sbux-menu-card Web Component via IntersectionObserver.
+ * Lazy-loads the qsr-menu-card Web Component via IntersectionObserver.
  * Follows RULE 1 (Vanilla JS only) and RULE 2 (UE annotations required).
  */
 
@@ -42,8 +42,8 @@ export default async function decorate(block) {
     async ([entry]) => {
       if (!entry.isIntersecting) return;
       observer.disconnect();
-      await import('/blocks/menu-item/sbux-menu-card.js');
-      const wc = Object.assign(document.createElement('sbux-menu-card'), {
+      await import('/blocks/menu-item/qsr-menu-card.js');
+      const wc = Object.assign(document.createElement('qsr-menu-card'), {
         itemid: itemId,
         market,
         category,

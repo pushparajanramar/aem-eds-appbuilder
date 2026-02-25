@@ -83,8 +83,8 @@ jobs:
         with:
           name: wc-bundles
           path: |
-            apps/eds-us/blocks/product-detail/sbux-product-customizer.js
-            apps/eds-us/blocks/menu-item/sbux-menu-card.js
+            apps/eds-us/blocks/product-detail/qsr-product-customizer.js
+            apps/eds-us/blocks/menu-item/qsr-menu-card.js
 
   # ─── Deploy App Builder ─────────────────────────────────────────────────
   deploy-app-builder:
@@ -144,7 +144,7 @@ jobs:
         run: |
           curl -X POST \
             -H "Authorization: Bearer $EDS_TOKEN" \
-            "https://admin.hlx.page/publish/org/sbux-us/main/*"
+            "https://admin.hlx.page/publish/org/qsr-us/main/*"
 
   deploy-eds-uk:
     name: Deploy EDS — UK
@@ -169,16 +169,16 @@ jobs:
 
       - name: Copy WC bundles to UK blocks
         run: |
-          cp apps/eds-us/blocks/product-detail/sbux-product-customizer.js \
-             apps/eds-uk/blocks/product-detail/sbux-product-customizer.js
-          cp apps/eds-us/blocks/menu-item/sbux-menu-card.js \
-             apps/eds-uk/blocks/menu-item/sbux-menu-card.js
+          cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js \
+             apps/eds-uk/blocks/product-detail/qsr-product-customizer.js
+          cp apps/eds-us/blocks/menu-item/qsr-menu-card.js \
+             apps/eds-uk/blocks/menu-item/qsr-menu-card.js
 
       - name: Publish to AEM EDS (UK)
         run: |
           curl -X POST \
             -H "Authorization: Bearer $EDS_TOKEN" \
-            "https://admin.hlx.page/publish/org/sbux-uk/main/*"
+            "https://admin.hlx.page/publish/org/qsr-uk/main/*"
 
   deploy-eds-jp:
     name: Deploy EDS — JP
@@ -203,13 +203,13 @@ jobs:
 
       - name: Copy WC bundles to JP blocks
         run: |
-          cp apps/eds-us/blocks/product-detail/sbux-product-customizer.js \
-             apps/eds-jp/blocks/product-detail/sbux-product-customizer.js
-          cp apps/eds-us/blocks/menu-item/sbux-menu-card.js \
-             apps/eds-jp/blocks/menu-item/sbux-menu-card.js
+          cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js \
+             apps/eds-jp/blocks/product-detail/qsr-product-customizer.js
+          cp apps/eds-us/blocks/menu-item/qsr-menu-card.js \
+             apps/eds-jp/blocks/menu-item/qsr-menu-card.js
 
       - name: Publish to AEM EDS (JP)
         run: |
           curl -X POST \
             -H "Authorization: Bearer $EDS_TOKEN" \
-            "https://admin.hlx.page/publish/org/sbux-jp/main/*"
+            "https://admin.hlx.page/publish/org/qsr-jp/main/*"

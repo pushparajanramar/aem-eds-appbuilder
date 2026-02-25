@@ -1,11 +1,11 @@
 <!--
-  sbux-rewards-feed Web Component
+  qsr-rewards-feed Web Component
   Covers the /bff/proxy/stream/v1/me/streamItems endpoint: personalised rewards
   and activity feed for the authenticated user.
   RULE 3: custom element declaration required
   RULE 4: CSS uses token values in :host block (Shadow DOM can't inherit from document tokens)
 -->
-<svelte:options customElement="sbux-rewards-feed" />
+<svelte:options customElement="qsr-rewards-feed" />
 
 <script>
   import { onMount } from 'svelte';
@@ -39,7 +39,7 @@
   function handleRedeem(item) {
     // RULE 3: inter-WC communication via CustomEvent with composed:true
     dispatchEvent(
-      new CustomEvent('sbux:redeem', {
+      new CustomEvent('qsr:redeem', {
         detail: { itemId: item.id, itemType: item.type, market },
         bubbles: true,
         composed: true,

@@ -1,7 +1,7 @@
 /**
  * Store Locator Block
  *
- * Lazy-loads the sbux-store-locator Web Component via IntersectionObserver.
+ * Lazy-loads the qsr-store-locator Web Component via IntersectionObserver.
  * Covers the /bff/locations endpoint: nearby-store search by lat/lng or place.
  * Follows RULE 1 (Vanilla JS only) and RULE 2 (UE annotations required).
  */
@@ -32,8 +32,8 @@ export default async function decorate(block) {
     async ([entry]) => {
       if (!entry.isIntersecting) return;
       observer.disconnect();
-      await import('/blocks/store-locator/sbux-store-locator.js');
-      const wc = Object.assign(document.createElement('sbux-store-locator'), {
+      await import('/blocks/store-locator/qsr-store-locator.js');
+      const wc = Object.assign(document.createElement('qsr-store-locator'), {
         market,
         radius,
         lat,

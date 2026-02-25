@@ -69,7 +69,7 @@ npm install -g @adobe/aio-cli
 # 2. Authenticate
 aio auth login
 
-# 3. Select the Starbucks project and workspace
+# 3. Select the Quick Service Restaurant project and workspace
 aio console project select
 aio console workspace select
 
@@ -143,8 +143,8 @@ Refer to [Front-End Styling Runbook](front-end-styling-runbook.md) for block sty
 | Block | Files | Owner |
 |---|---|---|
 | `promotion-banner` | `blocks/promotion-banner/promotion-banner.js`, `promotion-banner.css` | Tech/Dev |
-| `menu-item` | `blocks/menu-item/menu-item.js`, `menu-item.css`, `sbux-menu-card.js` (WC) | Tech/Dev |
-| `product-detail` | `blocks/product-detail/product-detail.js`, `product-detail.css`, `sbux-product-customizer.js` (WC) | Tech/Dev |
+| `menu-item` | `blocks/menu-item/menu-item.js`, `menu-item.css`, `qsr-menu-card.js` (WC) | Tech/Dev |
+| `product-detail` | `blocks/product-detail/product-detail.js`, `product-detail.css`, `qsr-product-customizer.js` (WC) | Tech/Dev |
 
 Each block JS file follows the EDS block convention:
 
@@ -265,14 +265,14 @@ See the full validation checklist in [Analytics Discovery Template §9](analytic
 
 ### 3.3 Sprint 3 — Content & Integration
 
-**Goal:** Starbucks content team has authored and published all required pages in all three markets; query indexes are populated; end-to-end overlay routes are verified.
+**Goal:** Quick Service Restaurant content team has authored and published all required pages in all three markets; query indexes are populated; end-to-end overlay routes are verified.
 
 | Story | Owner | Acceptance criteria |
 |---|---|---|
-| Menu content authored (US) | Starbucks Content + Functional Lead | `/menu/query-index.json` returns ≥ 20 items |
-| Store content authored (US) | Starbucks Content | `/stores/query-index.json` returns ≥ 10 stores |
-| Rewards content authored (US) | Starbucks Content | `/rewards/query-index.json` returns ≥ 5 items |
-| UK and JP content authored | Starbucks Content | Query indexes populated for UK and JP |
+| Menu content authored (US) | Quick Service Restaurant Content + Functional Lead | `/menu/query-index.json` returns ≥ 20 items |
+| Store content authored (US) | Quick Service Restaurant Content | `/stores/query-index.json` returns ≥ 10 stores |
+| Rewards content authored (US) | Quick Service Restaurant Content | `/rewards/query-index.json` returns ≥ 5 items |
+| UK and JP content authored | Quick Service Restaurant Content | Query indexes populated for UK and JP |
 | App Builder actions tested end-to-end | Tech/Dev | All three overlay routes return correct HTML in Dev |
 | Webhook tested end-to-end | Tech/Dev | AEM Author publish fires webhook; EDS cache purge verified |
 | Analytics tagging validated | Analytics Consultant | All events fire correctly per AA BRD |
@@ -283,7 +283,7 @@ See the full validation checklist in [Analytics Discovery Template §9](analytic
 
 | Story | Owner | Acceptance criteria |
 |---|---|---|
-| UAT facilitated (US market) | Functional Lead | All acceptance criteria met; sign-off obtained from Starbucks Content Lead |
+| UAT facilitated (US market) | Functional Lead | All acceptance criteria met; sign-off obtained from Quick Service Restaurant Content Lead |
 | UAT facilitated (UK market) | Functional Lead | Same as US |
 | UAT facilitated (JP market) | Functional Lead | Same as US; JP character rendering verified |
 | Lighthouse performance audit | Tech/Dev | LCP < 2.5 s, CLS < 0.1 on all page types and markets |
@@ -313,7 +313,7 @@ See [`README.md` — App Builder Actions Reference](../README.md#app-builder-act
 
 1. Create a folder: `app-builder/actions/<action-name>/`.
 2. Add `index.js` with the action handler.
-3. Register the action in `app-builder/app.config.yaml` under the `starbucks` package.
+3. Register the action in `app-builder/app.config.yaml` under the `qsr` package.
 4. Add unit tests in `app-builder/actions/<action-name>/index.test.js`.
 5. Update the relevant market's `site-config.json` overlay entry.
 
@@ -344,8 +344,8 @@ npm run build  # Production bundle → dist/
 After building, copy bundles to the relevant block directories:
 
 ```bash
-cp dist/sbux-menu-card.js          ../../apps/eds-us/blocks/menu-item/
-cp dist/sbux-product-customizer.js ../../apps/eds-us/blocks/product-detail/
+cp dist/qsr-menu-card.js          ../../apps/eds-us/blocks/menu-item/
+cp dist/qsr-product-customizer.js ../../apps/eds-us/blocks/product-detail/
 ```
 
 The CI/CD pipeline (`deploy.yml`) performs this copy step automatically.
@@ -385,7 +385,7 @@ See [README §Deployment Guide](../README.md#deployment-guide) for manual deploy
 | Analytics validation | Experience Platform Debugger | Sprint 3 |
 | Performance audit | Lighthouse | Sprint 4 |
 | Accessibility audit | axe DevTools | Sprint 4 |
-| UAT | Manual (Starbucks content teams) | Sprint 4 |
+| UAT | Manual (Quick Service Restaurant content teams) | Sprint 4 |
 
 ---
 

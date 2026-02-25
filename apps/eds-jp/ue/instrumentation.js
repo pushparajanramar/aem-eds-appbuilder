@@ -13,7 +13,7 @@
  * Falls back to the current page path for DA/SharePoint-backed pages.
  *
  * @param {HTMLElement} block
- * @returns {string} CF path, e.g. "/content/dam/starbucks/products/grande-latte"
+ * @returns {string} CF path, e.g. "/content/dam/qsr/products/grande-latte"
  */
 export function getCFPath(block) {
   const anchor = block.querySelector('a[href]');
@@ -65,7 +65,7 @@ export function annotateField(el, { prop, type, label }) {
 /**
  * Builds an AEM Connection URN from a CF path.
  *
- * @param {string} cfPath - Absolute CF path, e.g. "/content/dam/starbucks/..."
+ * @param {string} cfPath - Absolute CF path, e.g. "/content/dam/qsr/..."
  * @returns {string}
  */
 export function buildAEMUrn(cfPath) {

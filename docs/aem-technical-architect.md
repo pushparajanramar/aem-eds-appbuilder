@@ -34,14 +34,14 @@ Adobe App Builder (Adobe I/O Runtime)
             │
             ▼
 AEM Edge Delivery Services (aem.live)
-    ├─ apps/eds-us   (main--sbux-us--org.aem.live)
-    ├─ apps/eds-uk   (main--sbux-uk--org.aem.live)
-    └─ apps/eds-jp   (main--sbux-jp--org.aem.live)
+    ├─ apps/eds-us   (main--qsr-us--org.aem.live)
+    ├─ apps/eds-uk   (main--qsr-uk--org.aem.live)
+    └─ apps/eds-jp   (main--qsr-jp--org.aem.live)
 ```
 
 ### App Builder Actions
 
-All actions are declared under the `starbucks` package in [`app-builder/app.config.yaml`](../app-builder/app.config.yaml):
+All actions are declared under the `qsr` package in [`app-builder/app.config.yaml`](../app-builder/app.config.yaml):
 
 | Action | Auth Required | Cache TTL | Returns |
 |---|---|---|---|
@@ -66,8 +66,8 @@ Shared components live in `packages/eds-components/src/components/` and are bund
 
 | Component | Purpose |
 |---|---|
-| `sbux-menu-card.svelte` | Menu item card displayed by the `menu-item` block |
-| `sbux-product-customizer.svelte` | Size/milk/syrup customiser in the `product-detail` block |
+| `qsr-menu-card.svelte` | Menu item card displayed by the `menu-item` block |
+| `qsr-product-customizer.svelte` | Size/milk/syrup customiser in the `product-detail` block |
 
 Build output is copied to `apps/eds-*/blocks/` during the CI/CD pipeline.
 
