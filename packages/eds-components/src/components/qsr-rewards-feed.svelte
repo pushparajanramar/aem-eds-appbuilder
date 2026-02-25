@@ -53,8 +53,8 @@
 </script>
 
 {#if isLoading}
-  <div class="feed feed--loading" aria-busy="true">
-    <div class="spinner" aria-label="Loading rewards…"></div>
+  <div class="feed feed--loading" role="status" aria-busy="true">
+    <div class="spinner" role="img" aria-label="Loading rewards…"></div>
   </div>
 {:else if error}
   <div class="feed feed--error" role="alert">
@@ -89,7 +89,7 @@
             <p class="feed-card__expires">Expires: {item.expiresAt}</p>
           {/if}
           {#if item.redeemable}
-            <button class="feed-card__redeem" on:click={() => handleRedeem(item)}>
+            <button class="feed-card__redeem" on:click={() => handleRedeem(item)} aria-label="Redeem {item.title ?? 'reward'}">
               Redeem
             </button>
           {/if}
@@ -104,7 +104,7 @@
   :host {
     --color-green-primary: #00704a;
     --color-green-dark: #1e3932;
-    --color-gold: #cba258;
+    --color-gold: #7d5b00;
     --color-white: #ffffff;
     --color-warm-neutral: #f2f0eb;
     --color-text-primary: #1e3932;
@@ -237,6 +237,11 @@
 
   .feed-card__redeem:hover {
     background: var(--color-green-dark);
+  }
+
+  .feed-card__redeem:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
   }
 
   @media (min-width: 768px) {

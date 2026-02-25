@@ -64,8 +64,8 @@
 </script>
 
 {#if isLoading}
-  <div class="customizer customizer--loading" aria-busy="true">
-    <div class="spinner" aria-label="Loading product…"></div>
+  <div class="customizer customizer--loading" role="status" aria-busy="true">
+    <div class="spinner" role="img" aria-label="Loading product…"></div>
   </div>
 {:else if error}
   <div class="customizer customizer--error" role="alert">
@@ -151,7 +151,7 @@
         </fieldset>
       {/if}
 
-      <button class="customizer__cta" on:click={handleAddToCart}>
+      <button class="customizer__cta" on:click={handleAddToCart} aria-label="Add {product.name} to cart — {product.basePrice}">
         Add to Cart — {product.basePrice}
       </button>
     </div>
@@ -298,6 +298,16 @@
 
   .customizer__cta:hover {
     background: var(--color-green-dark);
+  }
+
+  .customizer__cta:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
+  }
+
+  .customizer__option:focus-within {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
   }
 
   .sr-only {

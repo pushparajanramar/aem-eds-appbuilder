@@ -45,8 +45,8 @@
 </script>
 
 {#if isLoading}
-  <div class="profile profile--loading" aria-busy="true">
-    <div class="spinner" aria-label="Loading profile…"></div>
+  <div class="profile profile--loading" role="status" aria-busy="true">
+    <div class="spinner" role="img" aria-label="Loading profile…"></div>
   </div>
 {:else if error}
   <div class="profile profile--error" role="alert">
@@ -86,7 +86,7 @@
   :host {
     --color-green-primary: #00704a;
     --color-green-dark: #1e3932;
-    --color-gold: #cba258;
+    --color-gold: #7d5b00;
     --color-white: #ffffff;
     --color-warm-neutral: #f2f0eb;
     --color-text-primary: #1e3932;
@@ -220,6 +220,11 @@
   .profile__signout:hover {
     background: var(--color-warm-neutral);
     color: var(--color-text-primary);
+  }
+
+  .profile__signout:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
   }
 
   @media (max-width: 480px) {

@@ -87,3 +87,9 @@
     padding: var(--space-3) var(--space-4);
   }
 }
+
+/* ── Focus visibility (WCAG 2.4.7) ─────────────────────────────────────── */
+.menu-item .btn-customize:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}

@@ -88,4 +88,39 @@
   --max-width-content: 1280px;
   --max-width-text: 720px;
   --header-height: 64px;
+
+  /* ─── Accessibility ─────────────────────────────────────────── */
+  --focus-outline: 3px solid #005fcc;
+  --focus-outline-offset: 2px;
+}
+
+/* ─── Skip Navigation (WCAG 2.4.1) ─────────────────────────────────────── */
+.skip-to-main {
+  position: absolute;
+  top: -9999px;
+  left: 0;
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-md) 0;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* ─── Global Focus Visible (WCAG 2.4.7) ────────────────────────────────── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }

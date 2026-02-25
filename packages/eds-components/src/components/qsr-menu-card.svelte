@@ -45,7 +45,7 @@
 </script>
 
 {#if isLoading}
-  <div class="card card--loading" aria-busy="true">
+  <div class="card card--loading" role="status" aria-busy="true">
     <div class="skeleton skeleton--image"></div>
     <div class="skeleton__body">
       <div class="skeleton skeleton--text"></div>
@@ -81,7 +81,7 @@
       {/if}
     </div>
     <div class="card__actions">
-      <button class="card__btn-customize" on:click={handleCustomize}>
+      <button class="card__btn-customize" on:click={handleCustomize} aria-label="Customize {item.name}">
         Customize
       </button>
     </div>
@@ -224,6 +224,11 @@
 
   .card__btn-customize:hover {
     background: var(--color-green-dark);
+  }
+
+  .card__btn-customize:focus-visible {
+    outline: 3px solid #005fcc;
+    outline-offset: 2px;
   }
 
   @media (max-width: 480px) {
