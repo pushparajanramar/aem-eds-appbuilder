@@ -8,11 +8,13 @@
 <script>
   import { onMount } from 'svelte';
   import { fetchMenuItem } from '../utils/api.js';
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
 
   // RULE 3: Props MUST be lowercase
   export let itemid = '';
   export let market = 'us';
   export let category = 'drinks';
+  export let devicetype = 'desktop';
 
   let item = null;
   let isLoading = true;
@@ -27,6 +29,8 @@
       isLoading = false;
     }
   });
+
+  $: imageWidth = getImageWidthForDevice(devicetype);
 
   function handleCustomize() {
     // RULE 3: inter-WC communication via CustomEvent with composed:true
@@ -56,7 +60,15 @@
   <article class="card">
     {#if item.imageUrl}
       <div class="card__media">
-        <img src={item.imageUrl} alt={item.name} loading="lazy" />
+        <picture>
+          <source type="image/webp" srcset={buildDynamicMediaSrcset(item.imageUrl, imageWidth)} />
+          <img
+            src={buildDynamicMediaUrl(item.imageUrl, imageWidth, { format: 'jpeg' })}
+            alt={item.name}
+            loading="lazy"
+            width={imageWidth}
+          />
+        </picture>
       </div>
     {/if}
     <div class="card__body">

@@ -8,10 +8,12 @@
 <script>
   import { onMount } from 'svelte';
   import { fetchProduct } from '../utils/api.js';
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset, getImageWidthForDevice } from '../utils/image-utils.js';
 
   // RULE 3: Props MUST be lowercase (HTML attributes are case-insensitive)
   export let productid = '';
   export let market = 'us';
+  export let devicetype = 'desktop';
 
   let product = null;
   let selectedSize = null;
@@ -31,6 +33,8 @@
       isLoading = false;
     }
   });
+
+  $: imageWidth = getImageWidthForDevice(devicetype);
 
   function toggleExtra(extra) {
     selectedExtras = selectedExtras.includes(extra)
@@ -70,8 +74,16 @@
 {:else if product}
   <div class="customizer">
     <div class="customizer__media">
-      <img src={product.imageUrl} alt={product.name} loading="lazy" />
-    </div>
+        <picture>
+          <source type="image/webp" srcset={buildDynamicMediaSrcset(product.imageUrl, imageWidth)} />
+          <img
+            src={buildDynamicMediaUrl(product.imageUrl, imageWidth, { format: 'jpeg' })}
+            alt={product.name}
+            loading="lazy"
+            width={imageWidth}
+          />
+        </picture>
+      </div>
     <div class="customizer__body">
       <h2 class="customizer__name">{product.name}</h2>
       <p class="customizer__description">{product.description}</p>

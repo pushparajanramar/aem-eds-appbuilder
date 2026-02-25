@@ -65,4 +65,41 @@ function sanitizeBffModule(module) {
   return ALLOWED_BFF_MODULES.has(name) ? name : null;
 }
 
-module.exports = { safeUrl, sanitizeBffModule, ALLOWED_BFF_MODULES };
+/**
+ * Build an Adobe Dynamic Media (Scene7) URL for a given image and width.
+ *
+ * Appends (or overrides) the standard Dynamic Media image-serving parameters:
+ *   wid  – pixel width of the requested rendition
+ *   fmt  – image format (default: webp for broad browser support)
+ *   qlt  – quality level 0–100 (default: 85)
+ *
+ * If the input URL is not a valid absolute URL it is returned unchanged so that
+ * relative or placeholder URLs used in tests/stubs are not corrupted.
+ *
+ * @param {string} imageUrl  - Original image URL (absolute Dynamic Media URL)
+ * @param {number} width     - Desired pixel width for this rendition
+ * @param {object} [options]
+ * @param {string} [options.format='webp'] - Image format (webp | jpeg | png)
+ * @param {number} [options.quality=85]    - JPEG/WebP quality (1–100)
+ * @returns {string}
+ */
+function buildDynamicMediaUrl(imageUrl, width, options = {}) {
+  if (!imageUrl) return '';
+  const str = String(imageUrl).trim();
+  if (!str) return '';
+
+  const { format = 'webp', quality = 85 } = options;
+
+  try {
+    const url = new URL(str);
+    url.searchParams.set('wid', String(width));
+    url.searchParams.set('fmt', format);
+    url.searchParams.set('qlt', String(quality));
+    return url.toString();
+  } catch {
+    // Relative paths or non-URL strings are returned as-is
+    return str;
+  }
+}
+
+module.exports = { safeUrl, sanitizeBffModule, ALLOWED_BFF_MODULES, buildDynamicMediaUrl };

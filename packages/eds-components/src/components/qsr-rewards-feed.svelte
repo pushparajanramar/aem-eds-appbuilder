@@ -11,10 +11,14 @@
   import { onMount } from 'svelte';
   import { fetchStreamItems } from '../utils/api.js';
   import { isAuthenticated } from '../utils/auth.js';
+  import { buildDynamicMediaUrl, buildDynamicMediaSrcset } from '../utils/image-utils.js';
 
   // RULE 3: Props MUST be lowercase
   export let market = 'us';
   export let limit = '20';
+
+  // Feed card thumbnails are 100 px wide; request 100 px (1×) / 200 px (2×)
+  const FEED_IMAGE_WIDTH = 100;
 
   let items = [];
   let isLoading = true;
@@ -64,7 +68,15 @@
       <li class="feed-card" data-type={item.type ?? 'activity'}>
         {#if item.imageUrl}
           <div class="feed-card__media">
-            <img src={item.imageUrl} alt={item.title ?? ''} loading="lazy" />
+            <picture>
+              <source type="image/webp" srcset={buildDynamicMediaSrcset(item.imageUrl, FEED_IMAGE_WIDTH)} />
+              <img
+                src={buildDynamicMediaUrl(item.imageUrl, FEED_IMAGE_WIDTH, { format: 'jpeg' })}
+                alt={item.title ?? ''}
+                loading="lazy"
+                width={FEED_IMAGE_WIDTH}
+              />
+            </picture>
           </div>
         {/if}
         <div class="feed-card__body">
