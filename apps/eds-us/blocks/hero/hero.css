@@ -1,0 +1,108 @@
+@import '../../styles/tokens.css';
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 40vh;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__bg picture,
+.hero__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(30, 57, 50, 0.75) 0%, transparent 60%);
+  z-index: 1;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding: var(--space-10) var(--space-8);
+  color: var(--color-white);
+  max-width: var(--max-width-text);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.hero__content h1,
+.hero__content h2 {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.hero__content p {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  color: var(--color-white);
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-8);
+  background: var(--color-white);
+  color: var(--color-green-dark);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  align-self: flex-start;
+  min-height: 44px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.hero__cta:hover {
+  background: var(--color-green-light);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: 60vh;
+  }
+
+  .hero__content h1,
+  .hero__content h2 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .hero__content {
+    padding: var(--space-16) var(--space-12);
+  }
+}
+
+html[data-device='mobile'] .hero {
+  min-height: 40vh;
+}
+
+html[data-device='mobile'] .hero__content {
+  padding: var(--space-8) var(--space-4);
+}
+
+html[data-device='desktop'] .hero {
+  min-height: 60vh;
+}

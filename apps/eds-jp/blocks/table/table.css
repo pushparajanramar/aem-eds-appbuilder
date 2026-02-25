@@ -1,0 +1,72 @@
+@import '../../styles/tokens.css';
+
+.table {
+  width: 100%;
+}
+
+.table__wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.table__wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+}
+
+.table__wrapper thead th {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table__wrapper tbody td {
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  line-height: var(--line-height-normal);
+}
+
+.table__wrapper tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table__wrapper tbody tr:hover td {
+  background: var(--color-gray-100);
+}
+
+/* Striped variant */
+.table.striped .table__wrapper tbody tr:nth-child(even) td {
+  background: var(--color-surface);
+}
+
+/* Bordered variant */
+.table.bordered .table__wrapper th,
+.table.bordered .table__wrapper td {
+  border: 1px solid var(--color-border);
+}
+
+/* No-header variant */
+.table.no-header .table__wrapper thead {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .table__wrapper table {
+    font-size: var(--font-size-sm);
+  }
+}
+
+html[data-device='mobile'] .table__wrapper table {
+  font-size: var(--font-size-sm);
+}

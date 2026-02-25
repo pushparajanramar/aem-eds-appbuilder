@@ -1,0 +1,60 @@
+@import '../../styles/tokens.css';
+
+.breadcrumbs {
+  width: 100%;
+  padding: var(--space-3) 0;
+}
+
+.breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+}
+
+.breadcrumbs__item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs__item:not(:last-child)::after {
+  content: '/';
+  margin: 0 var(--space-2);
+  color: var(--color-border);
+  font-size: var(--font-size-xs);
+}
+
+.breadcrumbs__link {
+  color: var(--color-interactive);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumbs__link:hover {
+  color: var(--color-interactive-hover);
+  text-decoration: underline;
+}
+
+.breadcrumbs__item--active .breadcrumbs__link,
+.breadcrumbs__item--active span {
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .breadcrumbs {
+    padding: var(--space-4) 0;
+  }
+}
+
+html[data-device='mobile'] .breadcrumbs__list {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-1);
+}
