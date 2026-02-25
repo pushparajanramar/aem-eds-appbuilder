@@ -330,25 +330,36 @@ Changes to shared utilities require regression testing across **all four actions
 
 ## 5. Svelte Web Components
 
-See [AEM Consultant (Tech/Dev) Runbook](aem-consultant-tech-dev-ux-consultant.md#svelte-web-components) for the full Svelte development workflow.
+The full reference for the Svelte Web Component library is in the **[Svelte Web Components Guide](svelte-web-components-guide.md)**. That guide covers:
 
-Key build steps:
+- The complete inventory of all 22 components and their block mappings (§2)
+- The four authoring rules: `<svelte:options customElement>`, lowercase props, `CustomEvent` with `composed: true`, and Shadow DOM token copying (§3)
+- Shared utilities: `api.js`, `auth.js`, `image-utils.js` (§4)
+- The Vite build configuration: entry points, output path resolution, why ES modules (§5)
+- The IntersectionObserver lazy-loading pattern used by every EDS block (§6)
+- Step-by-step instructions for adding a new Web Component (§8)
+
+**Key build commands:**
 
 ```bash
 cd packages/eds-components
 npm ci
-npm run dev    # Vite watch mode
-npm run build  # Production bundle → dist/
+npm run dev    # Vite watch mode — rebuilds on file save, outputs to apps/eds-us/blocks/
+npm run build  # One-off production build
+npm run check  # svelte-check type checking
+npm run lint   # ESLint on Svelte sources
 ```
 
-After building, copy bundles to the relevant block directories:
+Bundles are written **directly** to `apps/eds-us/blocks/<block-name>/qsr-<name>.js`. The CI/CD pipeline copies them to `eds-uk` and `eds-jp` automatically (see §6 and `.github/workflows/deploy.yml`).
+
+During development, copy manually:
 
 ```bash
-cp dist/qsr-menu-card.js          ../../apps/eds-us/blocks/menu-item/
-cp dist/qsr-product-customizer.js ../../apps/eds-us/blocks/product-detail/
+cp apps/eds-us/blocks/menu-item/qsr-menu-card.js          apps/eds-uk/blocks/menu-item/
+cp apps/eds-us/blocks/menu-item/qsr-menu-card.js          apps/eds-jp/blocks/menu-item/
+cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-uk/blocks/product-detail/
+cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/blocks/product-detail/
 ```
-
-The CI/CD pipeline (`deploy.yml`) performs this copy step automatically.
 
 ---
 

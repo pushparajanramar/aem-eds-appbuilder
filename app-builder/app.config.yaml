@@ -81,3 +81,15 @@ packages:
           final: true
         inputs:
           LOG_LEVEL: info
+
+      sitemap-generator:
+        function: actions/sitemap-generator/index.js
+        web: 'yes'
+        runtime: nodejs:18
+        annotations:
+          require-adobe-auth: true
+          final: true
+        inputs:
+          market: us
+          push: true
+          LOG_LEVEL: info
