@@ -123,6 +123,18 @@ push to main
 
 Maintain architecture decisions as ADR (Architecture Decision Record) markdown files in `docs/adr/` using the format `NNN-short-title.md`. The Technical Architect is the approver for all ADRs.
 
+See the **[ADR index](adr/README.md)** for all current decisions.
+
+| # | Title | Status |
+|---|---|---|
+| [001](adr/001-aem-eds-app-builder-solution-architecture.md) | AEM EDS + App Builder Solution Architecture | Accepted |
+| [002](adr/002-byom-pattern-for-app-builder-actions.md) | BYOM Pattern for App Builder Actions | Accepted |
+| [003](adr/003-multi-market-single-repository.md) | Multi-Market Single-Repository Structure | Accepted |
+| [004](adr/004-ims-authentication-for-secured-actions.md) | Adobe IMS Authentication for Secured Actions | Accepted |
+| [005](adr/005-svelte-web-components-for-shared-ui.md) | Svelte Web Components for Shared UI | Accepted |
+| [006](adr/006-fastly-cdn-device-detection-and-routing.md) | Fastly CDN for Device Detection and URL Routing | Accepted |
+| [007](adr/007-github-actions-cicd-pipeline.md) | GitHub Actions CI/CD Pipeline | Accepted |
+
 ---
 
 ## Onboarding Checklist
