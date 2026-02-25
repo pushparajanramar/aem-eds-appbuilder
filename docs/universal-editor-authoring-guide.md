@@ -386,14 +386,68 @@ Recommended `include` globs and `exclude` patterns per market:
 
 **JP (`apps/eds-jp/sitemap.json`)** — same structure with the JP domain; all `loc` values must use the `ja-JP` locale path prefix if applicable (e.g., `https://www.qsr.co.jp/ja/`).
 
-### 7.4 Automated Sitemap Reindex
+### 7.4 Automated Sitemap Generation via App Builder
 
-The EDS `query-index` automatically re-crawls pages matching the `include` globs whenever the App Builder webhook action fires for a publish event. No manual sitemap regeneration step is required for standard page publishes.
+The `sitemap-generator` App Builder action generates a complete `sitemap.xml` from the EDS query index and pushes it directly to the CDN. This is the recommended approach for keeping `sitemap.xml` fresh after bulk publishes or market launches.
 
-To force a full sitemap reindex for a market:
+**How it works:**
+
+1. Fetches all published pages from `https://<edsHost>/query-index.json` (auto-paginated).
+2. Downloads `sitemap.json` from EDS to read `include`/`exclude` patterns.
+3. Filters pages by those patterns.
+4. Builds a standards-compliant `sitemap.xml` (merging explicit `changefreq`/`priority` from `siteMap`).
+5. Pushes the generated XML to the EDS CDN:
+   - `PUT https://admin.hlx.page/source/{org}/{repo}/main/sitemap.xml`
+   - `POST https://admin.hlx.page/publish/{org}/{repo}/main/sitemap.xml`
+
+**Triggering the action (all three markets):**
 
 ```bash
-# Re-index all pages in the US market
+# Generate and push sitemap for US
+curl -X POST \
+  -H "Authorization: Bearer $IMS_TOKEN" \
+  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  -d '{"market":"us","EDS_TOKEN":"<your-eds-token>"}'
+
+# Generate and push sitemap for UK
+curl -X POST \
+  -H "Authorization: Bearer $IMS_TOKEN" \
+  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  -d '{"market":"uk","EDS_TOKEN":"<your-eds-token>"}'
+
+# Generate and push sitemap for JP
+curl -X POST \
+  -H "Authorization: Bearer $IMS_TOKEN" \
+  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  -d '{"market":"jp","EDS_TOKEN":"<your-eds-token>"}'
+```
+
+**Dry-run (generate XML without pushing to CDN):**
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $IMS_TOKEN" \
+  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  -d '{"market":"us","push":"false"}'
+```
+
+**Response:**
+
+```json
+{
+  "result": "ok",
+  "market": "us",
+  "edsHost": "main--qsr-us--org.aem.live",
+  "pageCount": 47,
+  "pushed": true,
+  "sitemapUrl": "https://main--qsr-us--org.aem.live/sitemap.xml"
+}
+```
+
+To force a full query-index reindex before regenerating the sitemap (so newly published pages are included):
+
+```bash
+# Re-index all pages in the US market first
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
   "https://admin.hlx.page/index/org/qsr-us/main/*"

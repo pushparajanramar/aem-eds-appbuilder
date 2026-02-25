@@ -374,6 +374,26 @@ All actions live under the `qsr` package as declared in [`app-builder/app.config
 
 The `device-provider` action reads the `X-Device-Type` header set by Fastly VCL (`fastly/vcl/device-detection.vcl`). Supported device types: `mobile`, `tablet`, `desktop`, `kiosk`, `digital-menu-board`, `headless`.
 
+### `sitemap-generator`
+
+| Property | Value |
+|---|---|
+| Endpoint | `POST /api/v1/web/qsr/sitemap-generator` |
+| Auth | **Required** (`require-adobe-auth: true`) — Adobe IMS bearer token |
+| Params | `market` (default `us`), `EDS_TOKEN` (required when `push=true`), `push` (default `true` — set to `false` for a dry-run), `LOG_LEVEL` |
+| Returns | `application/json` — `{ result: 'ok', market, edsHost, pageCount, pushed, sitemapUrl }` |
+
+The `sitemap-generator` action:
+1. Fetches all published pages from the market's EDS query index (`/query-index.json`), auto-paginating through all results.
+2. Fetches the market's `sitemap.json` (hosted on EDS) to read `include`/`exclude` glob patterns.
+3. Filters the page index using those patterns.
+4. Builds a standards-compliant `sitemap.xml` (sitemaps.org protocol), merging authored `changefreq`/`priority` values from the explicit `siteMap` array.
+5. Pushes the generated XML to the EDS CDN:
+   - `PUT https://admin.hlx.page/source/{org}/{repo}/main/sitemap.xml` — uploads content.
+   - `POST https://admin.hlx.page/publish/{org}/{repo}/main/sitemap.xml` — makes it live.
+
+Pass `push=false` to perform a dry-run (sitemap is generated but not pushed to CDN).
+
 ---
 
 ## Deployment Guide

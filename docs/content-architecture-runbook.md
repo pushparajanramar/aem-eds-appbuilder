@@ -353,6 +353,22 @@ Each market's `sitemap.json` must be kept up to date:
 }
 ```
 
+#### Generating sitemap.xml via the App Builder Action
+
+The `sitemap-generator` App Builder action automates the creation and CDN delivery of `sitemap.xml` for any market. It fetches all published pages from the EDS query index, applies the `include`/`exclude` patterns from `sitemap.json`, builds a standards-compliant XML sitemap, and pushes it to the EDS CDN in a single step.
+
+```bash
+# Generate and push sitemap.xml for a market
+curl -X POST \
+  -H "Authorization: Bearer $IMS_TOKEN" \
+  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  -d '{"market":"us","EDS_TOKEN":"<your-eds-token>"}'
+```
+
+Run this command for each market (`us`, `uk`, `jp`) after any bulk publish or at the end of a content sprint.
+
+> See [Universal Editor Authoring Guide §7.4](universal-editor-authoring-guide.md#74-automated-sitemap-generation-via-app-builder) for the full reference including dry-run mode and response format.
+
 ---
 
 ## 6. Query Index Configuration
