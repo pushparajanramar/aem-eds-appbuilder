@@ -13,6 +13,7 @@ const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl } = require('../shared/url-utils');
 const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
+const { logRequest } = require('../shared/datalog');
 
 /**
  * Fetch menu items from the BFF ordering menu endpoint.
@@ -91,6 +92,7 @@ function escapeHtml(str) {
  */
 async function main(params) {
   const logger = Core.Logger('menu-provider', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'menu-provider', params);
 
   const market = params.market || 'us';
   const category = params.category || 'drinks';

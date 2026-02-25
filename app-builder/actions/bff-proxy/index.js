@@ -20,6 +20,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { sanitizeBffModule } = require('../shared/url-utils');
+const { logRequest } = require('../shared/datalog');
 
 /**
  * Strip any path-traversal sequences from a sub-path segment.
@@ -85,6 +86,7 @@ async function forwardToBff(edsHost, module, subpath, method, body, accessToken)
  */
 async function main(params) {
   const logger = Core.Logger('bff-proxy', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'bff-proxy', params);
 
   const market = params.market || 'us';
   // Extract access token exclusively from the Authorization header injected by

@@ -17,6 +17,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
+const { logRequest } = require('../shared/datalog');
 
 /**
  * Build the EDS-compatible HTML snippet that embeds device metadata.
@@ -58,6 +59,7 @@ function renderDeviceMetaHTML(deviceType, layout, market) {
  */
 async function main(params) {
   const logger = Core.Logger('device-provider', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'device-provider', params);
 
   const market = params.market || 'us';
   const { locale } = getMarketConfig(market);

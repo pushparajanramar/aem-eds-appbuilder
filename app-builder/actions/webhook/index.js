@@ -8,6 +8,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
+const { logRequest } = require('../shared/datalog');
 
 const SUPPORTED_EVENTS = ['publish', 'unpublish', 'delete'];
 
@@ -40,6 +41,7 @@ async function triggerEDSUpdate(edsHost, path, event) {
  */
 async function main(params) {
   const logger = Core.Logger('webhook', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'webhook', params);
 
   const market = params.market || 'us';
   const path = params.path;
