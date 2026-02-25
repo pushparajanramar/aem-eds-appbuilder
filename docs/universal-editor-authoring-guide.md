@@ -141,16 +141,25 @@ The default sitemap includes these top-level paths — every path listed here mu
 
 ### 4.3 Page Templates and Allowed Components
 
-The `component-filters.json` file controls which blocks can be placed on each page type. Authors will only see relevant blocks in the component palette:
+Page template HTML files are located in the `templates/` directory of each market's EDS site:
 
-| `component-filters.json` container | Allowed blocks | Typical page path |
-|---|---|---|
-| `main` | All blocks | `/rewards`, general pages |
-| `landing-page` | `promotion-banner`, `menu-item`, `store-locator` | `/` |
-| `product-page` | `product-detail`, `menu-item` | `/menu/<item-id>` |
-| `menu-page` | `menu-item`, `promotion-banner` | `/menu` |
-| `account-page` | `user-profile`, `rewards-feed` | `/account` |
-| `stores-page` | `store-locator` | `/stores` |
+| Market | Templates directory |
+|---|---|
+| US | `apps/eds-us/templates/` |
+| UK | `apps/eds-uk/templates/` |
+| JP | `apps/eds-jp/templates/` |
+
+Each template file defines the initial block layout for pages created from that template in AEM Author. The `component-filters.json` file controls which blocks can be placed on each page type — authors will only see relevant blocks in the component palette:
+
+| Template file | `component-filters.json` container | Allowed blocks | Typical page path |
+|---|---|---|---|
+| `landing-page.html` | `landing-page` | `promotion-banner`, `menu-item`, `store-locator` | `/` |
+| `menu-page.html` | `menu-page` | `menu-item`, `promotion-banner` | `/menu` |
+| `product-page.html` | `product-page` | `product-detail`, `menu-item` | `/menu/<item-id>` |
+| `stores-page.html` | `stores-page` | `store-locator` | `/stores` |
+| `account-page.html` | `account-page` | `user-profile`, `rewards-feed` | `/account` |
+
+The `main` container (defined in `component-filters.json`) allows all blocks and is used for general pages such as `/rewards`.
 
 If a block does not appear in the palette for a given page, check that the `component-filters.json` for that market includes it under the correct container ID.
 

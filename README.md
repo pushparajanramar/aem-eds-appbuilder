@@ -9,6 +9,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
 - [Project Overview](#project-overview)
 - [Architecture](#architecture)
 - [Repository Structure](#repository-structure)
+- [Page Templates](#page-templates)
 - [Project Lifecycle](#project-lifecycle)
 - [Role Documents](#role-documents)
 - [Prerequisites](#prerequisites)
@@ -106,6 +107,12 @@ aem-eds-appbuilder/
 │   │   │   └── index-config.yaml  # EDS query index definitions
 │   │   ├── scripts/aem.js         # EDS core runtime script
 │   │   ├── styles/                # Global CSS
+│   │   ├── templates/             # Page templates (initial block structure per template type)
+│   │   │   ├── landing-page.html  # Home / landing page — promotion-banner, menu-item, store-locator
+│   │   │   ├── menu-page.html     # Menu listing — menu-item, promotion-banner
+│   │   │   ├── product-page.html  # Product detail — product-detail, menu-item
+│   │   │   ├── stores-page.html   # Store locator — store-locator
+│   │   │   └── account-page.html  # User account (auth-gated) — user-profile, rewards-feed
 │   │   ├── ue/                    # Universal Editor configuration
 │   │   ├── component-definition.json
 │   │   ├── component-filters.json
@@ -156,6 +163,30 @@ aem-eds-appbuilder/
     └── workflows/
         └── deploy.yml             # CI/CD — lint → build WCs → deploy
 ```
+
+---
+
+## Page Templates
+
+Page templates define the initial block layout when an author creates a new page in AEM Author. They are stored as HTML files under each market's `templates/` directory:
+
+| Market | Templates directory |
+|---|---|
+| US | [`apps/eds-us/templates/`](apps/eds-us/templates/) |
+| UK | [`apps/eds-uk/templates/`](apps/eds-uk/templates/) |
+| JP | [`apps/eds-jp/templates/`](apps/eds-jp/templates/) |
+
+Each market contains the same five template files:
+
+| Template file | Template ID | Allowed blocks | Typical page path |
+|---|---|---|---|
+| `landing-page.html` | `landing-page` | `promotion-banner`, `menu-item`, `store-locator` | `/` |
+| `menu-page.html` | `menu-page` | `menu-item`, `promotion-banner` | `/menu` |
+| `product-page.html` | `product-page` | `product-detail`, `menu-item` | `/menu/<item-id>` |
+| `stores-page.html` | `stores-page` | `store-locator` | `/stores` |
+| `account-page.html` | `account-page` | `user-profile`, `rewards-feed` | `/account` |
+
+The `component-filters.json` file in each market directory references these template IDs to control which blocks the Universal Editor component palette displays for a given page template. See [docs/universal-editor-authoring-guide.md §4.3](docs/universal-editor-authoring-guide.md#43-page-templates-and-allowed-components) for full details.
 
 ---
 
