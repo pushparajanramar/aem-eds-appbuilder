@@ -155,6 +155,7 @@ export async function loadPage() {
   if (main) {
     await decorateMain(main);
     applyDeviceType();
+    loadCSS('/styles/device.css');
     document.body.classList.add('appear');
   }
 }
@@ -171,6 +172,14 @@ export async function loadPage() {
  *   3. Viewport-width heuristic (client-side fallback only)
  */
 function applyDeviceType() {
+  // Ensure viewport meta tag is present for responsive design
+  if (!document.head.querySelector('meta[name="viewport"]')) {
+    const vp = document.createElement('meta');
+    vp.name = 'viewport';
+    vp.content = 'width=device-width, initial-scale=1';
+    document.head.prepend(vp);
+  }
+
   const html = document.documentElement;
   if (html.dataset.device) return; // already set by device-provider inline script
 

@@ -225,4 +225,11 @@
   .card__btn-customize:hover {
     background: var(--color-green-dark);
   }
+
+  @media (max-width: 480px) {
+    .card__btn-customize {
+      min-height: 44px;
+      padding: var(--space-3) var(--space-4);
+    }
+  }
 </style>

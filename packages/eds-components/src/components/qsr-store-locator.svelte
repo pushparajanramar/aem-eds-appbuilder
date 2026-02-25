@@ -248,4 +248,11 @@
     color: var(--color-text-secondary);
     margin: var(--space-2) 0 0;
   }
+
+  @media (min-width: 768px) {
+    .locator__list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 </style>
