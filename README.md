@@ -156,6 +156,7 @@ The full engagement follows five phases. Each phase has a dedicated runbook and 
 | 10 | Implementation | AA / AT / Launch Automation                   | [Implementation Runbook §3.2.2](docs/implementation-runbook.md#322-aa--at--launch-automation)                    |
 | 11 | Implementation | Style the Templates / Components              | [Front-End (Site Styling) Runbook](docs/front-end-styling-runbook.md)                                            |
 | 12 | Implementation | Create site content                           | [Content Architecture Runbook](docs/content-architecture-runbook.md)                                             |
+| 12a | Implementation | Author pages, add components & images, generate sitemap | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md)                          |
 | 13 | Go-Live        | Perform Go-Live Check                         | [Go-Live Checklist](docs/go-live-checklist.md)                                                                   |
 | 14 | Go-Live        | Cutover / Launch Site                         | [Go-Live Runbook](docs/go-live-runbook.md)                                                                       |
 | 15 | Optimisation   | Configure Audiences                           | [Optimisation Runbook — Chapter 3](docs/optimization-runbook.md#chapter-3-audience-configuration)                |
@@ -184,6 +185,7 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | Document | Description |
 |---|---|
 | [AEM Configuration Guide](docs/aem-configuration-guide.md) | End-to-end AEM ecosystem configuration (Archetype, Cloud Manager, SSO, security, Launch) |
+| [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md) | Step-by-step guide to creating pages per sitemap, adding components and AEM assets images, and generating the sitemap |
 | [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
 
 ---

@@ -222,6 +222,8 @@ Every page must have a **Metadata** block (or AEM page properties) containing:
 
 ## 4. Content Creation Workflow
 
+> **See also:** [Universal Editor Authoring Guide](universal-editor-authoring-guide.md) for a step-by-step walkthrough of creating pages per sitemap, adding blocks, selecting images from AEM Assets, and keeping the sitemap up to date.
+
 ### 4.1 Standard Workflow (Universal Editor)
 
 ```
