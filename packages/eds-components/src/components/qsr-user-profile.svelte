@@ -105,6 +105,7 @@
 
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .profile {
@@ -227,7 +228,7 @@
     outline-offset: 2px;
   }
 
-  @media (max-width: 480px) {
+  @container (max-width: 480px) {
     .profile {
       flex-direction: column;
       align-items: flex-start;

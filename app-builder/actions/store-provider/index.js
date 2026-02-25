@@ -9,6 +9,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
+const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
 const { logRequest } = require('../shared/datalog');
 
 /**
@@ -41,11 +42,14 @@ async function fetchStores(edsHost, locale, opts = {}) {
 /**
  * Render stores as EDS block HTML.
  * Block class names MUST exactly match block directory names.
+ * Layout is adjusted based on the device type resolved from X-Device-Type CDN header.
  *
  * @param {Array} stores
+ * @param {{ columns: number, imageWidth: number, fontSize: string, touch: boolean }} layout
+ * @param {string} deviceType
  * @returns {string}
  */
-function renderStoreHTML(stores) {
+function renderStoreHTML(stores, layout = { columns: 3, imageWidth: 800, fontSize: 'base', touch: false }, deviceType = 'desktop') {
   if (!stores.length) {
     return '<p class="stores-empty">No stores found in this area.</p>';
   }
@@ -65,7 +69,7 @@ function renderStoreHTML(stores) {
     )
     .join('\n');
 
-  return `<div class="stores-list">\n${items}\n</div>`;
+  return `<div class="stores-list" data-device="${escapeHtml(deviceType)}" data-columns="${layout.columns}">\n${items}\n</div>`;
 }
 
 /**
@@ -92,6 +96,9 @@ function escapeHtml(str) {
  * @param {number|string} [params.lat]   - Latitude for nearby-store search
  * @param {number|string} [params.lng]   - Longitude for nearby-store search
  * @param {string} [params.place]        - Place name for nearby-store search
+ * @param {string} [params.deviceType]   - Explicit device-type override
+ * @param {object} [params.__ow_headers] - Request headers from runtime (X-Device-Type set by Fastly VCL)
+ * @param {string} [params.__ow_query]   - Raw query string from runtime
  * @param {string} [params.LOG_LEVEL='info']
  * @returns {Promise<{statusCode: number, headers: object, body: string}>}
  */
@@ -102,16 +109,21 @@ async function main(params) {
   const market = params.market || 'us';
   const { city, lat, lng, place } = params;
   const { edsHost, locale } = getMarketConfig(market);
+  const deviceType = getDeviceType(params);
+  const layout = getDeviceLayout(deviceType);
 
-  logger.info(`store-provider: market=${market}, city=${city || 'all'}, lat=${lat || ''}, lng=${lng || ''}, place=${place || ''}, host=${edsHost}`);
+  logger.info(`store-provider: market=${market}, city=${city || 'all'}, lat=${lat || ''}, lng=${lng || ''}, place=${place || ''}, device=${deviceType}, host=${edsHost}`);
 
   try {
     const stores = await fetchStores(edsHost, locale, { city, lat, lng, place });
-    const body = renderStoreHTML(stores);
+    const body = renderStoreHTML(stores, layout, deviceType);
 
     return {
       statusCode: 200,
-      headers: { 'content-type': 'text/html; charset=utf-8' },
+      headers: {
+        'content-type': 'text/html; charset=utf-8',
+        'vary': 'X-Device-Type',
+      },
       body,
     };
   } catch (err) {
@@ -124,4 +136,4 @@ async function main(params) {
   }
 }
 
-module.exports = { main };
+module.exports = { main, renderStoreHTML };

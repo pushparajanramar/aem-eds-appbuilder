@@ -183,6 +183,7 @@
 
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .customizer {
@@ -319,7 +320,7 @@
     white-space: nowrap;
   }
 
-  @media (min-width: 768px) {
+  @container (min-width: 768px) {
     .customizer {
       flex-direction: row;
     }

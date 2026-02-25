@@ -94,6 +94,7 @@
     --header-height: 64px;
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .columns__row {
@@ -107,7 +108,7 @@
   .columns__row--3-cols { grid-template-columns: repeat(3, 1fr); }
   .columns__row--4-cols { grid-template-columns: repeat(4, 1fr); }
 
-  @media (max-width: 768px) {
+  @container (max-width: 768px) {
     .columns__row--2-cols,
     .columns__row--3-cols,
     .columns__row--4-cols {
@@ -115,7 +116,7 @@
     }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  @container (min-width: 769px) and (max-width: 1024px) {
     .columns__row--3-cols,
     .columns__row--4-cols {
       grid-template-columns: repeat(2, 1fr);

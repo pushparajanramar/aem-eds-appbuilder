@@ -11,7 +11,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
-const { safeUrl, buildDynamicMediaUrl } = require('../shared/url-utils');
+const { safeUrl, buildDynamicMediaUrl, buildDynamicMediaSrcset } = require('../shared/url-utils');
 const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
 const { logRequest } = require('../shared/datalog');
 
@@ -57,8 +57,8 @@ function renderMenuHTML(items, layout = { columns: 3, imageWidth: 800, fontSize:
       <div><div>item-id</div><div>${escapeHtml(item.id)}</div></div>
       <div><div>category</div><div>${escapeHtml(item.category || 'drinks')}</div></div>
       ${item.imageUrl ? `<div><div><picture>
-        <source type="image/webp" srcset="${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth))} 1x, ${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth * 2))} 2x">
-        <img src="${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth, { format: 'jpeg' }))}" alt="${escapeHtml(item.title)}" loading="lazy" width="${layout.imageWidth}">
+        <source type="image/webp" srcset="${escapeHtml(buildDynamicMediaSrcset(item.imageUrl, layout.imageWidth))}" sizes="(max-width: 480px) ${Math.round(layout.imageWidth * 0.5)}px, ${layout.imageWidth}px">
+        <img src="${escapeHtml(buildDynamicMediaUrl(item.imageUrl, layout.imageWidth, { format: 'jpeg' }))}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async" width="${layout.imageWidth}">
       </picture></div></div>` : ''}
     </div>`,
     )

@@ -12,7 +12,8 @@
       <img
         src={imageurl}
         alt={imagealt}
-        loading="lazy"
+        loading="eager"
+        fetchpriority="high"
         decoding="async"
         class="hero__img"
       />
@@ -94,6 +95,7 @@
     --header-height: 64px;
     display: block;
     font-family: var(--font-family-sans);
+    container-type: inline-size;
   }
 
   .hero {
@@ -164,7 +166,7 @@
     background: var(--color-green-dark);
   }
 
-  @media (max-width: 768px) {
+  @container (max-width: 768px) {
     .hero__content {
       position: static;
       background: var(--color-green-dark);

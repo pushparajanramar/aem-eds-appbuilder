@@ -4,6 +4,7 @@
   position: relative;
   width: 100%;
   min-height: 40vh;
+  aspect-ratio: 16 / 5;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
