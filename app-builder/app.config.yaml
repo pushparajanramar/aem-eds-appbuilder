@@ -3,7 +3,7 @@ application:
   web: web-src
 
 packages:
-  starbucks:
+  qsr:
     license: Apache-2.0
     actions:
       menu-provider:
@@ -61,6 +61,17 @@ packages:
           market: us
           LOG_LEVEL: info
 
+      device-provider:
+        function: actions/device-provider/index.js
+        web: 'yes'
+        runtime: nodejs:18
+        annotations:
+          require-adobe-auth: false
+          final: true
+        inputs:
+          market: us
+          LOG_LEVEL: info
+
       webhook:
         function: actions/webhook/index.js
         web: 'yes'
@@ -69,4 +80,16 @@ packages:
           require-adobe-auth: true
           final: true
         inputs:
+          LOG_LEVEL: info
+
+      sitemap-generator:
+        function: actions/sitemap-generator/index.js
+        web: 'yes'
+        runtime: nodejs:18
+        annotations:
+          require-adobe-auth: true
+          final: true
+        inputs:
+          market: us
+          push: true
           LOG_LEVEL: info

@@ -1,0 +1,72 @@
+@import '../../styles/tokens.css';
+
+.embed {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.embed__placeholder {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.embed__placeholder img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.embed__play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-circle);
+  background: var(--color-green-primary);
+  border: 3px solid var(--color-white);
+  color: var(--color-white);
+  font-size: 28px;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  pointer-events: none;
+}
+
+.embed__placeholder:hover .embed__play-btn {
+  background: var(--color-green-dark);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.embed__iframe-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.embed__iframe-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .embed {
+    max-width: 800px;
+  }
+}
+
+html[data-device='mobile'] .embed {
+  max-width: 100%;
+}

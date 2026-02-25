@@ -1,0 +1,209 @@
+@import '../../styles/tokens.css';
+
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-overlay);
+  background: var(--color-green-dark);
+  height: var(--header-height);
+}
+
+.header {
+  height: 100%;
+}
+
+.header nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 100%;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  gap: var(--space-4);
+}
+
+.header .nav-hamburger {
+  display: flex;
+  align-items: center;
+  order: -1;
+}
+
+.header .nav-hamburger button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.header .nav-hamburger button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.header .nav-hamburger-icon,
+.header .nav-hamburger-icon::before,
+.header .nav-hamburger-icon::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-white);
+  border-radius: 2px;
+  transition: transform var(--transition-normal), opacity var(--transition-fast);
+  position: relative;
+}
+
+.header .nav-hamburger-icon::before,
+.header .nav-hamburger-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.header .nav-hamburger-icon::before { top: -6px; }
+.header .nav-hamburger-icon::after  { top: 6px; }
+
+.header nav[aria-expanded='true'] .nav-hamburger-icon {
+  background: transparent;
+}
+
+.header nav[aria-expanded='true'] .nav-hamburger-icon::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.header nav[aria-expanded='true'] .nav-hamburger-icon::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.header .nav-brand a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header .nav-brand img {
+  height: 36px;
+  width: auto;
+}
+
+.header .nav-brand span {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+}
+
+.header .nav-sections {
+  display: none;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  width: 100%;
+  background: var(--color-green-dark);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-overlay);
+}
+
+.header nav[aria-expanded='true'] .nav-sections {
+  display: block;
+}
+
+.header .nav-sections ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.header .nav-sections ul a {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+  transition: background var(--transition-fast);
+}
+
+.header .nav-sections ul a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.header .nav-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.header .nav-tools a {
+  color: var(--color-white);
+  text-decoration: none;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  transition: color var(--transition-fast);
+}
+
+.header .nav-tools a:hover {
+  color: var(--color-green-light);
+}
+
+@media (min-width: 900px) {
+  .header .nav-hamburger {
+    display: none;
+  }
+
+  .header nav {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .header .nav-sections {
+    display: block;
+    position: static;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .header .nav-sections ul {
+    flex-direction: row;
+    gap: var(--space-1);
+    justify-content: flex-start;
+  }
+}
+
+html[data-device='mobile'] .header .nav-hamburger {
+  display: flex;
+}
+
+html[data-device='desktop'] .header .nav-hamburger {
+  display: none;
+}
+
+html[data-device='desktop'] .header .nav-sections {
+  display: block;
+  position: static;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+html[data-device='desktop'] .header .nav-sections ul {
+  flex-direction: row;
+}

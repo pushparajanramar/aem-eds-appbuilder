@@ -14,7 +14,7 @@ The AEM Consultant (Tech/Dev) / UX Consultant implements the front-end and back-
 |---|---|
 | **EDS Block Development** | Implement and maintain JavaScript/CSS blocks (`menu-item`, `product-detail`, `promotion-banner`) |
 | **App Builder Actions** | Develop and test serverless actions (`menu-provider`, `store-provider`, `rewards-provider`, `webhook`) |
-| **Svelte Web Components** | Build and maintain `sbux-menu-card` and `sbux-product-customizer` in `packages/eds-components` |
+| **Svelte Web Components** | Build and maintain all 22 `qsr-*` Web Components in `packages/eds-components` — see [Svelte Web Components Guide](svelte-web-components-guide.md) |
 | **Unit Testing** | Write and maintain Jest tests for App Builder actions (`npm test` in `app-builder/`) |
 | **Linting & Quality** | Ensure code passes ESLint (`npm run lint`) and `svelte-check` before raising a PR |
 | **Universal Editor** | Implement `data-aue-*` instrumentation in `ue/instrumentation.js` for each market |
@@ -27,7 +27,7 @@ The AEM Consultant (Tech/Dev) / UX Consultant implements the front-end and back-
 | **Design System** | Define and maintain global CSS custom properties (design tokens) in `apps/eds-*/styles/` |
 | **Responsive Design** | Ensure blocks render correctly across mobile, tablet and desktop breakpoints |
 | **Accessibility** | Meet WCAG 2.1 AA standards for all components and page templates |
-| **Prototype & Validate** | Create interactive prototypes for UAT; incorporate feedback from Starbucks content teams |
+| **Prototype & Validate** | Create interactive prototypes for UAT; incorporate feedback from Quick Service Restaurant content teams |
 
 ---
 
@@ -46,8 +46,8 @@ app-builder/
 
 apps/eds-<market>/
 ├── blocks/
-│   ├── menu-item/             # Block JS + CSS + sbux-menu-card WC
-│   ├── product-detail/        # Block JS + CSS + sbux-product-customizer WC
+│   ├── menu-item/             # Block JS + CSS + qsr-menu-card WC
+│   ├── product-detail/        # Block JS + CSS + qsr-product-customizer WC
 │   └── promotion-banner/      # Block JS + CSS
 ├── scripts/aem.js             # EDS core runtime
 ├── styles/                    # Global CSS (design tokens, typography, layout)
@@ -56,11 +56,32 @@ apps/eds-<market>/
 packages/eds-components/
 └── src/
     ├── components/
-    │   ├── sbux-menu-card.svelte
-    │   └── sbux-product-customizer.svelte
+    │   ├── qsr-accordion.svelte
+    │   ├── qsr-breadcrumbs.svelte
+    │   ├── qsr-cards.svelte
+    │   ├── qsr-carousel.svelte
+    │   ├── qsr-columns.svelte
+    │   ├── qsr-embed.svelte
+    │   ├── qsr-footer.svelte
+    │   ├── qsr-form.svelte
+    │   ├── qsr-fragment.svelte
+    │   ├── qsr-header.svelte
+    │   ├── qsr-hero.svelte
+    │   ├── qsr-menu-card.svelte
+    │   ├── qsr-modal.svelte
+    │   ├── qsr-product-customizer.svelte
+    │   ├── qsr-quote.svelte
+    │   ├── qsr-rewards-feed.svelte
+    │   ├── qsr-search.svelte
+    │   ├── qsr-store-locator.svelte
+    │   ├── qsr-table.svelte
+    │   ├── qsr-tabs.svelte
+    │   ├── qsr-user-profile.svelte
+    │   └── qsr-video.svelte
     └── utils/
-        ├── api.js             # Shared fetch helpers
-        └── auth.js            # IMS token helpers
+        ├── api.js             # BFF fetch helpers
+        ├── auth.js            # IMS token helpers (in-memory only)
+        └── image-utils.js     # Adobe Dynamic Media URL builders
 ```
 
 ---
@@ -87,21 +108,55 @@ AIO_WORKSPACE_ID=<your-workspace-id>
 
 ### Svelte Web Components
 
+The complete reference is in the **[Svelte Web Components Guide](svelte-web-components-guide.md)**. Key commands:
+
 ```bash
 cd packages/eds-components
 npm ci
-npm run dev       # Vite watch mode
+npm run dev       # Vite watch mode — outputs to apps/eds-us/blocks/
 npm run check     # svelte-check type checking
 npm run lint      # ESLint on Svelte sources
-npm run build     # Production bundle → dist/
+npm run build     # Production bundle — outputs directly to apps/eds-us/blocks/
 ```
 
-Built bundles must be copied to the relevant market block directories:
+Bundles are written directly to `apps/eds-us/blocks/<block-name>/qsr-<name>.js`. There is no intermediate `dist/` directory — the Vite `outDir` is set to `../../apps/eds-us/blocks`.
+
+During local development, copy bundles to the other market directories manually after building:
 
 ```bash
-cp dist/sbux-menu-card.js          ../../apps/eds-us/blocks/menu-item/
-cp dist/sbux-product-customizer.js ../../apps/eds-us/blocks/product-detail/
+# Copy menu-card and product-customizer to UK and JP (CI does this automatically)
+cp apps/eds-us/blocks/menu-item/qsr-menu-card.js          apps/eds-uk/blocks/menu-item/
+cp apps/eds-us/blocks/menu-item/qsr-menu-card.js          apps/eds-jp/blocks/menu-item/
+cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-uk/blocks/product-detail/
+cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/blocks/product-detail/
 ```
+
+**Component inventory** (22 components):
+
+| Component | Block | Auth |
+|---|---|---|
+| `qsr-accordion` | `accordion/` | No |
+| `qsr-breadcrumbs` | `breadcrumbs/` | No |
+| `qsr-cards` | `cards/` | No |
+| `qsr-carousel` | `carousel/` | No |
+| `qsr-columns` | `columns/` | No |
+| `qsr-embed` | `embed/` | No |
+| `qsr-footer` | `footer/` | No |
+| `qsr-form` | `form/` | No |
+| `qsr-fragment` | `fragment/` | No |
+| `qsr-header` | `header/` | No |
+| `qsr-hero` | `hero/` | No |
+| `qsr-menu-card` | `menu-item/` | No |
+| `qsr-modal` | `modal/` | No |
+| `qsr-product-customizer` | `product-detail/` | No |
+| `qsr-quote` | `quote/` | No |
+| `qsr-rewards-feed` | `rewards-feed/` | **Yes** |
+| `qsr-search` | `search/` | No |
+| `qsr-store-locator` | `store-locator/` | No |
+| `qsr-table` | `table/` | No |
+| `qsr-tabs` | `tabs/` | No |
+| `qsr-user-profile` | `user-profile/` | **Yes** |
+| `qsr-video` | `video/` | No |
 
 ### EDS Blocks
 
@@ -122,9 +177,9 @@ Market-specific configuration is resolved via `shared/market-config.js`:
 
 | Market | EDS Host | Locale | Currency |
 |---|---|---|---|
-| `us` | `main--sbux-us--org.aem.live` | `en-US` | USD |
-| `uk` | `main--sbux-uk--org.aem.live` | `en-GB` | GBP |
-| `jp` | `main--sbux-jp--org.aem.live` | `ja-JP` | JPY |
+| `us` | `main--qsr-us--org.aem.live` | `en-US` | USD |
+| `uk` | `main--qsr-uk--org.aem.live` | `en-GB` | GBP |
+| `jp` | `main--qsr-jp--org.aem.live` | `ja-JP` | JPY |
 
 ---
 
@@ -153,6 +208,7 @@ All blocks and web components must meet **WCAG 2.1 AA**:
 - [ ] AEM EDS CLI installed (`npm install -g @adobe/aem-cli`)
 - [ ] `app-builder/.env` file created with valid IMS credentials
 - [ ] `aio app run` verified locally for at least one action
-- [ ] `npm run dev` verified in `packages/eds-components`
+- [ ] `npm run dev` verified in `packages/eds-components` (Vite watch mode building to `apps/eds-us/blocks/`)
+- [ ] [Svelte Web Components Guide](svelte-web-components-guide.md) read and understood
 - [ ] Local AEM EDS proxy running for at least one market (`aem up`)
 - [ ] ESLint and svelte-check passing with zero errors

@@ -61,6 +61,12 @@
   background: var(--color-interactive-hover);
 }
 
+/* ── Focus visibility (WCAG 2.4.7) ─────────────────────────────────────── */
+.product-detail .btn-add-to-cart:focus-visible {
+  outline: 3px solid #005fcc;
+  outline-offset: 2px;
+}
+
 @media (min-width: 768px) {
   .product-detail {
     flex-direction: row;

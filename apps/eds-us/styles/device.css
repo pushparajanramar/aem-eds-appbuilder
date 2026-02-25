@@ -1,0 +1,82 @@
+/**
+ * Device-Aware Layout Styles
+ *
+ * Uses the data-device attribute set on <html> by the device-provider action
+ * (server-side via Fastly VCL + App Builder) or by the applyDeviceType()
+ * fallback in aem.js.
+ *
+ * Supported values:
+ *   html[data-device="mobile"]              – smartphones
+ *   html[data-device="tablet"]              – tablets
+ *   html[data-device="desktop"]             – laptops / desktops (default)
+ *   html[data-device="kiosk"]               – touch kiosks
+ *   html[data-device="digital-menu-board"]  – in-restaurant digital signage
+ *
+ * The standard breakpoint media queries below act as a client-side safety net
+ * for pages loaded without the device-provider header injection.
+ */
+
+/* ── Menu grid column layout ─────────────────────────────────────────────── */
+.menu-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr); /* desktop default */
+}
+
+html[data-device="mobile"] .menu-grid {
+  grid-template-columns: 1fr;
+}
+
+html[data-device="tablet"] .menu-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+html[data-device="desktop"] .menu-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+html[data-device="kiosk"] .menu-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+html[data-device="digital-menu-board"] .menu-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ── Font size adjustments ───────────────────────────────────────────────── */
+html[data-device="kiosk"] {
+  font-size: 120%;
+}
+
+html[data-device="digital-menu-board"] {
+  font-size: 150%;
+}
+
+/* ── Touch-device tap-target sizing ─────────────────────────────────────── */
+html[data-device="mobile"] a,
+html[data-device="tablet"] a,
+html[data-device="kiosk"] a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Digital menu board — hide interactive UI chrome ────────────────────── */
+html[data-device="digital-menu-board"] .user-profile,
+html[data-device="digital-menu-board"] .rewards-feed,
+html[data-device="digital-menu-board"] nav {
+  display: none;
+}
+
+/* ── Media-query fallbacks (no data-device) ──────────────────────────────── */
+@media (max-width: 480px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

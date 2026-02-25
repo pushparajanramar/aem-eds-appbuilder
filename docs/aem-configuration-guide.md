@@ -47,10 +47,10 @@ mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate \
   -D archetypeGroupId=com.adobe.aem \
   -D archetypeArtifactId=aem-project-archetype \
   -D archetypeVersion=49 \
-  -D appTitle="Starbucks AEM" \
-  -D appId="sbux" \
-  -D groupId="com.starbucks.aem" \
-  -D artifactId="sbux-aem" \
+  -D appTitle="Quick Service Restaurant AEM" \
+  -D appId="qsr" \
+  -D groupId="com.qsr.aem" \
+  -D artifactId="qsr-aem" \
   -D version="1.0.0-SNAPSHOT" \
   -D aemVersion="cloud" \
   -D frontendModule="general" \
@@ -69,7 +69,7 @@ Key parameters:
 ### 1.3 Building and Installing Locally
 
 ```bash
-cd sbux-aem
+cd qsr-aem
 mvn clean install -PautoInstallPackage -Daem.host=localhost -Daem.port=4502
 ```
 
@@ -80,7 +80,7 @@ Once deployed, configure AEM Author to fire publish/unpublish/delete events to t
 1. In AEM, open **Tools → Operations → Web Console → OSGi configurations**.
 2. Search for `com.day.cq.replication.ReplicationAction` and add the App Builder webhook URL:
    ```
-   https://<app-builder-host>/api/v1/web/starbucks/webhook
+   https://<app-builder-host>/api/v1/web/qsr/webhook
    ```
 3. Set the request header `Authorization: Bearer <IMS_TOKEN>` (the webhook action requires `require-adobe-auth: true`).
 
@@ -131,7 +131,7 @@ The [AEM GitHub App](https://github.com/apps/helix-bot) must be installed on you
 Without it, the AEM Admin API cannot sync content from Google Drive / SharePoint.
 
 1. Navigate to **GitHub → Settings → Integrations → GitHub Apps**.
-2. Install **AEM Bot** and grant access to the `aem-eds-appbuilder` repository and each EDS market repo (`sbux-us`, `sbux-uk`, `sbux-jp`).
+2. Install **AEM Bot** and grant access to the `aem-eds-appbuilder` repository and each EDS market repo (`qsr-us`, `qsr-uk`, `qsr-jp`).
 
 ### 2.4 Publishing Content via the Admin API
 
@@ -141,27 +141,27 @@ Content is published using the AEM Admin API. The EDS token (`EDS_TOKEN`) must b
 # Preview a path before publishing
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/preview/org/sbux-us/main/<path>"
+  "https://admin.hlx.page/preview/org/qsr-us/main/<path>"
 
 # Publish a single path
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/publish/org/sbux-us/main/<path>"
+  "https://admin.hlx.page/publish/org/qsr-us/main/<path>"
 
 # Bulk publish all pages (wildcard)
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/publish/org/sbux-us/main/*"
+  "https://admin.hlx.page/publish/org/qsr-us/main/*"
 ```
 
-Replace `org/sbux-us/main` with `org/sbux-uk/main` or `org/sbux-jp/main` for other markets.
+Replace `org/qsr-us/main` with `org/qsr-uk/main` or `org/qsr-jp/main` for other markets.
 
 ### 2.5 Automated Publishing via the Webhook Action
 
 When AEM Author publishes or unpublishes a page, the App Builder `webhook` action automatically triggers an EDS cache purge:
 
 ```
-AEM Author  →  POST /api/v1/web/starbucks/webhook
+AEM Author  →  POST /api/v1/web/qsr/webhook
                   { market, path, event: "publish" | "unpublish" | "delete" }
                       │
                       ▼
@@ -195,7 +195,7 @@ See [`app-builder/actions/webhook/`](../app-builder/actions/webhook/) for implem
 
 1. Log in to [Cloud Manager](https://experience.adobe.com/cloud-manager).
 2. Click **Add Program**.
-3. Enter the program name (e.g., `Starbucks AEM`).
+3. Enter the program name (e.g., `Quick Service Restaurant AEM`).
 4. Select **Set up for Production** (or **Sandbox** for non-production exploration).
 5. Choose solutions: **Sites**, **Assets** (as required).
 6. Complete the wizard. Cloud Manager provisions Dev, Stage, and Production environments.
@@ -228,7 +228,7 @@ git push cloudmanager main
 ### 3.5 Domain and SSL Certificate Setup
 
 1. In Cloud Manager, go to **Environments → \<Environment\> → Domain Settings**.
-2. Add custom domains (e.g., `www.starbucks.com`).
+2. Add custom domains (e.g., `www.qsr.com`).
 3. Upload or provision a TLS/SSL certificate.
 4. Configure DNS CNAME records to point to the Cloud Manager CDN endpoint.
 
@@ -251,7 +251,7 @@ A full-stack pipeline executes: **Build → Unit Tests → Code Quality → Depl
 **Setup steps:**
 
 1. In Cloud Manager, go to **Pipelines → Add Pipeline → Production Pipeline**.
-2. **Pipeline name:** `sbux-production-deploy`
+2. **Pipeline name:** `qsr-production-deploy`
 3. **Source:**
    - Repository: `aem-eds-appbuilder` (or the Cloud Manager built-in repo)
    - Branch: `main`
@@ -469,7 +469,7 @@ Manage in Admin Console → **Products → Cloud Manager**:
 
 Developers who need to deploy or debug App Builder actions must be granted **Developer** role on the Adobe Developer Console project:
 
-1. Open [developer.adobe.com/console](https://developer.adobe.com/console) → select the `Starbucks AEM` project.
+1. Open [developer.adobe.com/console](https://developer.adobe.com/console) → select the `Quick Service Restaurant AEM` project.
 2. Go to **Project overview → Collaborators → Add collaborator**.
 3. Enter the developer's IMS email and select role **Developer**.
 
@@ -499,7 +499,7 @@ Set branch protection rules for `main` (Settings → Branches → Branch protect
 
 **AEMaaCS:**
 - All ingress traffic flows through the **Adobe CDN / WAF** layer. Direct access to the Author/Publish pods is blocked.
-- Enable **Advanced Networking** in Cloud Manager to restrict egress IPs and use a dedicated IP for upstream API calls (e.g., the Starbucks product API).
+- Enable **Advanced Networking** in Cloud Manager to restrict egress IPs and use a dedicated IP for upstream API calls (e.g., the Quick Service Restaurant product API).
 - Configure an **IP allowlist** for the AEM Author tier:  
   Cloud Manager → Environments → \<Env\> → IP Allow Lists → Add.
 
@@ -535,7 +535,7 @@ Never commit secrets to source control. Use the following patterns:
 Configure CSP headers in the Dispatcher virtualhost to protect EDS pages:
 
 ```apache
-# dispatcher/src/conf.d/available_vhosts/sbux-us.vhost
+# dispatcher/src/conf.d/available_vhosts/qsr-us.vhost
 Header always set Content-Security-Policy \
   "default-src 'self'; \
    script-src 'self' 'unsafe-inline' https://assets.adobedtm.com https://cdn.experienceleague.adobe.com; \
@@ -553,9 +553,9 @@ App Builder actions automatically serve CORS headers for `web: 'yes'` actions. T
 ```js
 // actions/shared/cors-headers.js
 const ALLOWED_ORIGINS = [
-  'https://main--sbux-us--org.aem.live',
-  'https://main--sbux-uk--org.aem.live',
-  'https://main--sbux-jp--org.aem.live',
+  'https://main--qsr-us--org.aem.live',
+  'https://main--qsr-uk--org.aem.live',
+  'https://main--qsr-jp--org.aem.live',
 ];
 
 function corsHeaders(origin) {
@@ -607,12 +607,12 @@ AEP Tags (Launch) runtime (assets.adobedtm.com)
 
 1. Log in to [experience.adobe.com](https://experience.adobe.com) → **Data Collection**.
 2. Click **New Property**.
-3. **Name:** `Starbucks EDS — <Market>` (create one property per market for market-specific configurations, or a single property with rule conditions for each market).
+3. **Name:** `Quick Service Restaurant EDS — <Market>` (create one property per market for market-specific configurations, or a single property with rule conditions for each market).
 4. **Platform:** Web.
 5. **Domains:** add all EDS live domains:
-   - `main--sbux-us--org.aem.live`
-   - `main--sbux-uk--org.aem.live`
-   - `main--sbux-jp--org.aem.live`
+   - `main--qsr-us--org.aem.live`
+   - `main--qsr-uk--org.aem.live`
+   - `main--qsr-jp--org.aem.live`
 6. Enable **Sequence Loading** (recommended for performance).
 
 ### 8.3 Install the Adobe Analytics Extension
@@ -623,9 +623,9 @@ AEP Tags (Launch) runtime (assets.adobedtm.com)
 
    | Setting | Value |
    |---|---|
-   | Report Suites (Production) | `sbux-us-prod`, `sbux-uk-prod`, `sbux-jp-prod` |
-   | Report Suites (Staging) | `sbux-us-dev` |
-   | Tracking Server | `sbux.sc.omtrdc.net` |
+   | Report Suites (Production) | `qsr-us-prod`, `qsr-uk-prod`, `qsr-jp-prod` |
+   | Report Suites (Staging) | `qsr-us-dev` |
+   | Tracking Server | `qsr.sc.omtrdc.net` |
    | Use Visitor ID Service | Enabled (ECID) |
    | Character Set | `UTF-8` |
 
@@ -641,9 +641,9 @@ AEP Tags (Launch) runtime (assets.adobedtm.com)
 
    | Setting | Value |
    |---|---|
-   | Client Code | `starbucks` (your Target client code) |
+   | Client Code | `qsr` (your Target client code) |
    | Organisation ID | Your IMS Org ID |
-   | Server Domain | `starbucks.tt.omtrdc.net` |
+   | Server Domain | `qsr.tt.omtrdc.net` |
    | Timeout | `3000` ms |
    | Enable Global Mbox | Enabled |
    | Global Mbox Name | `target-global-mbox` |
@@ -750,9 +750,9 @@ On an EDS page:
 
 | Market | Analytics Report Suite | Target Workspace | Launch Property Notes |
 |---|---|---|---|
-| US (`en-US`) | `sbux-us-prod` | `Starbucks US` | Default currency USD |
-| UK (`en-GB`) | `sbux-uk-prod` | `Starbucks UK` | Currency GBP; cookie consent banner required (UK PECR) |
-| JP (`ja-JP`) | `sbux-jp-prod` | `Starbucks JP` | Double-byte character set; locale-aware `pageName` |
+| US (`en-US`) | `qsr-us-prod` | `Quick Service Restaurant US` | Default currency USD |
+| UK (`en-GB`) | `qsr-uk-prod` | `Quick Service Restaurant UK` | Currency GBP; cookie consent banner required (UK PECR) |
+| JP (`ja-JP`) | `qsr-jp-prod` | `Quick Service Restaurant JP` | Double-byte character set; locale-aware `pageName` |
 
 For GDPR / PECR compliance:
 - Implement a **Consent Management Platform (CMP)** (e.g., OneTrust) and use the **Adobe Consent Extension** in Launch.

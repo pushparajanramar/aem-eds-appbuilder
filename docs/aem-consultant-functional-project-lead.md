@@ -2,7 +2,7 @@
 
 ## Role Overview
 
-The AEM Consultant (Functional) / Project Lead bridges business requirements and technical delivery. They own the product backlog, facilitate requirement workshops, govern content strategy and ensure that the authoring experience meets Starbucks content-team needs across all three markets (US, UK, JP).
+The AEM Consultant (Functional) / Project Lead bridges business requirements and technical delivery. They own the product backlog, facilitate requirement workshops, govern content strategy and ensure that the authoring experience meets Quick Service Restaurant content-team needs across all three markets (US, UK, JP).
 
 ---
 
@@ -14,7 +14,7 @@ The AEM Consultant (Functional) / Project Lead bridges business requirements and
 | **Content Strategy** | Define page templates, content models and authoring conventions aligned to AEM EDS block-based authoring |
 | **Universal Editor Governance** | Configure and validate Universal Editor (UE) instrumentation for each market's blocks |
 | **Stakeholder Workshops** | Facilitate content-design sprints; align authors, designers and developers on block components |
-| **Acceptance Testing** | Define acceptance criteria; lead UAT sessions with Starbucks content teams |
+| **Acceptance Testing** | Define acceptance criteria; lead UAT sessions with Quick Service Restaurant content teams |
 | **Project Lead Duties** | Day-to-day team coordination, stand-up facilitation, dependency tracking and sprint review preparation |
 
 ---

@@ -130,8 +130,8 @@ All three files must be consistent — a block defined in `component-models.json
 {
   "groups": [
     {
-      "title": "Starbucks Blocks",
-      "id": "starbucks",
+      "title": "Quick Service Restaurant Blocks",
+      "id": "qsr",
       "components": [
         {
           "title": "Promotion Banner",
@@ -212,7 +212,7 @@ Every page must have a **Metadata** block (or AEM page properties) containing:
 
 | Field | Required | Example |
 |---|---|---|
-| Title | Yes | `Starbucks Menu — US` |
+| Title | Yes | `Quick Service Restaurant Menu — US` |
 | Description | Yes | `Explore our full drinks and food menu...` |
 | Image | No | `/content/dam/us/images/promotions/menu-hero.jpg` |
 | Locale | Yes | `en-US` |
@@ -222,6 +222,8 @@ Every page must have a **Metadata** block (or AEM page properties) containing:
 
 ## 4. Content Creation Workflow
 
+> **See also:** [Universal Editor Authoring Guide](universal-editor-authoring-guide.md) for a step-by-step walkthrough of creating pages per sitemap, adding blocks, selecting images from AEM Assets, and keeping the sitemap up to date.
+
 ### 4.1 Standard Workflow (Universal Editor)
 
 ```
@@ -229,7 +231,7 @@ Author creates/edits page in Universal Editor
     │
     ▼
 Author previews on *.aem.page (preview)
-    │  (review by Functional Lead / Starbucks Content Lead if required)
+    │  (review by Functional Lead / Quick Service Restaurant Content Lead if required)
     ▼
 Author publishes page in AEM Author
     │
@@ -255,15 +257,15 @@ For initial site launch or large content migrations:
 # Bulk publish all pages for the US market
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/publish/org/sbux-us/main/*"
+  "https://admin.hlx.page/publish/org/qsr-us/main/*"
 
 # Bulk index all content fragments for the US market
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/index/org/sbux-us/main/*"
+  "https://admin.hlx.page/index/org/qsr-us/main/*"
 ```
 
-Replace `sbux-us` with `sbux-uk` or `sbux-jp` for other markets.
+Replace `qsr-us` with `qsr-uk` or `qsr-jp` for other markets.
 
 ### 4.3 Emergency Unpublish / Rollback
 
@@ -279,7 +281,7 @@ For a complete page rollback:
 # Unpublish a single page
 curl -X DELETE \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/publish/org/sbux-us/main/menu"
+  "https://admin.hlx.page/publish/org/qsr-us/main/menu"
 ```
 
 ---
@@ -290,19 +292,19 @@ curl -X DELETE \
 
 ```
 /content/
-├── sbux-us/
+├── qsr-us/
 │   ├── en/
 │   │   ├── home          (home page)
 │   │   ├── menu/         (menu listing + product detail pages)
 │   │   ├── stores/       (store locator)
 │   │   └── rewards/      (rewards page — auth-gated)
 │   └── jcr:content       (site properties)
-├── sbux-uk/
+├── qsr-uk/
 │   └── en/
 │       ├── home
 │       ├── menu/
 │       └── stores/
-└── sbux-jp/
+└── qsr-jp/
     └── ja/
         ├── home
         ├── menu/
@@ -350,6 +352,22 @@ Each market's `sitemap.json` must be kept up to date:
   ]
 }
 ```
+
+#### Generating sitemap.xml via the App Builder Action
+
+The `sitemap-generator` App Builder action automates the creation and CDN delivery of `sitemap.xml` for any market. It fetches all published pages from the EDS query index, applies the `include`/`exclude` patterns from `sitemap.json`, builds a standards-compliant XML sitemap, and pushes it to the EDS CDN in a single step.
+
+```bash
+# Generate and push sitemap.xml for a market
+curl -X POST \
+  -H "Authorization: Bearer $IMS_TOKEN" \
+  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  -d '{"market":"us","EDS_TOKEN":"<your-eds-token>"}'
+```
+
+Run this command for each market (`us`, `uk`, `jp`) after any bulk publish or at the end of a content sprint.
+
+> See [Universal Editor Authoring Guide §7.4](universal-editor-authoring-guide.md#74-automated-sitemap-generation-via-app-builder) for the full reference including dry-run mode and response format.
 
 ---
 
@@ -407,9 +425,9 @@ See [Content Supply Chain — Translations](content-supply-chain.md#translations
 
 Each market's EDS site is an isolated unit. Content is **not shared** between markets:
 
-- `apps/eds-us/` → serves US content at `main--sbux-us--org.aem.live`
-- `apps/eds-uk/` → serves UK content at `main--sbux-uk--org.aem.live`
-- `apps/eds-jp/` → serves JP content at `main--sbux-jp--org.aem.live`
+- `apps/eds-us/` → serves US content at `main--qsr-us--org.aem.live`
+- `apps/eds-uk/` → serves UK content at `main--qsr-uk--org.aem.live`
+- `apps/eds-jp/` → serves JP content at `main--qsr-jp--org.aem.live`
 
 ### 7.2 JP-Specific Requirements
 
@@ -427,8 +445,8 @@ Each market's EDS site is an isolated unit. Content is **not shared** between ma
 | Role | Responsibility |
 |---|---|
 | AEM Consultant (Functional) | Content model governance; approves changes to `component-models.json` |
-| Starbucks Content Lead | Day-to-day content authoring and publishing |
-| Starbucks Digital Marketing Lead | Campaign content and promotion scheduling |
+| Quick Service Restaurant Content Lead | Day-to-day content authoring and publishing |
+| Quick Service Restaurant Digital Marketing Lead | Campaign content and promotion scheduling |
 | AEM Technical Architect | Approves changes to query index configuration and sitemap |
 
 ### 8.2 Content Change Process

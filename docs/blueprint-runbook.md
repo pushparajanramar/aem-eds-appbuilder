@@ -49,7 +49,7 @@ The Digital Foundation Blueprint establishes the strategic intent and architectu
 |---|---|---|
 | Content authoring | AEM Author (Universal Editor) | Feeds EDS via publish webhook |
 | Web delivery | AEM Edge Delivery Services | Git-backed, CDN-cached HTML |
-| Serverless back-end | Adobe App Builder (I/O Runtime) | BYOM actions for menu, stores, rewards, webhook |
+| Serverless back-end | Adobe App Builder (I/O Runtime) | BYOM actions for menu, stores, rewards, account, webhook |
 | Tag management | AEP Tags (Adobe Launch) | Analytics + Target on EDS pages |
 | Analytics | Adobe Analytics | Per-market report suites |
 | Personalisation | Adobe Target | A/B testing; audience-based experiences |
@@ -63,6 +63,7 @@ The Digital Foundation Blueprint establishes the strategic intent and architectu
 | GitHub (`pushparajanramar/aem-eds-appbuilder`) | Source of truth for all code and configuration | Platform Engineers |
 | Node.js 18.x | Runtime for App Builder actions and front-end build tools | All developers |
 | Vite | Svelte web-component bundler | Front-End developers |
+| Fastly CDN | Device detection (VCL) and device-based URL routing in front of EDS | Platform Engineers |
 
 ---
 
@@ -149,6 +150,7 @@ aem-eds-appbuilder/
 │   └── eds-jp/           # JP market EDS site
 ├── packages/
 │   └── eds-components/   # Shared Svelte web components
+├── fastly/               # Fastly CDN VCL (device detection, URL routing)
 └── docs/                 # All project runbooks and reference documents
 ```
 
@@ -156,11 +158,11 @@ See the main [`README.md`](../README.md) for detailed architecture diagrams and 
 
 ### 5.2 Market Configuration
 
-| Market | Locale | Currency | EDS Host |
-|---|---|---|---|
-| `us` | `en-US` | USD | `main--sbux-us--org.aem.live` |
-| `uk` | `en-GB` | GBP | `main--sbux-uk--org.aem.live` |
-| `jp` | `ja-JP` | JPY | `main--sbux-jp--org.aem.live` |
+| Market | Locale | Currency | Timezone | EDS Host |
+|---|---|---|---|---|
+| `us` | `en-US` | USD | `America/Los_Angeles` | `main--qsr-us--org.aem.live` |
+| `uk` | `en-GB` | GBP | `Europe/London` | `main--qsr-uk--org.aem.live` |
+| `jp` | `ja-JP` | JPY | `Asia/Tokyo` | `main--qsr-jp--org.aem.live` |
 
 ---
 
@@ -221,7 +223,7 @@ All scope, budget or timeline changes must follow the Change Control process:
 
 1. Change request raised in the project management tool.
 2. Impact assessed by the Technical Architect and Project Manager.
-3. Approved by Client Partner and Starbucks programme lead.
+3. Approved by Client Partner and Quick Service Restaurant programme lead.
 4. SOW / schedule updated and communicated to the team.
 
 ### 8.2 Architecture Decision Records
@@ -240,5 +242,5 @@ AEM Technical Architect
 Project Manager + Client Partner
     │  (executive decision required)
     ▼
-Starbucks Programme Lead
+Quick Service Restaurant Programme Lead
 ```

@@ -65,4 +65,58 @@ function sanitizeBffModule(module) {
   return ALLOWED_BFF_MODULES.has(name) ? name : null;
 }
 
-module.exports = { safeUrl, sanitizeBffModule, ALLOWED_BFF_MODULES };
+/**
+ * Build an Adobe Dynamic Media (Scene7) URL for a given image and width.
+ *
+ * Appends (or overrides) the standard Dynamic Media image-serving parameters:
+ *   wid  – pixel width of the requested rendition
+ *   fmt  – image format (default: webp for broad browser support)
+ *   qlt  – quality level 0–100 (default: 85)
+ *
+ * If the input URL is not a valid absolute URL it is returned unchanged so that
+ * relative or placeholder URLs used in tests/stubs are not corrupted.
+ *
+ * @param {string} imageUrl  - Original image URL (absolute Dynamic Media URL)
+ * @param {number} width     - Desired pixel width for this rendition
+ * @param {object} [options]
+ * @param {string} [options.format='webp'] - Image format (webp | jpeg | png)
+ * @param {number} [options.quality=85]    - JPEG/WebP quality (1–100)
+ * @returns {string}
+ */
+function buildDynamicMediaUrl(imageUrl, width, options = {}) {
+  if (!imageUrl) return '';
+  const str = String(imageUrl).trim();
+  if (!str) return '';
+
+  const { format = 'webp', quality = 85 } = options;
+
+  try {
+    const url = new URL(str);
+    url.searchParams.set('wid', String(width));
+    url.searchParams.set('fmt', format);
+    url.searchParams.set('qlt', String(quality));
+    return url.toString();
+  } catch {
+    // Relative paths or non-URL strings are returned as-is
+    return str;
+  }
+}
+
+/**
+ * Build a `srcset` string with multiple width-descriptor entries from Adobe Dynamic Media.
+ * Uses width descriptors (w) with a matching `sizes` attribute for optimal responsive delivery.
+ *
+ * @param {string} imageUrl        - Absolute Dynamic Media image URL
+ * @param {number} baseWidth       - Base (1×) pixel width for the largest rendition
+ * @param {string} [format='webp'] - Image format for all srcset entries
+ * @returns {string}  e.g. "https://…?wid=400&fmt=webp 400w, https://…?wid=800&fmt=webp 800w"
+ */
+function buildDynamicMediaSrcset(imageUrl, baseWidth, format = 'webp') {
+  if (!imageUrl) return '';
+  const widths = [Math.round(baseWidth * 0.5), baseWidth, Math.round(baseWidth * 2)];
+  return widths
+    .map((w) => `${buildDynamicMediaUrl(imageUrl, w, { format })} ${w}w`)
+    .join(', ');
+}
+
+module.exports = { safeUrl, sanitizeBffModule, ALLOWED_BFF_MODULES, buildDynamicMediaUrl, buildDynamicMediaSrcset };

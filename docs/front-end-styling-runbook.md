@@ -328,9 +328,9 @@ Always reference tokens — never hard-code values:
 
 ## 4. Svelte Component Theming
 
-Svelte web components (`sbux-menu-card`, `sbux-product-customizer`) receive design tokens via CSS custom properties on the host element. This allows global token changes to propagate into shadow DOM components.
+Svelte web components (`qsr-menu-card`, `qsr-product-customizer`) receive design tokens via CSS custom properties on the host element. This allows global token changes to propagate into shadow DOM components.
 
-**In `packages/eds-components/src/components/sbux-menu-card.svelte`:**
+**In `packages/eds-components/src/components/qsr-menu-card.svelte`:**
 
 ```svelte
 <style>
@@ -496,7 +496,7 @@ Dark mode is opt-in and driven by the `prefers-color-scheme` media query. Define
 }
 ```
 
-Dark mode is currently **optional** for this project. Confirm with the Starbucks brand team before enabling.
+Dark mode is currently **optional** for this project. Confirm with the Quick Service Restaurant brand team before enabling.
 
 ---
 

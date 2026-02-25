@@ -3,7 +3,7 @@
 This checklist must be completed and signed off by all four disciplines before any market is promoted to production.  
 Work through each section in parallel; the **final sign-off gate** at the bottom requires all four leads to confirm readiness.
 
-**Markets:** US (`sbux-us`) · UK (`sbux-uk`) · JP (`sbux-jp`)  
+**Markets:** US (`qsr-us`) · UK (`qsr-uk`) · JP (`qsr-jp`)  
 **Environments:** Development → Stage → Production
 
 ---
@@ -114,7 +114,7 @@ Work through each section in parallel; the **final sign-off gate** at the bottom
 ### 2.6 Analytics & Personalisation
 
 - [ ] Adobe Analytics beacon fires on every page view; `s.pageName` and market `s.prop1` populated correctly
-- [ ] Analytics report suite receiving data: `sbux-us-prod`, `sbux-uk-prod`, `sbux-jp-prod`
+- [ ] Analytics report suite receiving data: `qsr-us-prod`, `qsr-uk-prod`, `qsr-jp-prod`
 - [ ] Product detail view event (`prodView`) fires when a menu item page is loaded
 - [ ] Rewards authenticated view event fires when `rewards:loaded` event is dispatched
 - [ ] Adobe Target global mbox fires on each page; at least one A/B activity validated
@@ -136,7 +136,7 @@ Work through each section in parallel; the **final sign-off gate** at the bottom
 - [ ] UAT test cases executed and results documented for UK market
 - [ ] UAT test cases executed and results documented for JP market
 - [ ] All P1 and P2 defects resolved; outstanding P3/P4 defects accepted by Product Owner with a remediation plan
-- [ ] Starbucks content lead sign-off obtained for each market
+- [ ] Quick Service Restaurant content lead sign-off obtained for each market
 
 ---
 
@@ -205,7 +205,7 @@ Work through each section in parallel; the **final sign-off gate** at the bottom
 ### 4.1 Stakeholder Sign-Off
 
 - [ ] Executive sponsor confirmed go-live date and approved the release
-- [ ] Starbucks marketing lead reviewed and approved all content for each market
+- [ ] Quick Service Restaurant marketing lead reviewed and approved all content for each market
 - [ ] Legal / compliance team reviewed content for regulatory requirements (GDPR, UK PECR, Japanese APPI)
 - [ ] Brand team confirmed visual identity (colours, fonts, logo usage) matches brand guidelines for each market
 - [ ] Product Owner signed off on final scope; out-of-scope items documented in backlog
@@ -229,7 +229,7 @@ Work through each section in parallel; the **final sign-off gate** at the bottom
 ### 4.4 Marketing & Communications
 
 - [ ] Go-live announcement email / social media assets prepared and scheduled
-- [ ] Internal stakeholder communication sent (Starbucks team, agency partners)
+- [ ] Internal stakeholder communication sent (Quick Service Restaurant team, agency partners)
 - [ ] Customer support team briefed on new site features and known limitations
 - [ ] Hypercare support period confirmed (recommended: 2 weeks post go-live)
 - [ ] Feedback and issue intake channel established for post-go-live observations
@@ -270,7 +270,7 @@ All four leads must confirm readiness before the production deployment is trigge
 - [ ] On-call rota active for the go-live window
 
 > **Proceed to production deployment only when all four leads have approved.**  
-> Trigger the production pipeline via **Cloud Manager → Pipelines → sbux-production-deploy → Run** or via **GitHub Actions → Deploy EDS Sites & App Builder → Run workflow** (`market: all`, branch: `main`).
+> Trigger the production pipeline via **Cloud Manager → Pipelines → qsr-production-deploy → Run** or via **GitHub Actions → Deploy EDS Sites & App Builder → Run workflow** (`market: all`, branch: `main`).
 
 ---
 

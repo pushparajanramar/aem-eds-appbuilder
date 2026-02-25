@@ -154,6 +154,48 @@ export async function loadPage() {
   const main = document.querySelector('main');
   if (main) {
     await decorateMain(main);
+    applyDeviceType();
+    loadCSS('/styles/device.css');
     document.body.classList.add('appear');
   }
+}
+
+/**
+ * Read the device type injected by the device-provider action (via a <meta>
+ * tag or the X-Device-Type response header echoed by Fastly) and apply it as
+ * a data attribute on <html> so CSS and JS can adapt layouts without
+ * performing User-Agent sniffing in the browser.
+ *
+ * Resolution order:
+ *   1. <meta name="x-device-type"> (set by device-provider action)
+ *   2. document.documentElement already has data-device (set inline by device-provider)
+ *   3. Viewport-width heuristic (client-side fallback only)
+ */
+function applyDeviceType() {
+  // Ensure viewport meta tag is present for responsive design
+  if (!document.head.querySelector('meta[name="viewport"]')) {
+    const vp = document.createElement('meta');
+    vp.name = 'viewport';
+    vp.content = 'width=device-width, initial-scale=1';
+    document.head.prepend(vp);
+  }
+
+  const html = document.documentElement;
+  if (html.dataset.device) return; // already set by device-provider inline script
+
+  const meta = document.head.querySelector('meta[name="x-device-type"]');
+  if (meta && meta.content) {
+    html.setAttribute('data-device', meta.content);
+    return;
+  }
+
+  // Client-side viewport fallback (low-fidelity; prefer server-side detection)
+  const w = window.innerWidth;
+  let deviceType = 'desktop';
+  if (w <= 480) {
+    deviceType = 'mobile';
+  } else if (w <= 1024) {
+    deviceType = 'tablet';
+  }
+  html.setAttribute('data-device', deviceType);
 }

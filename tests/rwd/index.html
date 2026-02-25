@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" data-device="desktop">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EDS Blocks — RWD Desktop Test</title>
+
+  <!-- Design tokens (inline so @import resolves to itself via the server) -->
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/device.css" />
+
+  <!-- All 17 block CSS files -->
+  <link rel="stylesheet" href="/blocks/accordion/accordion.css" />
+  <link rel="stylesheet" href="/blocks/breadcrumbs/breadcrumbs.css" />
+  <link rel="stylesheet" href="/blocks/cards/cards.css" />
+  <link rel="stylesheet" href="/blocks/carousel/carousel.css" />
+  <link rel="stylesheet" href="/blocks/columns/columns.css" />
+  <link rel="stylesheet" href="/blocks/embed/embed.css" />
+  <link rel="stylesheet" href="/blocks/footer/footer.css" />
+  <link rel="stylesheet" href="/blocks/form/form.css" />
+  <link rel="stylesheet" href="/blocks/hero/hero.css" />
+  <link rel="stylesheet" href="/blocks/modal/modal.css" />
+  <link rel="stylesheet" href="/blocks/quote/quote.css" />
+  <link rel="stylesheet" href="/blocks/search/search.css" />
+  <link rel="stylesheet" href="/blocks/table/table.css" />
+  <link rel="stylesheet" href="/blocks/tabs/tabs.css" />
+  <link rel="stylesheet" href="/blocks/video/video.css" />
+  <link rel="stylesheet" href="/blocks/header/header.css" />
+  <link rel="stylesheet" href="/blocks/footer/footer.css" />
+
+  <style>
+    /* Page scaffold */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fff;
+      font-family: 'SoDo Sans', 'Helvetica Neue', Arial, sans-serif;
+      color: #1e3932;
+    }
+    .page-section {
+      padding: 48px 32px;
+      border-bottom: 2px solid #e5e5e5;
+    }
+    .page-section:nth-child(even) { background: #f7f7f7; }
+    .section-label {
+      display: inline-block;
+      background: #1e3932;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    /* ── fix @import paths at runtime ── */
+    /* tokens are loaded globally, so these just reference vars */
+    :root {
+      --header-height: 64px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ HEADER ═══ -->
+<section class="page-section" id="s-header">
+  <span class="section-label">header</span>
+  <div class="header block" style="position:relative;">
+    <div class="nav-wrapper" style="position:relative;">
+      <nav id="nav" aria-expanded="false" style="display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:#fff;border-bottom:1px solid #e5e5e5;">
+        <div class="nav-brand" style="font-weight:700;font-size:1.25rem;color:#1e3932;">QSR&nbsp;Brand</div>
+        <div class="nav-sections" style="display:flex;gap:24px;">
+          <span style="font-weight:500;cursor:pointer;">Menu</span>
+          <span style="font-weight:500;cursor:pointer;">Locations</span>
+          <span style="font-weight:500;cursor:pointer;">Rewards</span>
+          <span style="font-weight:500;cursor:pointer;">Order</span>
+        </div>
+        <div class="nav-tools" style="display:flex;gap:16px;align-items:center;">
+          <button style="background:#00704a;color:#fff;border:none;padding:8px 20px;border-radius:999px;font-weight:600;cursor:pointer;">Sign In</button>
+        </div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ HERO ══════ -->
+<section class="page-section" id="s-hero" style="padding:0;">
+  <span class="section-label" style="position:absolute;z-index:10;margin:16px 32px;">hero</span>
+  <div class="hero block" style="position:relative;min-height:420px;overflow:hidden;">
+    <picture style="position:absolute;inset:0;z-index:0;">
+      <img src="https://placehold.co/1440x500/1e3932/ffffff?text=Hero+Background" alt="Hero background" loading="lazy"
+           style="width:100%;height:100%;object-fit:cover;" />
+    </picture>
+    <div class="hero__content" style="position:relative;z-index:1;max-width:640px;padding:80px 48px;color:#fff;">
+      <h1 style="font-size:2.5rem;font-weight:700;margin:0 0 16px;line-height:1.2;">Welcome to QSR</h1>
+      <p style="font-size:1.125rem;margin:0 0 32px;opacity:0.9;">Fresh ingredients, bold flavours — order ahead for pick-up or delivery.</p>
+      <a href="#" style="display:inline-flex;align-items:center;padding:14px 32px;background:#00704a;color:#fff;border-radius:999px;font-weight:700;text-decoration:none;font-size:1rem;">Order Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ BREADCRUMBS ══ -->
+<section class="page-section" id="s-breadcrumbs">
+  <span class="section-label">breadcrumbs</span>
+  <div class="breadcrumbs block">
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumbs__list" style="display:flex;flex-wrap:wrap;list-style:none;margin:0;padding:0;gap:8px;align-items:center;">
+        <li><a href="#" style="color:#00704a;text-decoration:none;">Home</a></li>
+        <li style="color:#9e9e9e;">›</li>
+        <li><a href="#" style="color:#00704a;text-decoration:none;">Menu</a></li>
+        <li style="color:#9e9e9e;">›</li>
+        <li aria-current="page" style="color:#404040;font-weight:500;">Hot Drinks</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ CARDS ════ -->
+<section class="page-section" id="s-cards">
+  <span class="section-label">cards</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Featured Menu Items</h2>
+  <div class="cards block">
+    <ul class="cards__list">
+      <li class="cards__item" style="border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12);">
+        <div class="cards__image" style="line-height:0;"><img src="https://placehold.co/400x300/d4e9e2/1e3932?text=Grande+Latte" alt="Grande Latte" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;" /></div>
+        <div class="cards__body" style="padding:16px;flex:1;">
+          <h3 style="margin:0 0 8px;font-size:1rem;font-weight:600;">Grande Latte</h3>
+          <p style="margin:0;font-size:.875rem;color:#404040;">Rich espresso with perfectly steamed milk.</p>
+        </div>
+        <div style="padding:12px 16px;border-top:1px solid #e5e5e5;"><button style="width:100%;padding:10px;background:#00704a;color:#fff;border:none;border-radius:999px;font-weight:600;cursor:pointer;min-height:44px;">Add to Order</button></div>
+      </li>
+      <li class="cards__item" style="border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12);">
+        <div class="cards__image" style="line-height:0;"><img src="https://placehold.co/400x300/cba258/1e3932?text=Cold+Brew" alt="Cold Brew" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;" /></div>
+        <div class="cards__body" style="padding:16px;flex:1;">
+          <h3 style="margin:0 0 8px;font-size:1rem;font-weight:600;">Cold Brew</h3>
+          <p style="margin:0;font-size:.875rem;color:#404040;">Slow-steeped for 20 hours, smooth and bold.</p>
+        </div>
+        <div style="padding:12px 16px;border-top:1px solid #e5e5e5;"><button style="width:100%;padding:10px;background:#00704a;color:#fff;border:none;border-radius:999px;font-weight:600;cursor:pointer;min-height:44px;">Add to Order</button></div>
+      </li>
+      <li class="cards__item" style="border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;display:flex;flex-direction:column;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12);">
+        <div class="cards__image" style="line-height:0;"><img src="https://placehold.co/400x300/f2f0eb/1e3932?text=Matcha" alt="Matcha Latte" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;" /></div>
+        <div class="cards__body" style="padding:16px;flex:1;">
+          <h3 style="margin:0 0 8px;font-size:1rem;font-weight:600;">Matcha Latte</h3>
+          <p style="margin:0;font-size:.875rem;color:#404040;">Ceremonial-grade matcha with oat milk.</p>
+        </div>
+        <div style="padding:12px 16px;border-top:1px solid #e5e5e5;"><button style="width:100%;padding:10px;background:#00704a;color:#fff;border:none;border-radius:999px;font-weight:600;cursor:pointer;min-height:44px;">Add to Order</button></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ CAROUSEL ════ -->
+<section class="page-section" id="s-carousel" style="padding:0 0 48px;">
+  <div style="padding:32px 32px 0;"><span class="section-label">carousel</span></div>
+  <div class="carousel block" role="region" aria-roledescription="Carousel" aria-label="Promotions" style="margin:24px 32px 0;border-radius:16px;overflow:hidden;position:relative;min-height:340px;">
+    <div class="carousel__track" style="display:flex;overflow:hidden;">
+      <div class="carousel__slide" style="flex:0 0 100%;min-height:340px;position:relative;display:flex;align-items:center;">
+        <img src="https://placehold.co/1280x340/1e3932/d4e9e2?text=Slide+1+—+Summer+Offer" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
+        <div style="position:relative;z-index:1;padding:48px;color:#fff;max-width:540px;">
+          <h2 style="margin:0 0 12px;font-size:2rem;font-weight:700;">Summer Refreshers</h2>
+          <p style="margin:0 0 24px;font-size:1rem;opacity:.9;">Buy 3, get 1 free on all cold drinks.</p>
+          <a href="#" style="padding:12px 28px;background:#cba258;color:#1e3932;border-radius:999px;font-weight:700;text-decoration:none;">Shop Now</a>
+        </div>
+      </div>
+    </div>
+    <!-- indicators -->
+    <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;">
+      <button aria-label="Slide 1 of 3" aria-current="true" style="width:10px;height:10px;border-radius:50%;background:#fff;border:none;cursor:pointer;padding:0;"></button>
+      <button aria-label="Slide 2 of 3" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;"></button>
+      <button aria-label="Slide 3 of 3" style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;"></button>
+    </div>
+    <!-- nav buttons -->
+    <button aria-label="Previous Slide" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(19,19,19,.4);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">‹</button>
+    <button aria-label="Next Slide" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(19,19,19,.4);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">›</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ ACCORDION ════ -->
+<section class="page-section" id="s-accordion">
+  <span class="section-label">accordion</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Frequently Asked Questions</h2>
+  <div class="accordion block">
+    <details class="accordion__item" open>
+      <summary class="accordion__summary">What are your opening hours?</summary>
+      <div class="accordion__body"><p>We're open every day from 6 am to 10 pm. Drive-through is available 24 hours on Fridays and Saturdays.</p></div>
+    </details>
+    <details class="accordion__item">
+      <summary class="accordion__summary">Do you offer dairy-free alternatives?</summary>
+      <div class="accordion__body"><p>Yes! We offer oat, almond, soy and coconut milk in all our hot and cold beverages at no extra charge.</p></div>
+    </details>
+    <details class="accordion__item">
+      <summary class="accordion__summary">How does mobile ordering work?</summary>
+      <div class="accordion__body"><p>Download the QSR app, add items to your cart and pay in-app. Your order will be ready when you arrive — just skip the queue.</p></div>
+    </details>
+    <details class="accordion__item">
+      <summary class="accordion__summary">Can I customise my drink?</summary>
+      <div class="accordion__body"><p>Absolutely. Choose your milk, syrup, shot strength, temperature and cup size using the Product Customiser on any product page.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ COLUMNS ════ -->
+<section class="page-section" id="s-columns">
+  <span class="section-label">columns</span>
+  <div class="columns block columns-2-cols">
+    <div style="display:flex;gap:48px;align-items:center;">
+      <div class="columns__img-col" style="flex:1;">
+        <img src="https://placehold.co/600x400/d4e9e2/1e3932?text=Our+Story" alt="Our Story" loading="lazy" style="width:100%;border-radius:16px;" />
+      </div>
+      <div style="flex:1;">
+        <h2 style="font-size:2rem;font-weight:700;margin:0 0 16px;">Crafted with care since 1971</h2>
+        <p style="font-size:1rem;color:#404040;line-height:1.6;margin:0 0 24px;">Every cup starts with ethically sourced beans roasted to perfection at our UK facility. From farm to cup, quality is never an afterthought.</p>
+        <a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#00704a;font-weight:600;text-decoration:none;font-size:1rem;">Learn our story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ TABS ════ -->
+<section class="page-section" id="s-tabs">
+  <span class="section-label">tabs</span>
+  <div class="tabs block">
+    <div class="tabs__list" role="tablist" aria-label="Menu Categories">
+      <button class="tabs__tab" role="tab" id="tab-hot" aria-controls="panel-hot" aria-selected="true" tabindex="0">Hot Drinks</button>
+      <button class="tabs__tab" role="tab" id="tab-cold" aria-controls="panel-cold" aria-selected="false" tabindex="-1">Cold Drinks</button>
+      <button class="tabs__tab" role="tab" id="tab-food" aria-controls="panel-food" aria-selected="false" tabindex="-1">Food</button>
+      <button class="tabs__tab" role="tab" id="tab-seasonal" aria-controls="panel-seasonal" aria-selected="false" tabindex="-1">Seasonal</button>
+    </div>
+    <div class="tabs__panel" role="tabpanel" id="panel-hot" aria-labelledby="tab-hot" aria-hidden="false">
+      <p>Lattes, cappuccinos, flat whites, macchiatos — brewed from our signature espresso blend.</p>
+      <p>Available in Short, Tall, Grande and Venti sizes.</p>
+    </div>
+    <div class="tabs__panel" role="tabpanel" id="panel-cold" aria-labelledby="tab-cold" aria-hidden="true">
+      <p>Cold brews, iced lattes, Frappuccinos and refreshers — perfect for warm days.</p>
+    </div>
+    <div class="tabs__panel" role="tabpanel" id="panel-food" aria-labelledby="tab-food" aria-hidden="true">
+      <p>Pastries, sandwiches, salads and snack boxes — baked fresh every morning.</p>
+    </div>
+    <div class="tabs__panel" role="tabpanel" id="panel-seasonal" aria-labelledby="tab-seasonal" aria-hidden="true">
+      <p>Limited-edition seasonal specials — available while stocks last.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ TABLE ════ -->
+<section class="page-section" id="s-table">
+  <span class="section-label">table</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Nutritional Information</h2>
+  <div class="table block striped">
+    <div style="width:100%;overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:.875rem;">
+        <thead>
+          <tr style="border-top:2px solid #e5e5e5;border-bottom:2px solid #e5e5e5;">
+            <th scope="col" style="padding:.75em 1em;text-align:left;font-weight:700;">Drink</th>
+            <th scope="col" style="padding:.75em 1em;text-align:left;font-weight:700;">Size</th>
+            <th scope="col" style="padding:.75em 1em;text-align:left;font-weight:700;">Calories</th>
+            <th scope="col" style="padding:.75em 1em;text-align:left;font-weight:700;">Caffeine (mg)</th>
+            <th scope="col" style="padding:.75em 1em;text-align:left;font-weight:700;">Sugar (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e5e5e5;"><td style="padding:.75em 1em;">Grande Latte</td><td style="padding:.75em 1em;">Tall 354ml</td><td style="padding:.75em 1em;">190</td><td style="padding:.75em 1em;">150</td><td style="padding:.75em 1em;">18</td></tr>
+          <tr style="border-bottom:1px solid #e5e5e5;background:#f7f7f7;"><td style="padding:.75em 1em;">Cold Brew</td><td style="padding:.75em 1em;">Grande 473ml</td><td style="padding:.75em 1em;">5</td><td style="padding:.75em 1em;">205</td><td style="padding:.75em 1em;">0</td></tr>
+          <tr style="border-bottom:1px solid #e5e5e5;"><td style="padding:.75em 1em;">Matcha Latte</td><td style="padding:.75em 1em;">Tall 354ml</td><td style="padding:.75em 1em;">240</td><td style="padding:.75em 1em;">70</td><td style="padding:.75em 1em;">32</td></tr>
+          <tr style="border-bottom:1px solid #e5e5e5;background:#f7f7f7;"><td style="padding:.75em 1em;">Frappuccino</td><td style="padding:.75em 1em;">Venti 709ml</td><td style="padding:.75em 1em;">530</td><td style="padding:.75em 1em;">125</td><td style="padding:.75em 1em;">72</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ QUOTE ════ -->
+<section class="page-section" id="s-quote">
+  <span class="section-label">quote</span>
+  <div class="quote block">
+    <blockquote class="quote__blockquote" style="margin:0 auto;padding:0 32px;max-width:760px;border-left:4px solid #cba258;">
+      <div class="quote__quotation" style="font-size:1.5rem;font-style:italic;line-height:1.5;color:#1e3932;margin-bottom:16px;">
+        "The best coffee I've ever had. The baristas remember my order every single time — that's what community feels like."
+      </div>
+      <footer class="quote__attribution" style="font-size:.875rem;color:#404040;font-weight:600;">— Sarah T., London</footer>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ SEARCH ════ -->
+<section class="page-section" id="s-search">
+  <span class="section-label">search</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Search Our Menu</h2>
+  <div class="search block">
+    <form class="search__form" role="search" style="display:flex;gap:12px;max-width:640px;">
+      <input type="search" name="q" placeholder="e.g. 'cold brew' or 'matcha'" aria-label="Search menu"
+             style="flex:1;padding:12px 16px;border:1px solid #e5e5e5;border-radius:8px;font-size:1rem;font-family:inherit;" />
+      <button type="submit" style="padding:12px 28px;background:#00704a;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;min-height:44px;white-space:nowrap;">Search</button>
+    </form>
+    <div class="search__results" aria-live="polite" style="margin-top:24px;">
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px;">
+        <li style="border-bottom:1px solid #e5e5e5;padding-bottom:16px;">
+          <a href="#" style="text-decoration:none;color:inherit;display:block;">
+            <h3 style="margin:0 0 4px;color:#00704a;font-size:1.125rem;">Grande Latte</h3>
+            <p style="margin:0;color:#404040;font-size:.875rem;">Rich espresso topped with silky steamed milk in your choice of size.</p>
+          </a>
+        </li>
+        <li style="border-bottom:1px solid #e5e5e5;padding-bottom:16px;">
+          <a href="#" style="text-decoration:none;color:inherit;display:block;">
+            <h3 style="margin:0 0 4px;color:#00704a;font-size:1.125rem;">Cold Brew Coffee</h3>
+            <p style="margin:0;color:#404040;font-size:.875rem;">Slow-steeped cold brew served over ice for a smooth, sweet taste.</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ FORM ════ -->
+<section class="page-section" id="s-form">
+  <span class="section-label">form</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Contact Us</h2>
+  <div class="form block" style="max-width:600px;">
+    <form>
+      <div class="form__field" style="margin-bottom:20px;">
+        <label for="f-name" style="display:block;margin-bottom:6px;font-weight:600;font-size:.875rem;">Full Name <span style="color:#d62b2b;">*</span></label>
+        <input type="text" id="f-name" name="name" required placeholder="Jane Smith"
+               style="width:100%;padding:10px 14px;border:1px solid #e5e5e5;border-radius:8px;font-size:1rem;font-family:inherit;" />
+      </div>
+      <div class="form__field" style="margin-bottom:20px;">
+        <label for="f-email" style="display:block;margin-bottom:6px;font-weight:600;font-size:.875rem;">Email Address <span style="color:#d62b2b;">*</span></label>
+        <input type="email" id="f-email" name="email" required placeholder="jane@example.com"
+               style="width:100%;padding:10px 14px;border:1px solid #e5e5e5;border-radius:8px;font-size:1rem;font-family:inherit;" />
+      </div>
+      <div class="form__field" style="margin-bottom:20px;">
+        <label for="f-subject" style="display:block;margin-bottom:6px;font-weight:600;font-size:.875rem;">Subject</label>
+        <select id="f-subject" name="subject"
+                style="width:100%;padding:10px 14px;border:1px solid #e5e5e5;border-radius:8px;font-size:1rem;font-family:inherit;background:#fff;">
+          <option value="">Please select…</option>
+          <option>General enquiry</option>
+          <option>Order issue</option>
+          <option>Feedback</option>
+          <option>Allergen information</option>
+        </select>
+      </div>
+      <div class="form__field" style="margin-bottom:24px;">
+        <label for="f-message" style="display:block;margin-bottom:6px;font-weight:600;font-size:.875rem;">Message <span style="color:#d62b2b;">*</span></label>
+        <textarea id="f-message" name="message" required rows="4" placeholder="Tell us how we can help…"
+                  style="width:100%;padding:10px 14px;border:1px solid #e5e5e5;border-radius:8px;font-size:1rem;font-family:inherit;resize:vertical;"></textarea>
+      </div>
+      <button type="submit" style="padding:14px 36px;background:#00704a;color:#fff;border:none;border-radius:999px;font-weight:700;font-size:1rem;cursor:pointer;min-height:44px;">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ EMBED ════ -->
+<section class="page-section" id="s-embed">
+  <span class="section-label">embed</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Watch Our Story</h2>
+  <div class="embed block" style="max-width:800px;margin:0 auto;text-align:center;">
+    <div class="embed__placeholder" style="position:relative;width:100%;aspect-ratio:16/9;background:#1e3932;border-radius:12px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+      <img src="https://placehold.co/800x450/1e3932/d4e9e2?text=▶+Watch+Our+Story" alt="Video thumbnail" loading="lazy"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
+      <div style="position:relative;z-index:1;width:64px;height:64px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4);">
+        <span style="color:#fff;font-size:24px;margin-left:4px;">▶</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ VIDEO ════ -->
+<section class="page-section" id="s-video">
+  <span class="section-label">video</span>
+  <h2 style="margin:0 0 24px;font-size:1.5rem;">Brewing Tutorial</h2>
+  <div class="video block" style="max-width:800px;margin:0 auto;text-align:center;">
+    <div class="video__placeholder" style="position:relative;width:100%;aspect-ratio:16/9;background:#f2f0eb;border-radius:12px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+      <img src="https://placehold.co/800x450/f2f0eb/1e3932?text=Brewing+Tutorial" alt="Video poster" loading="lazy"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
+      <div style="position:relative;z-index:1;width:64px;height:64px;border-radius:50%;border:3px solid #1e3932;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.7);">
+        <span style="color:#1e3932;font-size:24px;margin-left:4px;">▶</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ MODAL ════ -->
+<section class="page-section" id="s-modal">
+  <span class="section-label">modal</span>
+  <h2 style="margin:0 0 16px;font-size:1.5rem;">Modal Dialog</h2>
+  <button id="open-modal" onclick="document.getElementById('demo-modal').showModal()"
+          style="padding:12px 28px;background:#00704a;color:#fff;border:none;border-radius:999px;font-weight:600;cursor:pointer;min-height:44px;">
+    Open Sample Modal
+  </button>
+  <dialog id="demo-modal" style="width:min(90vw,560px);padding:0;border:1px solid #e5e5e5;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.16);">
+    <div style="padding:48px 32px 32px;position:relative;">
+      <button onclick="document.getElementById('demo-modal').close()" aria-label="Close dialog"
+              style="position:absolute;top:12px;right:12px;width:36px;height:36px;border:none;background:transparent;cursor:pointer;font-size:20px;color:#404040;border-radius:50%;">×</button>
+      <h2 style="margin:0 0 12px;font-size:1.5rem;color:#1e3932;">Limited Time Offer</h2>
+      <p style="margin:0 0 24px;color:#404040;line-height:1.6;">Get 20% off your next order when you download the QSR app today. Use code <strong>APP20</strong> at checkout.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button style="flex:1;padding:12px 24px;background:#00704a;color:#fff;border:none;border-radius:999px;font-weight:600;cursor:pointer;min-height:44px;">Download App</button>
+        <button onclick="document.getElementById('demo-modal').close()" style="flex:1;padding:12px 24px;background:#fff;color:#1e3932;border:1px solid #e5e5e5;border-radius:999px;font-weight:600;cursor:pointer;min-height:44px;">No Thanks</button>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<!-- ═══════════════════════════════════════ FOOTER ════ -->
+<footer class="footer block" style="background:#f2f0eb;padding:48px 32px 32px;margin-top:0;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <span class="section-label">footer</span>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-top:24px;padding-bottom:40px;border-bottom:1px solid #e5e5e5;">
+      <div>
+        <div style="font-weight:700;font-size:1.25rem;color:#1e3932;margin-bottom:16px;">QSR Brand</div>
+        <p style="font-size:.875rem;color:#404040;line-height:1.6;margin:0 0 16px;">Crafting exceptional coffee experiences since 1971. Committed to quality, community and sustainability.</p>
+      </div>
+      <div>
+        <h3 style="font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1e3932;margin:0 0 16px;">Menu</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Hot Drinks</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Cold Drinks</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Food</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Seasonal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1e3932;margin:0 0 16px;">Company</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Our Story</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Careers</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Sustainability</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:.875rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1e3932;margin:0 0 16px;">Support</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Contact Us</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">FAQs</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Allergens</a></li>
+          <li><a href="#" style="color:#404040;text-decoration:none;font-size:.875rem;">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:24px;flex-wrap:wrap;gap:16px;">
+      <p style="margin:0;font-size:.75rem;color:#9e9e9e;">© 2025 QSR Brand Ltd. All rights reserved.</p>
+      <div style="display:flex;gap:16px;">
+        <a href="#" style="font-size:.75rem;color:#9e9e9e;text-decoration:none;">Privacy Policy</a>
+        <a href="#" style="font-size:.75rem;color:#9e9e9e;text-decoration:none;">Cookie Settings</a>
+        <a href="#" style="font-size:.75rem;color:#9e9e9e;text-decoration:none;">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set data-device=desktop and wire up tab interactivity
+  document.documentElement.setAttribute('data-device', 'desktop');
+  document.querySelectorAll('.tabs__list').forEach((list) => {
+    const tabs = [...list.querySelectorAll('[role=tab]')];
+    const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+    tabs.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        tabs.forEach((b, j) => {
+          b.setAttribute('aria-selected', i === j);
+          b.setAttribute('tabindex', i === j ? '0' : '-1');
+          if (panels[j]) panels[j].setAttribute('aria-hidden', i !== j);
+        });
+      });
+    });
+  });
+</script>
+</body>
+</html>

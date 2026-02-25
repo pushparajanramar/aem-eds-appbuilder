@@ -42,9 +42,9 @@ Discovery
 
 | Activity | Owner | Reviewed by |
 |---|---|---|
-| Brand alignment | UX Consultant | Starbucks brand team |
-| Wireframes | UX Consultant | Functional Lead + Starbucks Content Lead |
-| Visual designs | UX Consultant | Starbucks brand team + Client Partner |
+| Brand alignment | UX Consultant | Quick Service Restaurant brand team |
+| Wireframes | UX Consultant | Functional Lead + Quick Service Restaurant Content Lead |
+| Visual designs | UX Consultant | Quick Service Restaurant brand team + Client Partner |
 | Prototype | UX Consultant | UAT participants |
 | CSS implementation | AEM Consultant (Tech/Dev) | UX Consultant |
 
@@ -74,7 +74,7 @@ Define the following token categories for all three markets:
 ```css
 :root {
   /* Brand colours */
-  --color-brand-primary:    #00704A;  /* Starbucks green */
+  --color-brand-primary:    #00704A;  /* Quick Service Restaurant green */
   --color-brand-secondary:  #1E3932;  /* Dark green */
   --color-brand-accent:     #CBA258;  /* Gold */
 
@@ -205,7 +205,7 @@ For each block, the design must include:
 - [ ] Empty/skeleton loading state
 - [ ] Error state (when App Builder action fails)
 - [ ] All interactive states (hover, focus, active, disabled)
-- [ ] Dark mode variant (if required by Starbucks brand)
+- [ ] Dark mode variant (if required by Quick Service Restaurant brand)
 - [ ] Market-specific variants (e.g., JP currency display, RTL if needed)
 
 ---
@@ -217,7 +217,7 @@ For each block, the design must include:
 The design toolkit (maintained in Adobe XD or Figma) is organised as follows:
 
 ```
-Starbucks EDS Design System
+Quick Service Restaurant EDS Design System
 ├── 🎨 Foundations
 │   ├── Colours
 │   ├── Typography
@@ -355,13 +355,13 @@ The Tech/Dev team can raise questions or request design clarification within **4
 
 | Review | Timing | Attendees | Format |
 |---|---|---|---|
-| Wireframe review | End of wireframe phase | Functional Lead + Starbucks Content Lead | Remote walkthrough |
-| Visual design review | After high-fidelity comps | Starbucks brand team + Client Partner | Remote walkthrough |
-| Prototype review (UAT) | Before go-live | Starbucks content teams | In-person or remote |
+| Wireframe review | End of wireframe phase | Functional Lead + Quick Service Restaurant Content Lead | Remote walkthrough |
+| Visual design review | After high-fidelity comps | Quick Service Restaurant brand team + Client Partner | Remote walkthrough |
+| Prototype review (UAT) | Before go-live | Quick Service Restaurant content teams | In-person or remote |
 | Post-implementation review | After first sprint | UX Consultant + Tech/Dev | Design QA session |
 
 ### 9.2 Approval Sign-off
 
-- Visual designs approved by **Starbucks brand team** (written confirmation required).
+- Visual designs approved by **Quick Service Restaurant brand team** (written confirmation required).
 - Accessibility review approved by **UX Consultant** (axe DevTools scan with 0 errors).
 - Responsive design QA approved by **Tech/Dev** on real devices (iOS Safari, Android Chrome, desktop Chrome/Firefox/Edge).

@@ -1,7 +1,7 @@
 {
-  "name": "@starbucks/eds-components",
+  "name": "@qsr/eds-components",
   "version": "1.0.0",
-  "description": "Shared Svelte Web Components library for Starbucks EDS sites",
+  "description": "Shared Svelte Web Components library for Quick Service Restaurant EDS sites",
   "type": "module",
   "main": "src/index.js",
   "files": [

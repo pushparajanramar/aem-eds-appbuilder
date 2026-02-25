@@ -1,7 +1,7 @@
 /**
  * Shared API Utilities for Svelte Web Components
  *
- * Provides typed fetch helpers for the Starbucks EDS component library.
+ * Provides typed fetch helpers for the Quick Service Restaurant EDS component library.
  * Auth tokens are obtained from the auth module (in-memory only — RULE 3).
  * All data-fetching routes through the BFF layer (/bff/...) rather than
  * calling internal APIs directly.
@@ -10,9 +10,9 @@
 import { getAccessToken } from './auth.js';
 
 const MARKET_BFF_BASE = {
-  us: 'https://www.starbucks.com',
-  uk: 'https://www.starbucks.co.uk',
-  jp: 'https://www.starbucks.co.jp',
+  us: 'https://www.qsr.com',
+  uk: 'https://www.qsr.co.uk',
+  jp: 'https://www.qsr.co.jp',
 };
 
 /**

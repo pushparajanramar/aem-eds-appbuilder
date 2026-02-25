@@ -37,7 +37,7 @@ Each market go-live requires the [Go-Live Checklist](go-live-checklist.md) to be
 |---|---|
 | Preferred time | Low-traffic window (e.g., 06:00–08:00 local market time, Tuesday–Thursday) |
 | Maximum window | 4 hours |
-| War room | Microsoft Teams / Slack channel: `#sbux-golive-<market>` |
+| War room | Microsoft Teams / Slack channel: `#qsr-golive-<market>` |
 | Go/No-Go call | 30 minutes before launch window opens |
 
 ### 1.3 Team on Call
@@ -48,8 +48,8 @@ Each market go-live requires the [Go-Live Checklist](go-live-checklist.md) to be
 | Technical Lead | AEM Technical Architect | (phone / Teams) |
 | Front-End Developer | AEM Consultant (Tech/Dev) | (Teams) |
 | Analytics | Analytics Consultant | (Teams) |
-| Starbucks IT | (Starbucks DNS / Infra contact) | (phone) |
-| Starbucks Programme Lead | (Name) | (phone) |
+| Quick Service Restaurant IT | (Quick Service Restaurant DNS / Infra contact) | (phone) |
+| Quick Service Restaurant Programme Lead | (Name) | (phone) |
 
 ---
 
@@ -59,16 +59,16 @@ Complete these tasks in the week before go-live:
 
 ### 2.1 Final Content Review
 
-- [ ] Starbucks Content Lead reviews all published pages on the production EDS preview URL (`*.aem.page`).
+- [ ] Quick Service Restaurant Content Lead reviews all published pages on the production EDS preview URL (`*.aem.page`).
 - [ ] Any last-minute content corrections raised and resolved.
 - [ ] Final content freeze agreed — no further authoring changes after T-2 days.
 
 ### 2.2 DNS Preparation
 
-If a custom domain (e.g., `www.starbucks.com/us`) is being activated:
+If a custom domain (e.g., `www.qsr.com/us`) is being activated:
 
 1. Confirm the CNAME target with Adobe account team (EDS CDN CNAME value).
-2. Schedule the DNS change with Starbucks IT.
+2. Schedule the DNS change with Quick Service Restaurant IT.
 3. Agree the DNS TTL reduction schedule:
    - T-7 days: Reduce TTL to 300 seconds (5 min)
    - T-1 day: Confirm low TTL is in effect
@@ -84,7 +84,7 @@ If a custom domain (e.g., `www.starbucks.com/us`) is being activated:
 
 - [ ] Confirm rollback procedure is understood by all team members (see [§5](#5-rollback-procedure)).
 - [ ] Previous stable deployment artefact identified (Git commit SHA recorded).
-- [ ] Starbucks IT confirms they can revert DNS changes within 15 minutes if needed.
+- [ ] Quick Service Restaurant IT confirms they can revert DNS changes within 15 minutes if needed.
 
 ---
 
@@ -104,11 +104,11 @@ The Project Manager runs a final Go/No-Go assessment 24 hours before launch:
 | All team members available for go-live window | ☐ GO / ☐ NO-GO |
 | Rollback procedure confirmed | ☐ GO / ☐ NO-GO |
 
-If any item is NO-GO, escalate immediately to Client Partner and Starbucks Programme Lead.
+If any item is NO-GO, escalate immediately to Client Partner and Quick Service Restaurant Programme Lead.
 
 ### 3.2 War Room Setup
 
-- [ ] Teams / Slack channel `#sbux-golive-<market>` created with all team members.
+- [ ] Teams / Slack channel `#qsr-golive-<market>` created with all team members.
 - [ ] Screen-sharing session prepared for go-live day.
 - [ ] Monitoring dashboards open and shared: EDS CDN metrics, App Builder I/O Runtime console, AA real-time report.
 
@@ -120,7 +120,7 @@ If any item is NO-GO, escalate immediately to Client Partner and Starbucks Progr
 
 1. Project Manager opens the war room call.
 2. Each team lead confirms their area is GO.
-3. Starbucks Programme Lead provides formal go-ahead.
+3. Quick Service Restaurant Programme Lead provides formal go-ahead.
 4. Project Manager announces: **"Go-live is authorised. Proceeding at [time]."**
 
 ### Step 2: Final Deployment (T-0)
@@ -143,12 +143,12 @@ Trigger a bulk publish of all content for the target market:
 # Bulk publish all pages
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/publish/org/sbux-<market>/main/*"
+  "https://admin.hlx.page/publish/org/qsr-<market>/main/*"
 
 # Bulk index content fragments
 curl -X POST \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/index/org/sbux-<market>/main/*"
+  "https://admin.hlx.page/index/org/qsr-<market>/main/*"
 ```
 
 Wait 2 minutes for publishing to complete, then verify the live site.
@@ -157,7 +157,7 @@ Wait 2 minutes for publishing to complete, then verify the live site.
 
 If activating a custom domain:
 
-1. Instruct Starbucks IT to execute the DNS CNAME change.
+1. Instruct Quick Service Restaurant IT to execute the DNS CNAME change.
 2. Monitor DNS propagation: `dig +short <custom-domain>` (expect propagation within 5–15 min due to low TTL).
 3. Verify TLS certificate is valid on the custom domain.
 4. Test HTTPS access on the custom domain from multiple regions (use VPN or an online DNS checker).
@@ -168,19 +168,19 @@ Run the smoke test checklist for the target market:
 
 | Page | URL | Check | Status |
 |---|---|---|---|
-| Home page | `https://main--sbux-<market>--org.aem.live/` | Loads with all blocks visible | ☐ |
-| Menu page | `https://main--sbux-<market>--org.aem.live/menu` | Menu items render with images and prices | ☐ |
-| Product detail | `https://main--sbux-<market>--org.aem.live/menu/<product>` | Product detail loads with customiser | ☐ |
-| Store locator | `https://main--sbux-<market>--org.aem.live/stores` | Store list renders | ☐ |
-| Rewards page | `https://main--sbux-<market>--org.aem.live/rewards` | Auth prompt appears; rewards load after login | ☐ |
-| 404 page | `https://main--sbux-<market>--org.aem.live/nonexistent` | Custom 404 page displayed | ☐ |
+| Home page | `https://main--qsr-<market>--org.aem.live/` | Loads with all blocks visible | ☐ |
+| Menu page | `https://main--qsr-<market>--org.aem.live/menu` | Menu items render with images and prices | ☐ |
+| Product detail | `https://main--qsr-<market>--org.aem.live/menu/<product>` | Product detail loads with customiser | ☐ |
+| Store locator | `https://main--qsr-<market>--org.aem.live/stores` | Store list renders | ☐ |
+| Rewards page | `https://main--qsr-<market>--org.aem.live/rewards` | Auth prompt appears; rewards load after login | ☐ |
+| 404 page | `https://main--qsr-<market>--org.aem.live/nonexistent` | Custom 404 page displayed | ☐ |
 
 ### Step 6: Analytics Smoke Test (T+20 min)
 
 With the Adobe Experience Platform Debugger active:
 
 - [ ] AA page view beacon fires on home page
-- [ ] Correct report suite: `sbux-<market>-prod`
+- [ ] Correct report suite: `qsr-<market>-prod`
 - [ ] `eVar1` = correct market value
 - [ ] Target global mbox fires on every page
 - [ ] Consent gate active on UK and JP (no beacons before opt-in)
@@ -222,10 +222,10 @@ Alternatively, use the Adobe I/O Runtime console to roll back the action version
 
 ```bash
 # List action versions
-aio rt action get starbucks/menu-provider --save
+aio rt action get qsr/menu-provider --save
 
 # Activate previous version
-aio rt action update starbucks/menu-provider --version <previous-version>
+aio rt action update qsr/menu-provider --version <previous-version>
 ```
 
 ### 5.3 Rollback: EDS Content
@@ -234,7 +234,7 @@ aio rt action update starbucks/menu-provider --version <previous-version>
 # Unpublish all pages for the affected market
 curl -X DELETE \
   -H "Authorization: Bearer $EDS_TOKEN" \
-  "https://admin.hlx.page/publish/org/sbux-<market>/main/*"
+  "https://admin.hlx.page/publish/org/qsr-<market>/main/*"
 
 # Re-publish from the previous stable state
 # (revert the AEM Author content to the previous version, then republish)
@@ -242,13 +242,13 @@ curl -X DELETE \
 
 ### 5.4 Rollback: DNS (Custom Domain)
 
-Instruct Starbucks IT to revert the CNAME to the previous value. With a 5-minute TTL, propagation completes within 5–15 minutes.
+Instruct Quick Service Restaurant IT to revert the CNAME to the previous value. With a 5-minute TTL, propagation completes within 5–15 minutes.
 
 ### 5.5 Post-Rollback
 
 1. Announce the rollback in the war room.
 2. Conduct an immediate debrief (15 min): root cause, fix plan, estimated time to re-launch.
-3. Notify Starbucks Programme Lead and Client Partner.
+3. Notify Quick Service Restaurant Programme Lead and Client Partner.
 4. Document the incident in the RAID log.
 5. Reschedule the go-live once the fix is confirmed.
 
@@ -294,7 +294,7 @@ Hypercare runs for **2 weeks** after each market's go-live. During this period:
 - The full delivery team remains available.
 - P1 defects are resolved within 4 hours.
 - P2 defects are resolved within 1 business day.
-- Daily hypercare status update sent to Starbucks stakeholders.
+- Daily hypercare status update sent to Quick Service Restaurant stakeholders.
 
 ### 7.2 Defect Severity Definitions
 
@@ -326,11 +326,11 @@ At the end of hypercare, the delivery team hands over to the run-and-operate tea
 **Template:**
 
 ```
-Subject: [LIVE] Starbucks EDS <Market> — Go-Live Confirmed ✅
+Subject: [LIVE] Quick Service Restaurant EDS <Market> — Go-Live Confirmed ✅
 
 Market <US / UK / JP> is now LIVE on AEM Edge Delivery Services.
 
-Live URL: https://main--sbux-<market>--org.aem.live
+Live URL: https://main--qsr-<market>--org.aem.live
 Go-live time: <time>
 Deployment SHA: <git-sha>
 
@@ -341,14 +341,14 @@ We are now in Hypercare. P1 issues: respond within 4 hours.
 Thanks to the whole team for a successful launch!
 ```
 
-### 8.2 Starbucks Stakeholder Announcement
+### 8.2 Quick Service Restaurant Stakeholder Announcement
 
-**Channel:** Email to Starbucks Programme Lead + Digital Marketing Lead + Content Lead
+**Channel:** Email to Quick Service Restaurant Programme Lead + Digital Marketing Lead + Content Lead
 
 **Template:**
 
 ```
-Subject: Starbucks <Market> Website — Now Live on AEM Edge Delivery Services
+Subject: Quick Service Restaurant <Market> Website — Now Live on AEM Edge Delivery Services
 
 Hi [Name],
 

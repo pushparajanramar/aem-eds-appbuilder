@@ -11,6 +11,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
+const { logRequest } = require('../shared/datalog');
 
 /**
  * Fetch the authenticated user's profile from the BFF orchestra endpoint.
@@ -83,6 +84,7 @@ function escapeHtml(str) {
  */
 async function main(params) {
   const logger = Core.Logger('user-provider', { level: params.LOG_LEVEL || 'info' });
+  logRequest(logger, 'user-provider', params);
 
   const market = params.market || 'us';
   // Extract access token exclusively from the Authorization header injected by

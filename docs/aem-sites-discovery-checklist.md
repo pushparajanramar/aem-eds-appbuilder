@@ -2,7 +2,7 @@
 
 This checklist is used during the **Content Architecture Discovery** workstream to ensure that all content types, page templates, block definitions, taxonomy and Universal Editor configurations are fully understood and agreed before Implementation begins.
 
-Complete each section during the corresponding Discovery workshop with the relevant Starbucks stakeholders.
+Complete each section during the corresponding Discovery workshop with the relevant Quick Service Restaurant stakeholders.
 
 ---
 
@@ -28,9 +28,9 @@ Complete each section during the corresponding Discovery workshop with the relev
 
 | Market | EDS Site ID | Live host | Preview host | Status |
 |---|---|---|---|---|
-| US | `sbux-us` | `main--sbux-us--org.aem.live` | `main--sbux-us--org.aem.page` | ☐ Confirmed |
-| UK | `sbux-uk` | `main--sbux-uk--org.aem.live` | `main--sbux-uk--org.aem.page` | ☐ Confirmed |
-| JP | `sbux-jp` | `main--sbux-jp--org.aem.live` | `main--sbux-jp--org.aem.page` | ☐ Confirmed |
+| US | `qsr-us` | `main--qsr-us--org.aem.live` | `main--qsr-us--org.aem.page` | ☐ Confirmed |
+| UK | `qsr-uk` | `main--qsr-uk--org.aem.live` | `main--qsr-uk--org.aem.page` | ☐ Confirmed |
+| JP | `qsr-jp` | `main--qsr-jp--org.aem.live` | `main--qsr-jp--org.aem.page` | ☐ Confirmed |
 
 ### 1.2 AEM Author Environments
 
@@ -93,7 +93,7 @@ For each block, define the model fields, variants and market applicability.
 | `ctaUrl` | text | No | US, UK, JP | Button destination |
 | `variant` | select | No | US, UK | `default` \| `rewards` |
 
-- [ ] Block definition agreed with Starbucks Content Lead
+- [ ] Block definition agreed with Quick Service Restaurant Content Lead
 - [ ] Market-specific field variations documented
 
 ### 3.2 `menu-item`
@@ -107,7 +107,7 @@ For each block, define the model fields, variants and market applicability.
 | `category` | select | Yes | US, UK, JP | `drinks` \| `food` \| `merchandise` |
 | `itemId` | text | Yes | US, UK, JP | SKU / product ID |
 
-- [ ] Block definition agreed with Starbucks Content Lead
+- [ ] Block definition agreed with Quick Service Restaurant Content Lead
 - [ ] Price format confirmed per market (USD, GBP, JPY)
 
 ### 3.3 `product-detail`
@@ -141,9 +141,9 @@ Document any additional blocks identified during Discovery:
 
 | Model name | Path in AEM | Fragment type | Used by action |
 |---|---|---|---|
-| Menu Item | `/conf/sbux/settings/dam/cfm/models/menu-item` | Structured CF | `menu-provider` |
-| Store | `/conf/sbux/settings/dam/cfm/models/store` | Structured CF | `store-provider` |
-| Reward | `/conf/sbux/settings/dam/cfm/models/reward` | Structured CF | `rewards-provider` |
+| Menu Item | `/conf/qsr/settings/dam/cfm/models/menu-item` | Structured CF | `menu-provider` |
+| Store | `/conf/qsr/settings/dam/cfm/models/store` | Structured CF | `store-provider` |
+| Reward | `/conf/qsr/settings/dam/cfm/models/reward` | Structured CF | `rewards-provider` |
 
 **Checklist:**
 
@@ -165,7 +165,7 @@ Document any additional blocks identified during Discovery:
 
 **Checklist:**
 
-- [ ] DAM folder structure agreed with Starbucks Content Lead
+- [ ] DAM folder structure agreed with Quick Service Restaurant Content Lead
 - [ ] Asset naming convention agreed (kebab-case, locale prefix if needed)
 - [ ] Image rendition sizes agreed (based on EDS block image requirements)
 - [ ] DAM asset lifecycle (publish / unpublish / delete webhook) tested
@@ -252,9 +252,9 @@ The Universal Editor instrumentation script is at `apps/eds-<market>/ue/instrume
 
 | Market | Base URL | Locale path prefix | Notes |
 |---|---|---|---|
-| US | `main--sbux-us--org.aem.live` | None | `/menu`, `/stores`, `/rewards` |
-| UK | `main--sbux-uk--org.aem.live` | None | Same paths as US |
-| JP | `main--sbux-jp--org.aem.live` | None | Japanese content at same URL paths |
+| US | `main--qsr-us--org.aem.live` | None | `/menu`, `/stores`, `/rewards` |
+| UK | `main--qsr-uk--org.aem.live` | None | Same paths as US |
+| JP | `main--qsr-jp--org.aem.live` | None | Japanese content at same URL paths |
 
 ### 9.2 Sitemap
 
@@ -281,7 +281,7 @@ Confirm the `sitemap.json` for each market covers all required page paths:
 
 **Checklist:**
 
-- [ ] Authoring workflow demonstrated to Starbucks Content Lead
+- [ ] Authoring workflow demonstrated to Quick Service Restaurant Content Lead
 - [ ] Rollback procedure documented (unpublish via AEM Author)
 - [ ] Emergency cache purge procedure documented
 
@@ -302,7 +302,7 @@ Confirm the `sitemap.json` for each market covers all required page paths:
 
 **Sign-off confirmed by:**
 
-- [ ] Starbucks Content Lead: _______________________
+- [ ] Quick Service Restaurant Content Lead: _______________________
 - [ ] AEM Consultant (Functional) / Project Lead: _______________________
 - [ ] AEM Technical Architect: _______________________
 - [ ] Date: _______________________

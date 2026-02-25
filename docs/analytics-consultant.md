@@ -2,7 +2,7 @@
 
 ## Role Overview
 
-The Analytics Consultant owns the data and measurement strategy for the AEM EDS + App Builder solution. They design the tagging taxonomy, implement data-layer patterns across all three markets (US, UK, JP), validate data quality and provide insight to Starbucks stakeholders on digital-experience performance and loyalty engagement.
+The Analytics Consultant owns the data and measurement strategy for the AEM EDS + App Builder solution. They design the tagging taxonomy, implement data-layer patterns across all three markets (US, UK, JP), validate data quality and provide insight to Quick Service Restaurant stakeholders on digital-experience performance and loyalty engagement.
 
 ---
 
@@ -10,7 +10,7 @@ The Analytics Consultant owns the data and measurement strategy for the AEM EDS 
 
 | Area | Description |
 |---|---|
-| **Measurement Strategy** | Define KPIs and measurement framework aligned to Starbucks business goals |
+| **Measurement Strategy** | Define KPIs and measurement framework aligned to Quick Service Restaurant business goals |
 | **Tag Taxonomy** | Design the event taxonomy (page views, menu interactions, rewards redemptions, store searches) |
 | **Data Layer Design** | Specify and implement the JavaScript data-layer schema used by each EDS block |
 | **Analytics Implementation** | Configure Adobe Analytics / Adobe Experience Platform Web SDK within EDS block scripts |
@@ -139,5 +139,5 @@ window.adobeDataLayer.push({ event: 'consent_update', consentState: 'opted-in' }
 - [ ] Adobe Launch (Data Collection) property access for all three markets
 - [ ] Adobe Experience Platform Debugger browser extension installed
 - [ ] Alignment with AEM Consultant (Tech/Dev) on data-layer push locations within block JS
-- [ ] Tag taxonomy document reviewed and approved by Starbucks Analytics team
+- [ ] Tag taxonomy document reviewed and approved by Quick Service Restaurant Analytics team
 - [ ] Consent management platform (CMP) requirements documented per market
