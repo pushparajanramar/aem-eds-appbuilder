@@ -118,12 +118,33 @@ aem-eds-appbuilder/
 │   └── eds-components/            # Shared Svelte Web Components library
 │       ├── src/
 │       │   ├── components/
+│       │   │   ├── qsr-accordion.svelte
+│       │   │   ├── qsr-breadcrumbs.svelte
+│       │   │   ├── qsr-cards.svelte
+│       │   │   ├── qsr-carousel.svelte
+│       │   │   ├── qsr-columns.svelte
+│       │   │   ├── qsr-embed.svelte
+│       │   │   ├── qsr-footer.svelte
+│       │   │   ├── qsr-form.svelte
+│       │   │   ├── qsr-fragment.svelte
+│       │   │   ├── qsr-header.svelte
+│       │   │   ├── qsr-hero.svelte
 │       │   │   ├── qsr-menu-card.svelte
-│       │   │   └── qsr-product-customizer.svelte
+│       │   │   ├── qsr-modal.svelte
+│       │   │   ├── qsr-product-customizer.svelte
+│       │   │   ├── qsr-quote.svelte
+│       │   │   ├── qsr-rewards-feed.svelte
+│       │   │   ├── qsr-search.svelte
+│       │   │   ├── qsr-store-locator.svelte
+│       │   │   ├── qsr-table.svelte
+│       │   │   ├── qsr-tabs.svelte
+│       │   │   ├── qsr-user-profile.svelte
+│       │   │   └── qsr-video.svelte
 │       │   └── utils/
-│       │       ├── api.js
-│       │       └── auth.js
-│       ├── vite.config.js
+│       │       ├── api.js             # Shared BFF fetch helpers
+│       │       ├── auth.js            # IMS token store (in-memory only)
+│       │       └── image-utils.js     # Adobe Dynamic Media URL builders
+│       ├── vite.config.js             # Multi-entry Vite build — outputs to apps/eds-us/blocks/
 │       └── package.json
 │
 ├── fastly/                        # Fastly CDN configuration
@@ -155,6 +176,7 @@ The full engagement follows five phases. Each phase has a dedicated runbook and 
 | 09 | Implementation | Configure AEM Code & Environment              | [AEM Configuration Guide](docs/aem-configuration-guide.md)                                                       |
 | 10 | Implementation | AA / AT / Launch Automation                   | [Implementation Runbook §3.2.2](docs/implementation-runbook.md#322-aa--at--launch-automation)                    |
 | 11 | Implementation | Style the Templates / Components              | [Front-End (Site Styling) Runbook](docs/front-end-styling-runbook.md)                                            |
+| 11a | Implementation | Build and maintain Svelte Web Components     | [Svelte Web Components Guide](docs/svelte-web-components-guide.md)                                               |
 | 12 | Implementation | Create site content                           | [Content Architecture Runbook](docs/content-architecture-runbook.md)                                             |
 | 12a | Implementation | Author pages, add components & images, generate sitemap | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md)                          |
 | 13 | Go-Live        | Perform Go-Live Check                         | [Go-Live Checklist](docs/go-live-checklist.md)                                                                   |
@@ -186,6 +208,7 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 |---|---|
 | [AEM Configuration Guide](docs/aem-configuration-guide.md) | End-to-end AEM ecosystem configuration (Archetype, Cloud Manager, SSO, security, Launch) |
 | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md) | Step-by-step guide to creating pages per sitemap, adding components and AEM assets images, and generating the sitemap |
+| [Svelte Web Components Guide](docs/svelte-web-components-guide.md) | All 22 WCs: authoring rules, Vite build config, block-to-WC mapping, shared utilities, adding a new component |
 | [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
 
 ---
@@ -255,7 +278,9 @@ npm run check
 npm run lint
 ```
 
-Built bundles are written to `packages/eds-components/dist/` and referenced by the EDS blocks inside `apps/eds-*/blocks/`.
+Built bundles are written directly to `apps/eds-us/blocks/` (one sub-directory per block) and referenced by the EDS block JavaScript files. The CI/CD pipeline copies the bundles to `eds-uk` and `eds-jp` automatically.
+
+See the [Svelte Web Components Guide](docs/svelte-web-components-guide.md) for the complete reference: component inventory, authoring rules, Vite build config, the block–WC lazy-loading pattern, and step-by-step instructions for adding a new component.
 
 ---
 
