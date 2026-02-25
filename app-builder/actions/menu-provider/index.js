@@ -2,6 +2,9 @@
  * Menu Provider Action — BYOM data-provider
  *
  * Returns EDS-compatible HTML block markup for the /menu overlay route.
+ * Device-aware: uses X-Device-Type (set by Fastly VCL) to adjust column
+ * count and image sizes for mobile, tablet, desktop, kiosk, and
+ * digital-menu-board layouts.
  * RULE 5: market-aware, returns text/html with valid EDS block markup.
  * RULE 6: route must exist in site-config.json overlays.
  */
@@ -9,6 +12,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl } = require('../shared/url-utils');
+const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
 
 /**
  * Fetch menu items from the BFF ordering menu endpoint.
@@ -30,11 +34,14 @@ async function fetchMenuItems(edsHost, category, locale) {
 /**
  * Render menu items as EDS block HTML.
  * Block class names MUST exactly match the block directory name (menu-item).
+ * Columns and image widths are adjusted based on the device layout.
  *
  * @param {Array} items
+ * @param {{ columns: number, imageWidth: number, fontSize: string, touch: boolean }} layout
+ * @param {string} deviceType
  * @returns {string}
  */
-function renderMenuHTML(items) {
+function renderMenuHTML(items, layout = { columns: 3, imageWidth: 800, fontSize: 'base', touch: false }, deviceType = 'desktop') {
   if (!items.length) {
     return '<p class="menu-empty">No items available.</p>';
   }
@@ -52,7 +59,7 @@ function renderMenuHTML(items) {
     )
     .join('\n');
 
-  return `<div class="menu-grid">\n${cards}\n</div>`;
+  return `<div class="menu-grid" data-device="${escapeHtml(deviceType)}" data-columns="${layout.columns}" data-image-width="${layout.imageWidth}" data-font-size="${escapeHtml(layout.fontSize)}">\n${cards}\n</div>`;
 }
 
 /**
@@ -76,6 +83,9 @@ function escapeHtml(str) {
  * @param {object} params - Adobe I/O Runtime action params
  * @param {string} [params.market='us']
  * @param {string} [params.category='drinks']
+ * @param {string} [params.deviceType]        - Explicit device-type override
+ * @param {object} [params.__ow_headers]       - Request headers from runtime
+ * @param {string} [params.__ow_query]         - Raw query string from runtime
  * @param {string} [params.LOG_LEVEL='info']
  * @returns {Promise<{statusCode: number, headers: object, body: string}>}
  */
@@ -85,16 +95,21 @@ async function main(params) {
   const market = params.market || 'us';
   const category = params.category || 'drinks';
   const { edsHost, locale } = getMarketConfig(market);
+  const deviceType = getDeviceType(params);
+  const layout = getDeviceLayout(deviceType);
 
-  logger.info(`menu-provider: market=${market}, category=${category}, host=${edsHost}`);
+  logger.info(`menu-provider: market=${market}, category=${category}, device=${deviceType}, host=${edsHost}`);
 
   try {
     const items = await fetchMenuItems(edsHost, category, locale);
-    const body = renderMenuHTML(items);
+    const body = renderMenuHTML(items, layout, deviceType);
 
     return {
       statusCode: 200,
-      headers: { 'content-type': 'text/html; charset=utf-8' },
+      headers: {
+        'content-type': 'text/html; charset=utf-8',
+        'vary': 'X-Device-Type',
+      },
       body,
     };
   } catch (err) {
@@ -107,4 +122,4 @@ async function main(params) {
   }
 }
 
-module.exports = { main };
+module.exports = { main, renderMenuHTML };
