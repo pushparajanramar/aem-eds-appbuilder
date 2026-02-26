@@ -24,7 +24,12 @@ This checklist must be completed in full and signed off by the Project Manager a
 ### 1.1 Repository & CI/CD
 
 - [ ] All feature branches merged to `main`; no open PRs blocking release
-- [ ] CI/CD pipeline (`deploy.yml`) passes on `main` with 0 failures: lint, build-components, deploy
+- [ ] CI/CD pipeline passes on `main` with 0 failures:
+  - [ ] `pr-validation.yml` — lint, unit tests, svelte-check, Maven build
+  - [ ] `app-builder-deploy.yml` — App Builder actions + web UI deployed
+  - [ ] `eds-deploy.yml` — Svelte WC build + EDS publishing
+  - [ ] `aem-backend-deploy.yml` — Maven build + Cloud Manager trigger
+- [ ] AEM backend Maven build passes with 0 test failures (`mvn clean verify`)
 - [ ] App Builder production workspace deployed (`aio app deploy` confirmed)
 - [ ] App Builder action endpoints return HTTP 200 for all actions:
   - [ ] `menu-provider`
@@ -36,6 +41,25 @@ This checklist must be completed in full and signed off by the Project Manager a
   - [ ] `AIO_PROJECT_ID`
   - [ ] `AIO_WORKSPACE_ID`
   - [ ] `EDS_TOKEN`
+  - [ ] `CM_PROGRAM_ID`
+  - [ ] `CM_API_KEY`
+  - [ ] `CM_ORG_ID`
+  - [ ] `CM_TECHNICAL_ACCOUNT_ID`
+  - [ ] `CM_IMS_TOKEN`
+  - [ ] `CM_PIPELINE_ID`
+
+### 1.2 AEM Backend (Cloud Manager)
+
+- [ ] Cloud Manager production pipeline (`qsr-production-deploy`) configured and tested
+- [ ] AEM backend deployed to Production environment via Cloud Manager
+- [ ] Cloud Manager quality gates passed:
+  - [ ] Code coverage ≥ 50% (JaCoCo)
+  - [ ] Security rating A (SonarQube)
+  - [ ] Reliability rating A (SonarQube)
+  - [ ] Maintainability rating A (SonarQube)
+- [ ] OSGi configurations verified on Production (run-mode configs in `ui.config`)
+- [ ] Dispatcher rules deployed and validated
+- [ ] `.cloudmanager/maven/settings.xml` committed and tested
 
 ### 1.2 EDS Sites
 

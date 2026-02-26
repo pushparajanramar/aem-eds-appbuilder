@@ -1,0 +1,83 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  # ─── App Builder: Lint & Unit Tests ──────────────────────────────────────
+  lint-and-test-app-builder:
+    name: App Builder — Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app-builder/package.json
+
+      - name: Install dependencies
+        working-directory: app-builder
+        run: npm ci --ignore-scripts
+
+      - name: Lint actions
+        working-directory: app-builder
+        run: npm run lint
+
+      - name: Run unit tests
+        working-directory: app-builder
+        run: npm test
+
+  # ─── EDS Components: Lint, Type-Check & Build ───────────────────────────
+  lint-and-build-eds-components:
+    name: EDS Components — Lint & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/eds-components/package.json
+
+      - name: Install dependencies
+        working-directory: packages/eds-components
+        run: npm ci --ignore-scripts
+
+      - name: Svelte type-check
+        working-directory: packages/eds-components
+        run: npm run check
+
+      - name: Lint Svelte sources
+        working-directory: packages/eds-components
+        run: npm run lint
+
+      - name: Build WC bundles
+        working-directory: packages/eds-components
+        run: npm run build
+
+  # ─── AEM Backend: Maven Build & Verify ──────────────────────────────────
+  build-aem-backend:
+    name: AEM Backend — Maven Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
+
+      - name: Build and verify AEM modules
+        run: mvn clean verify --batch-mode --no-transfer-progress -Padobe-public

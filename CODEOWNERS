@@ -1,0 +1,30 @@
+# CODEOWNERS — Protect critical paths so only designated reviewers can approve changes.
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global fallback — Technical Architect reviews everything not matched below
+*                                       @pushparajanramar
+
+# CI/CD workflows — Platform Engineers only
+.github/workflows/                      @pushparajanramar
+
+# App Builder shared utilities and config — Technical Architect
+app-builder/actions/shared/             @pushparajanramar
+app-builder/app.config.yaml             @pushparajanramar
+
+# EDS site configuration — Technical Architect + Lead Dev
+apps/*/config/                          @pushparajanramar
+
+# AEM backend — Technical Architect
+core/                                   @pushparajanramar
+ui.apps/                                @pushparajanramar
+ui.config/                              @pushparajanramar
+ui.content/                             @pushparajanramar
+all/                                    @pushparajanramar
+dispatcher/                             @pushparajanramar
+pom.xml                                 @pushparajanramar
+
+# Cloud Manager configuration — Platform Engineers
+.cloudmanager/                          @pushparajanramar
+
+# Architecture Decision Records — Technical Architect
+docs/adr/                               @pushparajanramar

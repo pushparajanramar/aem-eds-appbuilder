@@ -127,9 +127,10 @@ Confirm the following repository settings before sprint 1 begins:
 | Scaffold EDS sites for US, UK, JP | Tech/Dev | `apps/eds-us/`, `apps/eds-uk/`, `apps/eds-jp/` present with standard file structure |
 | Configure `site-config.json` per market | Tech/Dev | Overlay routes point to App Builder Dev workspace URLs |
 | Set up `market-config.js` | Tech/Dev | All three markets return correct EDS host, locale and currency |
-| Create CI/CD pipeline (`deploy.yml`) | Tech/Dev + Platform Eng | Pipeline runs lint → build → deploy on push to `main` |
+| Create CI/CD pipeline (`deploy.yml`) | Tech/Dev + Platform Eng | Pipeline runs lint → unit tests → svelte-check → build-aem → build-components → deploy on push to `main` |
 | Set up App Builder workspace (Dev) | Tech/Dev | `aio app deploy` succeeds; action endpoints return 200 |
-| Configure GitHub secrets | Platform Eng | All four secrets set; CI/CD pipeline deploys successfully |
+| Configure Cloud Manager pipeline | Platform Eng | Full-stack pipeline `qsr-production-deploy` created; `.cloudmanager/maven/settings.xml` committed |
+| Configure GitHub secrets | Platform Eng | All secrets set (App Builder, EDS, Cloud Manager); CI/CD pipeline deploys successfully |
 | Create base block scaffolding | Tech/Dev | `promotion-banner`, `menu-item`, `product-detail` block folders present |
 
 ### 3.2 Sprint 2 — Blocks & Actions
@@ -365,24 +366,18 @@ cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/block
 
 ## 6. CI/CD Pipeline
 
-The pipeline is defined in [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml):
+The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
 
-```
-push to main
-    │
-    ▼
-[lint]               ESLint on app-builder + Svelte components
-    │
-    ├──► [build-components]      Vite build → wc-bundles artifact
-    │         │
-    │         ├──► [deploy-eds-us]   Publish to admin.hlx.page (US)
-    │         ├──► [deploy-eds-uk]   Publish to admin.hlx.page (UK)
-    │         └──► [deploy-eds-jp]   Publish to admin.hlx.page (JP)
-    │
-    └──► [deploy-app-builder]    aio app deploy (main branch only)
-```
+| Workflow | File | Trigger Path | Purpose |
+|---|---|---|---|
+| PR Validation | `pr-validation.yml` | All paths (PRs only) | Lint, test, type-check, build-validate |
+| App Builder Deploy | `app-builder-deploy.yml` | `app-builder/**` | Deploy actions + web UI to I/O Runtime |
+| EDS Deploy | `eds-deploy.yml` | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
+| AEM Backend Deploy | `aem-backend-deploy.yml` | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager |
 
-See [README §Deployment Guide](../README.md#deployment-guide) for manual deployment steps.
+Vanilla EDS files (`apps/*/blocks/`, `apps/*/scripts/`, `apps/*/styles/`) sync automatically via the **AEM Code Sync** GitHub App — no CI/CD build step is needed.
+
+See [README §Deployment Guide](../README.md#deployment-guide) for manual deployment steps and the full pipeline architecture table.
 
 ---
 
@@ -390,8 +385,10 @@ See [README §Deployment Guide](../README.md#deployment-guide) for manual deploy
 
 | Test type | Tool | When |
 |---|---|---|
-| Unit tests | Jest | On every PR (`npm test`) |
+| Unit tests (App Builder) | Jest | On every PR (`npm test`) |
+| Unit tests (AEM Backend) | JUnit 5 + AEM Mocks | On every PR (`mvn clean verify`) |
 | Linting | ESLint + svelte-check | On every PR |
+| Code quality | SonarQube (Cloud Manager) | On every Cloud Manager build |
 | End-to-end (App Builder) | `aio app run` + manual | Sprint 2 and 3 |
 | Analytics validation | Experience Platform Debugger | Sprint 3 |
 | Performance audit | Lighthouse | Sprint 4 |
