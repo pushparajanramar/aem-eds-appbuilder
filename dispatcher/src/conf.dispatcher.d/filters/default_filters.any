@@ -5,7 +5,7 @@
 /0010 { /type "allow" /method "GET" /url "/content/*" }
 /0011 { /type "allow" /method "HEAD" /url "/content/*" }
 /0012 { /type "allow" /method "GET" /url "/etc.clientlibs/*" }
-/0013 { /type "allow" /method "GET" /url "/libs/*" }
+/0013 { /type "allow" /method "GET" /url "/libs/granite/csrf/token.json" }
 
 # Allow static resources
 /0020 { /type "allow" /extension "(css|gif|ico|js|png|swf|jpe?g|svg|woff2?|ttf|eot)" }

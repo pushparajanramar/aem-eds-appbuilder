@@ -5,7 +5,7 @@
     DocumentRoot ${DOCROOT}
 
     <Directory "${DOCROOT}">
-        Options Indexes FollowSymLinks
+        Options FollowSymLinks
         AllowOverride None
         Require all granted
     </Directory>

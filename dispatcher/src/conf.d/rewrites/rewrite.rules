@@ -7,7 +7,7 @@ RewriteCond %{REQUEST_URI} \.content\.json$
 RewriteRule ^(.*)$ - [L,PT]
 
 # Rewrite short URLs to AEM content paths
-RewriteRule ^/$ /content/qsr/us/en.html [PT,L]
+RewriteRule ^/$ /content/qsr/us.html [PT,L]
 RewriteRule ^/uk/(.*)$ /content/qsr/uk/$1 [PT,L]
 RewriteRule ^/jp/(.*)$ /content/qsr/jp/$1 [PT,L]
 
