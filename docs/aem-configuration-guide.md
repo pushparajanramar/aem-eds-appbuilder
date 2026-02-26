@@ -291,12 +291,12 @@ The `packages/eds-components` Svelte build is handled by the GitHub Actions work
 
 This project uses a **path-based monorepo pipeline** strategy (see [ADR 009](../docs/adr/009-path-based-monorepo-pipeline.md)). Instead of a single workflow, separate workflows trigger based on which directories change:
 
-| Workflow | Trigger Path | Purpose |
+| Workflow | Trigger Folder | Purpose |
 |---|---|---|
-| `pr-validation.yml` | All paths (PRs only) | Lint, test, type-check, build-validate all sub-apps |
-| `app-builder-deploy.yml` | `app-builder/**` | Deploy actions + web UI via `aio app deploy` |
-| `eds-deploy.yml` | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
-| `aem-backend-deploy.yml` | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager pipeline |
+| `pr-validation.yml` | All folders (PRs only) | Lint, test, type-check, build-validate all sub-apps |
+| `app-builder-deploy.yml` | `app-builder/` | Deploy actions + web UI via `aio app deploy` |
+| `eds-deploy.yml` | `packages/eds-components/`, `apps/**/blocks/` | Compile Svelte WCs → publish to EDS markets |
+| `aem-backend-deploy.yml` | `aem-backend/` | Maven build → trigger Cloud Manager pipeline |
 
 Vanilla EDS files sync automatically via the **AEM Code Sync** GitHub App.
 
@@ -533,7 +533,7 @@ Never commit secrets to source control. Use the following patterns:
 Configure CSP headers in the Dispatcher virtualhost to protect EDS pages:
 
 ```apache
-# dispatcher/src/conf.d/available_vhosts/qsr-us.vhost
+# aem-backend/dispatcher/src/conf.d/available_vhosts/qsr-us.vhost
 Header always set Content-Security-Policy \
   "default-src 'self'; \
    script-src 'self' 'unsafe-inline' https://assets.adobedtm.com https://cdn.experienceleague.adobe.com; \

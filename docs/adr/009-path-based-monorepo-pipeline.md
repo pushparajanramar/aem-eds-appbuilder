@@ -2,8 +2,9 @@
 
 | Field | Value |
 |---|---|
-| **Status** | Accepted |
+| **Status** | Superseded by [ADR 010](010-folder-based-monorepo-pipeline.md) |
 | **Date** | 2026-02-26 |
+| **Updated** | 2026-02-26 |
 | **Supersedes** | [ADR 007](007-github-actions-cicd-pipeline.md) (single-workflow approach) |
 | **Proposer** | AEM Technical Architect |
 | **Approver** | AEM Technical Architect |

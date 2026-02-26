@@ -32,21 +32,23 @@ Use a **single monorepo** with per-market EDS site directories under `apps/`:
 
 ```
 aem-eds-appbuilder/
+├── aem-backend/              # AEM backend modules (Maven reactor + all modules)
+│   ├── pom.xml
+│   ├── core/
+│   ├── ui.apps/
+│   ├── ui.content/
+│   ├── ui.config/
+│   ├── all/
+│   ├── dispatcher/
+│   └── .cloudmanager/
 ├── app-builder/              # Shared App Builder actions (serve all markets via ?market= param)
 ├── apps/
 │   ├── eds-us/               # US market EDS site
 │   ├── eds-uk/               # UK market EDS site
 │   └── eds-jp/               # JP market EDS site
-├── core/                     # AEM OSGi bundle — shared Java back-end logic
-├── ui.apps/                  # AEM /apps overlay — components, templates
-├── ui.content/               # AEM initial /content + /conf structures
-├── ui.config/                # AEM OSGi run-mode configurations
-├── all/                      # AEM aggregator content package
-├── dispatcher/               # AEM Dispatcher configuration
 ├── packages/
 │   └── eds-components/       # Shared Svelte web components (built once, copied per market)
 ├── fastly/                   # Shared Fastly VCL
-├── .cloudmanager/            # Cloud Manager Maven settings
 └── docs/                     # Shared runbooks and reference documents
 ```
 

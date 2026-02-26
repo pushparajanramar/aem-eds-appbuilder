@@ -7,13 +7,7 @@ on:
     branches:
       - main
     paths:
-      - 'core/**'
-      - 'ui.apps/**'
-      - 'ui.config/**'
-      - 'ui.content/**'
-      - 'all/**'
-      - 'dispatcher/**'
-      - 'pom.xml'
+      - 'aem-backend/**'
   workflow_dispatch: {}
 
 concurrency:
@@ -39,13 +33,14 @@ jobs:
           cache: 'maven'
 
       - name: Build AEM modules
+        working-directory: aem-backend
         run: mvn clean verify --batch-mode --no-transfer-progress -Padobe-public
 
       - name: Upload AEM package
         uses: actions/upload-artifact@v4
         with:
           name: aem-package
-          path: all/target/*.zip
+          path: aem-backend/all/target/*.zip
 
   # ─── Trigger Cloud Manager ──────────────────────────────────────────────
   trigger-cloud-manager:
