@@ -41,6 +41,11 @@ public class EDSCorsFilter implements Filter {
                 httpResponse.setHeader("Access-Control-Allow-Origin", origin);
                 httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
                 httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+                if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
+                    httpResponse.setStatus(HttpServletResponse.SC_OK);
+                    return;
+                }
             }
         }
 
