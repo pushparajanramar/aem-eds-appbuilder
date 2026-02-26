@@ -59,8 +59,8 @@ Work through each section in parallel; the **final sign-off gate** at the bottom
 
 ### 1.5 CI/CD Pipeline
 
-- [ ] GitHub Actions `deploy.yml` workflow completes successfully on `main` (lint → build-components → deploy-eds-* → deploy-app-builder)
-- [ ] All required GitHub secrets are set: `AIO_IMS_CONTEXT_CONFIG`, `AIO_PROJECT_ID`, `AIO_WORKSPACE_ID`, `EDS_TOKEN`
+- [ ] GitHub Actions path-based workflows complete successfully on `main` (`app-builder-deploy.yml`, `eds-deploy.yml`, `aem-backend-deploy.yml`)
+- [ ] All required GitHub secrets are set: `AIO_IMS_CONTEXT_CONFIG`, `AIO_PROJECT_ID`, `AIO_WORKSPACE_ID`, `EDS_TOKEN`, `CM_PROGRAM_ID`, `CM_API_KEY`, `CM_ORG_ID`, `CM_TECHNICAL_ACCOUNT_ID`, `CM_IMS_TOKEN`, `CM_PIPELINE_ID`
 - [ ] GitHub environment `production` configured with required reviewers and branch restriction (`main` only)
 - [ ] Rollback procedure documented and tested (re-deploy previous App Builder workspace; revert `main` and force-publish previous EDS content)
 

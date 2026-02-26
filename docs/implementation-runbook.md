@@ -127,7 +127,7 @@ Confirm the following repository settings before sprint 1 begins:
 | Scaffold EDS sites for US, UK, JP | Tech/Dev | `apps/eds-us/`, `apps/eds-uk/`, `apps/eds-jp/` present with standard file structure |
 | Configure `site-config.json` per market | Tech/Dev | Overlay routes point to App Builder Dev workspace URLs |
 | Set up `market-config.js` | Tech/Dev | All three markets return correct EDS host, locale and currency |
-| Create CI/CD pipeline (`deploy.yml`) | Tech/Dev + Platform Eng | Pipeline runs lint → unit tests → svelte-check → build-aem → build-components → deploy on push to `main` |
+| Create CI/CD pipeline (path-based workflows) | Tech/Dev + Platform Eng | `pr-validation.yml`, `app-builder-deploy.yml`, `eds-deploy.yml`, `aem-backend-deploy.yml` workflows pass on push to `main` |
 | Set up App Builder workspace (Dev) | Tech/Dev | `aio app deploy` succeeds; action endpoints return 200 |
 | Configure Cloud Manager pipeline | Platform Eng | Full-stack pipeline `qsr-production-deploy` created; `.cloudmanager/maven/settings.xml` committed |
 | Configure GitHub secrets | Platform Eng | All secrets set (App Builder, EDS, Cloud Manager); CI/CD pipeline deploys successfully |
@@ -351,7 +351,7 @@ npm run check  # svelte-check type checking
 npm run lint   # ESLint on Svelte sources
 ```
 
-Bundles are written **directly** to `apps/eds-us/blocks/<block-name>/qsr-<name>.js`. The CI/CD pipeline copies them to `eds-uk` and `eds-jp` automatically (see §6 and `.github/workflows/deploy.yml`).
+Bundles are written **directly** to `apps/eds-us/blocks/<block-name>/qsr-<name>.js`. The CI/CD pipeline copies them to `eds-uk` and `eds-jp` automatically (see §6 and `.github/workflows/eds-deploy.yml`).
 
 During development, copy manually:
 

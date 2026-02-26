@@ -322,7 +322,7 @@ Once a winner is declared:
 
 1. **Raise a GitHub PR** to implement the winning change permanently in the EDS block or App Builder action.
 2. The Tech/Dev team implements the change following the standard development workflow.
-3. The CI/CD pipeline (`deploy.yml`) deploys the change through lint → build → deploy.
+3. The CI/CD pipeline deploys the change automatically via the path-based workflows (`app-builder-deploy.yml` or `eds-deploy.yml`) when merged to `main`.
 4. The Target activity is **paused** once the permanent code change is live.
 5. The Test Library entry is updated to `Completed — Shipped`.
 

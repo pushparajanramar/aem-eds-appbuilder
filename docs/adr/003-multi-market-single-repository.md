@@ -78,5 +78,5 @@ App Builder actions are market-agnostic; they accept a `market` query parameter 
 ### Follow-on actions
 
 - Add a `CODEOWNERS` file at the repository root assigning the Technical Architect as owner of `app-builder/actions/shared/` and all `apps/*/config/` directories.
-- Configure per-market deploy jobs in `.github/workflows/deploy.yml` with a `market` input to allow selective market redeployment.
+- Configure per-market deploy jobs in `.github/workflows/eds-deploy.yml` with a `market` input to allow selective market redeployment.
 - Document market-specific configuration keys in `app-builder/actions/shared/market-config.js` with inline JSDoc comments.
