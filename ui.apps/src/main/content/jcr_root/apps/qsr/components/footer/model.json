@@ -1,0 +1,6 @@
+{
+  "id": "footer",
+  "fields": [
+    { "component": "reference", "name": "fragmentPath", "label": "Fragment Path", "valueType": "string" }
+  ]
+}

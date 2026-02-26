@@ -4,5 +4,6 @@
     xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="cq:Component"
     jcr:title="Promotion Banner"
+    sling:resourceSuperType="core/wcm/components/teaser/v2/teaser"
     sling:resourceType="qsr/components/promotion-banner"
     componentGroup="QSR - Content"/>

@@ -3,7 +3,7 @@
     xmlns:cq="http://www.day.com/jcr/cq/1.0"
     xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="cq:Component"
-    jcr:title="Rewards Feed"
-    sling:resourceSuperType="core/wcm/components/contentfragmentlist/v2/contentfragmentlist"
-    sling:resourceType="qsr/components/rewards-feed"
+    jcr:title="Quote"
+    sling:resourceSuperType="core/wcm/components/text/v2/text"
+    sling:resourceType="qsr/components/quote"
     componentGroup="QSR - Content"/>

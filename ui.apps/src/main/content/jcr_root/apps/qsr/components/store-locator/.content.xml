@@ -4,5 +4,6 @@
     xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="cq:Component"
     jcr:title="Store Locator"
+    sling:resourceSuperType="core/wcm/components/container/v1/container"
     sling:resourceType="qsr/components/store-locator"
     componentGroup="QSR - Content"/>
