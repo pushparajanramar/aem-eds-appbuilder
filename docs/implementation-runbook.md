@@ -366,7 +366,7 @@ cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/block
 
 ## 6. CI/CD Pipeline
 
-The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
+The project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](adr/010-folder-based-monorepo-pipeline.md)). Each sub-application lives in its own top-level folder, and separate workflows trigger only when files in that folder change:
 
 | Workflow | File | Trigger Folder | Purpose |
 |---|---|---|---|

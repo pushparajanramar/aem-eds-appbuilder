@@ -120,7 +120,7 @@ The `X-Device-Type` header is forwarded to App Builder actions; the `device-prov
 
 ## CI/CD Pipeline
 
-The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
+The project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](adr/010-folder-based-monorepo-pipeline.md)). Each sub-application lives in its own top-level folder, and separate workflows trigger only when files in that folder change:
 
 | Workflow | File | Trigger folder | Purpose |
 |---|---|---|---|
@@ -181,7 +181,8 @@ See the **[ADR index](adr/README.md)** for all current decisions.
 | [006](adr/006-fastly-cdn-device-detection-and-routing.md) | Fastly CDN for Device Detection and URL Routing | Accepted |
 | [007](adr/007-github-actions-cicd-pipeline.md) | GitHub Actions CI/CD Pipeline | Superseded by 009 |
 | [008](adr/008-cloud-manager-aem-backend-pipeline.md) | Cloud Manager Pipeline for AEM Backend Deployment | Accepted |
-| [009](adr/009-path-based-monorepo-pipeline.md) | Path-Based Monorepo Pipeline Strategy | Accepted |
+| [009](adr/009-path-based-monorepo-pipeline.md) | Path-Based Monorepo Pipeline Strategy | Superseded by 010 |
+| [010](adr/010-folder-based-monorepo-pipeline.md) | Folder-Based Monorepo Pipeline Strategy | Accepted |
 
 ---
 

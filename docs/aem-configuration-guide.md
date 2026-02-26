@@ -289,7 +289,7 @@ The `packages/eds-components` Svelte build is handled by the GitHub Actions work
 
 ### 4.3 GitHub Actions Pipeline (This Repository)
 
-This project uses a **path-based monorepo pipeline** strategy (see [ADR 009](../docs/adr/009-path-based-monorepo-pipeline.md)). Instead of a single workflow, separate workflows trigger based on which directories change:
+This project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](adr/010-folder-based-monorepo-pipeline.md)). Each sub-application lives in its own top-level folder, and separate workflows trigger only when files in that folder change:
 
 | Workflow | Trigger Folder | Purpose |
 |---|---|---|
