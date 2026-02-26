@@ -15,14 +15,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.sling.servlets.annotations.SlingServletFilter;
 import org.apache.sling.servlets.annotations.SlingServletFilterScope;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+
+import com.qsr.core.services.TenantResolverService;
 
 @Component(service = Filter.class)
 @SlingServletFilter(scope = SlingServletFilterScope.REQUEST)
 public class EDSCorsFilter implements Filter {
 
-    private static final Pattern ALLOWED_ORIGIN_PATTERN = Pattern.compile(
+    /** Matches any EDS preview/live domain. */
+    private static final Pattern EDS_DOMAIN_PATTERN = Pattern.compile(
         "^https://[a-zA-Z0-9-]+\\.(hlx\\.page|hlx\\.live|aem\\.page|aem\\.live)$"
     );
+
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
+    private volatile TenantResolverService tenantResolver;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -37,10 +46,12 @@ public class EDSCorsFilter implements Filter {
             HttpServletResponse httpResponse = (HttpServletResponse) response;
 
             String origin = httpRequest.getHeader("Origin");
-            if (origin != null && ALLOWED_ORIGIN_PATTERN.matcher(origin).matches()) {
+            if (origin != null && isAllowedOrigin(origin)) {
                 httpResponse.setHeader("Access-Control-Allow-Origin", origin);
                 httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-                httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+                httpResponse.setHeader("Access-Control-Allow-Headers",
+                    "Content-Type, Authorization, X-Requested-With");
+                httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
 
                 if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
                     httpResponse.setStatus(HttpServletResponse.SC_OK);
@@ -50,6 +61,34 @@ public class EDSCorsFilter implements Filter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    /**
+     * Validates the origin against both the generic EDS domain pattern and
+     * per-tenant EDS host registrations.
+     * <p>
+     * In a multitenant setup the {@link TenantResolverService} holds all
+     * registered tenant EDS hosts. If available, origins are additionally
+     * checked against those hosts so that only origins belonging to a
+     * registered tenant are accepted.
+     */
+    private boolean isAllowedOrigin(String origin) {
+        if (!EDS_DOMAIN_PATTERN.matcher(origin).matches()) {
+            return false;
+        }
+        // If tenant resolver is available, further validate against registered tenants
+        TenantResolverService resolver = this.tenantResolver;
+        if (resolver != null && !resolver.getAllTenants().isEmpty()) {
+            try {
+                String hostname = origin.replaceFirst("^https://", "");
+                return resolver.isAllowedEdsOrigin(hostname);
+            } catch (Exception e) {
+                // Fallback to generic pattern match if tenant resolution fails
+                return true;
+            }
+        }
+        // No tenant resolver available — fall back to generic pattern
+        return true;
     }
 
     @Override
