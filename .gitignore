@@ -9,6 +9,7 @@ dist/
 build/
 .svelte-kit/
 *.js.map
+target/
 
 # Environment & secrets
 .env
@@ -37,3 +38,7 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+
+# Maven
+*.class
+*.jar

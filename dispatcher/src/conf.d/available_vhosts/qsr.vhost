@@ -10,22 +10,23 @@
         Require all granted
     </Directory>
 
-    <IfModule disp_apache2.c>
-        ModMimeUsePathInfo On
-
-        # Enable EDS JSON selectors
-        SetEnvIf Request_URI "\.model\.json$" ALLOW_JSON=1
-        SetEnvIf Request_URI "\.infinity\.json$" ALLOW_JSON=1
-        SetEnvIf Request_URI "\.content\.json$" ALLOW_JSON=1
-    </IfModule>
-
-    # CORS headers for EDS domains
+    # ---------------------------------------------------------------
+    # CORS headers for Universal Editor and Edge Delivery Services
+    # Allows the Universal Editor (experience.adobe.com) and EDS
+    # preview/live domains to communicate with the AEM instance.
+    # ---------------------------------------------------------------
     <IfModule mod_headers.c>
+        # Universal Editor origin
+        SetEnvIf Origin "https://experience\.adobe\.com" CORS_ORIGIN=$0
+
+        # EDS preview and live origins
         SetEnvIf Origin "https://.*\.hlx\.(page|live)" CORS_ORIGIN=$0
         SetEnvIf Origin "https://.*\.aem\.(page|live)" CORS_ORIGIN=$0
+
         Header set Access-Control-Allow-Origin "%{CORS_ORIGIN}e" env=CORS_ORIGIN
-        Header set Access-Control-Allow-Methods "GET, HEAD, OPTIONS" env=CORS_ORIGIN
-        Header set Access-Control-Allow-Headers "Origin, Accept, Content-Type, Authorization" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Methods "GET, HEAD, POST, PUT, DELETE, OPTIONS" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Headers "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Credentials "true" env=CORS_ORIGIN
         Header set Access-Control-Max-Age "86400" env=CORS_ORIGIN
     </IfModule>
 </VirtualHost>
