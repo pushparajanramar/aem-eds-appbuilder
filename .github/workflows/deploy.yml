@@ -35,7 +35,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
           cache-dependency-path: |
             packages/eds-components/package.json
@@ -53,6 +53,40 @@ jobs:
         working-directory: app-builder
         run: npm run lint
 
+      - name: Run app-builder unit tests
+        working-directory: app-builder
+        run: npm test
+
+      - name: Svelte type-check
+        working-directory: packages/eds-components
+        run: npm run check
+
+  # ─── Build AEM Backend (Maven) ──────────────────────────────────────────
+  build-aem:
+    name: Build AEM Backend
+    runs-on: ubuntu-latest
+    needs: lint
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
+
+      - name: Build AEM modules
+        run: mvn clean verify --batch-mode --no-transfer-progress -Padobe-public
+
+      - name: Upload AEM package
+        uses: actions/upload-artifact@v4
+        with:
+          name: aem-package
+          path: all/target/*.zip
+
   # ─── Build Svelte Web Components ────────────────────────────────────────
   build-components:
     name: Build Svelte WCs
@@ -66,7 +100,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
           cache-dependency-path: packages/eds-components/package.json
 
@@ -105,7 +139,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install Adobe I/O CLI
         run: npm install -g @adobe/aio-cli
@@ -117,6 +151,31 @@ jobs:
       - name: Deploy App Builder actions
         working-directory: app-builder
         run: aio app deploy --no-publish
+
+  # ─── Deploy AEM Backend via Cloud Manager ────────────────────────────────
+  deploy-aem-backend:
+    name: Deploy AEM Backend
+    runs-on: ubuntu-latest
+    needs: build-aem
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    permissions:
+      contents: read
+    env:
+      CM_PROGRAM_ID: ${{ secrets.CM_PROGRAM_ID }}
+      CM_API_KEY: ${{ secrets.CM_API_KEY }}
+      CM_ORG_ID: ${{ secrets.CM_ORG_ID }}
+      CM_TECHNICAL_ACCOUNT_ID: ${{ secrets.CM_TECHNICAL_ACCOUNT_ID }}
+      CM_IMS_TOKEN: ${{ secrets.CM_IMS_TOKEN }}
+    steps:
+      - name: Trigger Cloud Manager pipeline
+        run: |
+          curl -s -X PUT \
+            -H "x-gw-ims-org-id: $CM_ORG_ID" \
+            -H "x-api-key: $CM_API_KEY" \
+            -H "Authorization: Bearer $CM_IMS_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://cloudmanager.adobe.io/api/program/$CM_PROGRAM_ID/pipeline/${{ secrets.CM_PIPELINE_ID }}/execution"
 
   # ─── Deploy EDS Sites (US, UK, JP) ──────────────────────────────────────
   deploy-eds-us:
