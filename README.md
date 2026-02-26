@@ -83,24 +83,30 @@ App Builder actions are invoked by EDS overlay routes defined in each market's `
 ```
 aem-eds-appbuilder/
 ├── app-builder/                   # Adobe App Builder application
-│   ├── app.config.yaml            # Action declarations (package: qsr)
+│   ├── app.config.yaml            # Action + web-src declarations (package: qsr)
 │   ├── package.json
-│   └── actions/
-│       ├── menu-provider/         # BYOM action — /menu overlay
-│       ├── store-provider/        # BYOM action — /stores overlay
-│       ├── rewards-provider/      # BYOM action — /rewards overlay (auth required)
-│       ├── user-provider/         # BYOM action — /account overlay (auth required)
-│       ├── bff-proxy/             # Secure BFF module proxy — /rewards-feed overlay (auth required)
-│       ├── device-provider/       # Device-aware layout hints action
-│       ├── webhook/               # AEM Author webhook handler
-│       ├── sitemap-generator/     # Sitemap builder & pusher
-│       └── shared/
-│           ├── market-config.js   # EDS host + locale + timezone per market
-│           ├── url-utils.js       # Safe URL helpers + Dynamic Media URL builders
-│           ├── device-utils.js    # Device type detection and layout configuration
-│           └── datalog.js         # Structured request audit logging
+│   ├── actions/                   # (2) App Builder Backend Actions
+│   │   ├── menu-provider/         # BYOM action — /menu overlay
+│   │   ├── store-provider/        # BYOM action — /stores overlay
+│   │   ├── rewards-provider/      # BYOM action — /rewards overlay (auth required)
+│   │   ├── user-provider/         # BYOM action — /account overlay (auth required)
+│   │   ├── bff-proxy/             # Secure BFF module proxy — /rewards-feed overlay (auth required)
+│   │   ├── device-provider/       # Device-aware layout hints action
+│   │   ├── webhook/               # AEM Author webhook handler
+│   │   ├── sitemap-generator/     # Sitemap builder & pusher
+│   │   └── shared/
+│   │       ├── market-config.js   # EDS host + locale + timezone per market
+│   │       ├── url-utils.js       # Safe URL helpers + Dynamic Media URL builders
+│   │       ├── device-utils.js    # Device type detection and layout configuration
+│   │       └── datalog.js         # Structured request audit logging
+│   └── web-src/                   # (3) App Builder Frontend UI (React + Adobe Spectrum)
+│       ├── index.html
+│       └── src/
+│           ├── index.js
+│           ├── index.css
+│           └── App.js
 │
-├── apps/                          # EDS site configurations (one per market)
+├── apps/                          # (1) EDS site configurations (one per market — syncs via AEM Code Sync)
 │   ├── eds-us/
 │   │   ├── blocks/                # EDS blocks (menu-item, product-detail, promotion-banner)
 │   │   ├── config/
@@ -191,8 +197,13 @@ aem-eds-appbuilder/
 │
 ├── .github/
 │   └── workflows/
-│       ├── deploy.yml             # CI/CD — lint → build → deploy (EDS + App Builder + AEM backend)
-│       └── delete-merged-branches.yml  # Auto-delete merged PR branches
+│       ├── pr-validation.yml          # PR checks — lint, test, build-validate all sub-apps
+│       ├── app-builder-deploy.yml     # Deploy actions + web-src (path: app-builder/**)
+│       ├── eds-deploy.yml             # Svelte WC build + EDS publishing (path: packages/**)
+│       ├── aem-backend-deploy.yml     # Maven build + Cloud Manager trigger (path: core/**)
+│       └── delete-merged-branches.yml # Auto-delete merged PR branches
+│
+├── CODEOWNERS                     # Critical path review requirements
 │
 └── pom.xml                        # Maven reactor POM (AEM Archetype 56 base)
 ```
@@ -274,7 +285,7 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md) | Step-by-step guide to creating pages per sitemap, adding components and AEM assets images, and generating the sitemap |
 | [Svelte Web Components Guide](docs/svelte-web-components-guide.md) | All 22 WCs: authoring rules, Vite build config, block-to-WC mapping, shared utilities, adding a new component |
 | [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
-| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline |
+| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline, path-based monorepo pipeline |
 
 ---
 
@@ -525,32 +536,27 @@ Pass `push=false` to perform a dry-run (sitemap is generated but not pushed to C
 
 ## Deployment Guide
 
-### CI/CD Pipeline (Recommended)
+### CI/CD Pipeline — Path-Based Selective Deployment (Recommended)
 
-The [`deploy.yml`](.github/workflows/deploy.yml) workflow runs automatically on every push to `main` and on pull requests.
+The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](docs/adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change, preventing unnecessary deployments.
 
-**Pipeline stages:**
+| Component | Workflow | Trigger Path | Deployment Target |
+|---|---|---|---|
+| **EDS (vanilla)** | AEM Code Sync | `apps/**/blocks/**`, `apps/**/scripts/**`, `apps/**/styles/**` | Adobe Edge CDN (automatic) |
+| **EDS (Svelte WCs)** | [`eds-deploy.yml`](.github/workflows/eds-deploy.yml) | `packages/eds-components/**` | AEM EDS Admin API (`admin.hlx.page`) |
+| **App Builder Actions** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/actions/**` | Adobe I/O Runtime |
+| **App Builder Web UI** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/web-src/**` | Adobe App Builder CDN |
+| **AEM Backend** | [`aem-backend-deploy.yml`](.github/workflows/aem-backend-deploy.yml) | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Cloud Manager → AEMaaCS |
+| **PR Validation** | [`pr-validation.yml`](.github/workflows/pr-validation.yml) | All paths | — (lint, test, build-validate) |
 
-```
-push to main
-    │
-    ▼
-[lint]  ──────────────────────────────────────────►  ESLint + unit tests + svelte-check
-    │
-    ├──► [build-aem]  ───────────────────────────►  Maven build & verify (Java 11)
-    │         │
-    │         └──► [deploy-aem-backend]  ────────►  Trigger Cloud Manager pipeline (main only)
-    │
-    ├──► [build-components]  ──────────────────────►  Vite build of Svelte WCs → artifact
-    │         │
-    │         ├──► [deploy-eds-us]   ──────────────►  Publish to admin.hlx.page (US)
-    │         ├──► [deploy-eds-uk]   ──────────────►  Publish to admin.hlx.page (UK)
-    │         └──► [deploy-eds-jp]   ──────────────►  Publish to admin.hlx.page (JP)
-    │
-    └──► [deploy-app-builder]  ────────────────────►  aio app deploy (main branch only)
-```
+**Key principles:**
 
-To trigger a deployment for a single market via the GitHub UI, use **Actions → Deploy EDS Sites & App Builder → Run workflow** and set the `market` input to `us`, `uk`, or `jp`.
+1. **EDS vanilla files sync automatically** via the AEM Code Sync GitHub App — no build step needed.
+2. **App Builder deploys only when action or web-src code changes** — a CSS change in EDS will not redeploy the backend.
+3. **AEM backend deploys only when Maven modules change** — triggered via Cloud Manager API.
+4. **All sub-apps are validated on every PR** via `pr-validation.yml`.
+
+To trigger a deployment for a single EDS market via the GitHub UI, use **Actions → Deploy EDS Sites → Run workflow** and set the `market` input to `us`, `uk`, or `jp`.
 
 ### Manual Deployment — App Builder
 
@@ -566,7 +572,7 @@ aio console workspace select
 cd app-builder
 npm ci
 
-# 4. Deploy all actions
+# 4. Deploy all actions and web UI
 npm run deploy
 # equivalent to: aio app deploy
 
@@ -574,7 +580,7 @@ npm run deploy
 npm run undeploy
 ```
 
-After deployment the CLI prints the live action URLs. Update each market's `config/site-config.json` overlay URLs with the printed `{app-builder-host}`.
+`aio app deploy` deploys both the serverless actions to Adobe I/O Runtime and the web UI to the Adobe App Builder CDN. After deployment the CLI prints the live action URLs and the web UI URL. Update each market's `config/site-config.json` overlay URLs with the printed `{app-builder-host}`.
 
 ### Manual Deployment — EDS Sites
 

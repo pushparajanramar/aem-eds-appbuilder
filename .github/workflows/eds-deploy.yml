@@ -1,0 +1,155 @@
+name: Deploy EDS Sites
+
+# Triggers only when Svelte web components or EDS market-specific files change.
+# Vanilla EDS blocks/scripts/styles sync automatically via AEM Code Sync;
+# this workflow handles Svelte compilation and explicit EDS publishing.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/eds-components/**'
+      - 'apps/**/blocks/**'
+  workflow_dispatch:
+    inputs:
+      market:
+        description: 'Target market (us / uk / jp / all)'
+        required: false
+        default: 'all'
+
+concurrency:
+  group: deploy-eds
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ─── Build Svelte Web Components ────────────────────────────────────────
+  build-components:
+    name: Build Svelte WCs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/eds-components/package.json
+
+      - name: Install dependencies
+        working-directory: packages/eds-components
+        run: npm ci --ignore-scripts
+
+      - name: Svelte type-check
+        working-directory: packages/eds-components
+        run: npm run check
+
+      - name: Build WC bundles
+        working-directory: packages/eds-components
+        run: npm run build
+
+      - name: Upload WC bundles
+        uses: actions/upload-artifact@v4
+        with:
+          name: wc-bundles
+          path: |
+            apps/eds-us/blocks/product-detail/qsr-product-customizer.js
+            apps/eds-us/blocks/menu-item/qsr-menu-card.js
+
+  # ─── Deploy EDS — US ────────────────────────────────────────────────────
+  deploy-eds-us:
+    name: Deploy EDS — US
+    runs-on: ubuntu-latest
+    needs: build-components
+    if: >-
+      github.event.inputs.market == 'all' ||
+      github.event.inputs.market == 'us' ||
+      github.event.inputs.market == ''
+    environment: production
+    env:
+      EDS_TOKEN: ${{ secrets.EDS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download WC bundles
+        uses: actions/download-artifact@v4
+        with:
+          name: wc-bundles
+          path: apps/eds-us/blocks/
+
+      - name: Publish to AEM EDS (US)
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer $EDS_TOKEN" \
+            "https://admin.hlx.page/publish/org/qsr-us/main/*"
+
+  # ─── Deploy EDS — UK ────────────────────────────────────────────────────
+  deploy-eds-uk:
+    name: Deploy EDS — UK
+    runs-on: ubuntu-latest
+    needs: build-components
+    if: >-
+      github.event.inputs.market == 'all' ||
+      github.event.inputs.market == 'uk' ||
+      github.event.inputs.market == ''
+    environment: production
+    env:
+      EDS_TOKEN: ${{ secrets.EDS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download WC bundles
+        uses: actions/download-artifact@v4
+        with:
+          name: wc-bundles
+          path: apps/eds-us/blocks/
+
+      - name: Copy WC bundles to UK blocks
+        run: |
+          cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js \
+             apps/eds-uk/blocks/product-detail/qsr-product-customizer.js
+          cp apps/eds-us/blocks/menu-item/qsr-menu-card.js \
+             apps/eds-uk/blocks/menu-item/qsr-menu-card.js
+
+      - name: Publish to AEM EDS (UK)
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer $EDS_TOKEN" \
+            "https://admin.hlx.page/publish/org/qsr-uk/main/*"
+
+  # ─── Deploy EDS — JP ────────────────────────────────────────────────────
+  deploy-eds-jp:
+    name: Deploy EDS — JP
+    runs-on: ubuntu-latest
+    needs: build-components
+    if: >-
+      github.event.inputs.market == 'all' ||
+      github.event.inputs.market == 'jp' ||
+      github.event.inputs.market == ''
+    environment: production
+    env:
+      EDS_TOKEN: ${{ secrets.EDS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download WC bundles
+        uses: actions/download-artifact@v4
+        with:
+          name: wc-bundles
+          path: apps/eds-us/blocks/
+
+      - name: Copy WC bundles to JP blocks
+        run: |
+          cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js \
+             apps/eds-jp/blocks/product-detail/qsr-product-customizer.js
+          cp apps/eds-us/blocks/menu-item/qsr-menu-card.js \
+             apps/eds-jp/blocks/menu-item/qsr-menu-card.js
+
+      - name: Publish to AEM EDS (JP)
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer $EDS_TOKEN" \
+            "https://admin.hlx.page/publish/org/qsr-jp/main/*"

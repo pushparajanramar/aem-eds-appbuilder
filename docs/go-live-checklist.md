@@ -24,7 +24,11 @@ This checklist must be completed in full and signed off by the Project Manager a
 ### 1.1 Repository & CI/CD
 
 - [ ] All feature branches merged to `main`; no open PRs blocking release
-- [ ] CI/CD pipeline (`deploy.yml`) passes on `main` with 0 failures: lint, unit tests, svelte-check, build-aem, build-components, deploy
+- [ ] CI/CD pipeline passes on `main` with 0 failures:
+  - [ ] `pr-validation.yml` — lint, unit tests, svelte-check, Maven build
+  - [ ] `app-builder-deploy.yml` — App Builder actions + web UI deployed
+  - [ ] `eds-deploy.yml` — Svelte WC build + EDS publishing
+  - [ ] `aem-backend-deploy.yml` — Maven build + Cloud Manager trigger
 - [ ] AEM backend Maven build passes with 0 test failures (`mvn clean verify`)
 - [ ] App Builder production workspace deployed (`aio app deploy` confirmed)
 - [ ] App Builder action endpoints return HTTP 200 for all actions:

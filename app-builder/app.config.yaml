@@ -9,7 +9,7 @@ packages:
       menu-provider:
         function: actions/menu-provider/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: false
           final: true
@@ -20,7 +20,7 @@ packages:
       store-provider:
         function: actions/store-provider/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: false
           final: true
@@ -31,7 +31,7 @@ packages:
       rewards-provider:
         function: actions/rewards-provider/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: true
           final: true
@@ -42,7 +42,7 @@ packages:
       user-provider:
         function: actions/user-provider/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: true
           final: true
@@ -53,7 +53,7 @@ packages:
       bff-proxy:
         function: actions/bff-proxy/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: true
           final: true
@@ -64,7 +64,7 @@ packages:
       device-provider:
         function: actions/device-provider/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: false
           final: true
@@ -75,7 +75,7 @@ packages:
       webhook:
         function: actions/webhook/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: true
           final: true
@@ -85,7 +85,7 @@ packages:
       sitemap-generator:
         function: actions/sitemap-generator/index.js
         web: 'yes'
-        runtime: nodejs:18
+        runtime: nodejs:20
         annotations:
           require-adobe-auth: true
           final: true

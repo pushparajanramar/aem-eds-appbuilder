@@ -366,30 +366,18 @@ cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/block
 
 ## 6. CI/CD Pipeline
 
-The pipeline is defined in [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml):
+The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
 
-```
-push to main
-    │
-    ▼
-[lint]               ESLint + unit tests + svelte-check
-    │
-    ├──► [build-aem]             Maven build & verify (Java 11)
-    │         │
-    │         └──► [deploy-aem-backend]   Trigger Cloud Manager pipeline (main only)
-    │
-    ├──► [build-components]      Vite build → wc-bundles artifact
-    │         │
-    │         ├──► [deploy-eds-us]   Publish to admin.hlx.page (US)
-    │         ├──► [deploy-eds-uk]   Publish to admin.hlx.page (UK)
-    │         └──► [deploy-eds-jp]   Publish to admin.hlx.page (JP)
-    │
-    └──► [deploy-app-builder]    aio app deploy (main branch only)
-```
+| Workflow | File | Trigger Path | Purpose |
+|---|---|---|---|
+| PR Validation | `pr-validation.yml` | All paths (PRs only) | Lint, test, type-check, build-validate |
+| App Builder Deploy | `app-builder-deploy.yml` | `app-builder/**` | Deploy actions + web UI to I/O Runtime |
+| EDS Deploy | `eds-deploy.yml` | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
+| AEM Backend Deploy | `aem-backend-deploy.yml` | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager |
 
-The AEM backend (core, ui.apps, ui.config, ui.content, all, dispatcher) is built using Maven in the `build-aem` job and deployed to AEMaaCS via Cloud Manager (see [ADR 008](adr/008-cloud-manager-aem-backend-pipeline.md) and [AEM Configuration Guide §4](aem-configuration-guide.md#4-configure-pipelines)).
+Vanilla EDS files (`apps/*/blocks/`, `apps/*/scripts/`, `apps/*/styles/`) sync automatically via the **AEM Code Sync** GitHub App — no CI/CD build step is needed.
 
-See [README §Deployment Guide](../README.md#deployment-guide) for manual deployment steps.
+See [README §Deployment Guide](../README.md#deployment-guide) for manual deployment steps and the full pipeline architecture table.
 
 ---
 

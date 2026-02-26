@@ -1,0 +1,70 @@
+name: Deploy AEM Backend
+
+# Triggers only when AEM backend Maven modules change on main.
+# Builds the AEM package and triggers the Cloud Manager pipeline.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'core/**'
+      - 'ui.apps/**'
+      - 'ui.config/**'
+      - 'ui.content/**'
+      - 'all/**'
+      - 'dispatcher/**'
+      - 'pom.xml'
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-aem-backend
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ─── Build & Verify ─────────────────────────────────────────────────────
+  build:
+    name: Maven Build & Verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
+
+      - name: Build AEM modules
+        run: mvn clean verify --batch-mode --no-transfer-progress -Padobe-public
+
+      - name: Upload AEM package
+        uses: actions/upload-artifact@v4
+        with:
+          name: aem-package
+          path: all/target/*.zip
+
+  # ─── Trigger Cloud Manager ──────────────────────────────────────────────
+  trigger-cloud-manager:
+    name: Trigger Cloud Manager Pipeline
+    runs-on: ubuntu-latest
+    needs: build
+    environment: production
+    env:
+      CM_PROGRAM_ID: ${{ secrets.CM_PROGRAM_ID }}
+      CM_API_KEY: ${{ secrets.CM_API_KEY }}
+      CM_ORG_ID: ${{ secrets.CM_ORG_ID }}
+      CM_TECHNICAL_ACCOUNT_ID: ${{ secrets.CM_TECHNICAL_ACCOUNT_ID }}
+      CM_IMS_TOKEN: ${{ secrets.CM_IMS_TOKEN }}
+    steps:
+      - name: Trigger Cloud Manager pipeline
+        run: |
+          curl -s -X PUT \
+            -H "x-gw-ims-org-id: $CM_ORG_ID" \
+            -H "x-api-key: $CM_API_KEY" \
+            -H "Authorization: Bearer $CM_IMS_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://cloudmanager.adobe.io/api/program/$CM_PROGRAM_ID/pipeline/${{ secrets.CM_PIPELINE_ID }}/execution"

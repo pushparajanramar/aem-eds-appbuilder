@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| **Status** | Accepted |
+| **Status** | Superseded by [ADR 009](009-path-based-monorepo-pipeline.md) |
 | **Date** | 2025-01-22 |
 | **Updated** | 2026-02-26 |
 | **Proposer** | AEM Technical Architect |

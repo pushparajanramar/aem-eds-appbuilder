@@ -289,28 +289,16 @@ The `packages/eds-components` Svelte build is handled by the GitHub Actions work
 
 ### 4.3 GitHub Actions Pipeline (This Repository)
 
-This project's primary CI/CD is defined in [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml).
+This project uses a **path-based monorepo pipeline** strategy (see [ADR 009](../docs/adr/009-path-based-monorepo-pipeline.md)). Instead of a single workflow, separate workflows trigger based on which directories change:
 
-**Pipeline stages:**
+| Workflow | Trigger Path | Purpose |
+|---|---|---|
+| `pr-validation.yml` | All paths (PRs only) | Lint, test, type-check, build-validate all sub-apps |
+| `app-builder-deploy.yml` | `app-builder/**` | Deploy actions + web UI via `aio app deploy` |
+| `eds-deploy.yml` | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
+| `aem-backend-deploy.yml` | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager pipeline |
 
-```
-push to main
-    │
-    ▼
-[lint]               ESLint on app-builder actions + unit tests + svelte-check
-    │
-    ├──► [build-aem]             Maven build & verify (Java 11)
-    │         │
-    │         └──► [deploy-aem-backend]   Trigger Cloud Manager pipeline (main only)
-    │
-    ├──► [build-components]      Vite build → wc-bundles artifact
-    │         │
-    │         ├──► [deploy-eds-us]   Publish to admin.hlx.page (US)
-    │         ├──► [deploy-eds-uk]   Publish to admin.hlx.page (UK)
-    │         └──► [deploy-eds-jp]   Publish to admin.hlx.page (JP)
-    │
-    └──► [deploy-app-builder]    aio app deploy (main branch only)
-```
+Vanilla EDS files sync automatically via the **AEM Code Sync** GitHub App.
 
 **Environment protection rules** (configure in GitHub → Settings → Environments → `production`):
 
