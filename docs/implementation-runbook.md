@@ -127,9 +127,10 @@ Confirm the following repository settings before sprint 1 begins:
 | Scaffold EDS sites for US, UK, JP | Tech/Dev | `apps/eds-us/`, `apps/eds-uk/`, `apps/eds-jp/` present with standard file structure |
 | Configure `site-config.json` per market | Tech/Dev | Overlay routes point to App Builder Dev workspace URLs |
 | Set up `market-config.js` | Tech/Dev | All three markets return correct EDS host, locale and currency |
-| Create CI/CD pipeline (`deploy.yml`) | Tech/Dev + Platform Eng | Pipeline runs lint → build → deploy on push to `main` |
+| Create CI/CD pipeline (`deploy.yml`) | Tech/Dev + Platform Eng | Pipeline runs lint → unit tests → svelte-check → build-aem → build-components → deploy on push to `main` |
 | Set up App Builder workspace (Dev) | Tech/Dev | `aio app deploy` succeeds; action endpoints return 200 |
-| Configure GitHub secrets | Platform Eng | All four secrets set; CI/CD pipeline deploys successfully |
+| Configure Cloud Manager pipeline | Platform Eng | Full-stack pipeline `qsr-production-deploy` created; `.cloudmanager/maven/settings.xml` committed |
+| Configure GitHub secrets | Platform Eng | All secrets set (App Builder, EDS, Cloud Manager); CI/CD pipeline deploys successfully |
 | Create base block scaffolding | Tech/Dev | `promotion-banner`, `menu-item`, `product-detail` block folders present |
 
 ### 3.2 Sprint 2 — Blocks & Actions
@@ -371,7 +372,11 @@ The pipeline is defined in [`.github/workflows/deploy.yml`](../.github/workflows
 push to main
     │
     ▼
-[lint]               ESLint on app-builder + Svelte components
+[lint]               ESLint + unit tests + svelte-check
+    │
+    ├──► [build-aem]             Maven build & verify (Java 11)
+    │         │
+    │         └──► [deploy-aem-backend]   Trigger Cloud Manager pipeline (main only)
     │
     ├──► [build-components]      Vite build → wc-bundles artifact
     │         │
@@ -382,6 +387,8 @@ push to main
     └──► [deploy-app-builder]    aio app deploy (main branch only)
 ```
 
+The AEM backend (core, ui.apps, ui.config, ui.content, all, dispatcher) is built using Maven in the `build-aem` job and deployed to AEMaaCS via Cloud Manager (see [ADR 008](adr/008-cloud-manager-aem-backend-pipeline.md) and [AEM Configuration Guide §4](aem-configuration-guide.md#4-configure-pipelines)).
+
 See [README §Deployment Guide](../README.md#deployment-guide) for manual deployment steps.
 
 ---
@@ -390,8 +397,10 @@ See [README §Deployment Guide](../README.md#deployment-guide) for manual deploy
 
 | Test type | Tool | When |
 |---|---|---|
-| Unit tests | Jest | On every PR (`npm test`) |
+| Unit tests (App Builder) | Jest | On every PR (`npm test`) |
+| Unit tests (AEM Backend) | JUnit 5 + AEM Mocks | On every PR (`mvn clean verify`) |
 | Linting | ESLint + svelte-check | On every PR |
+| Code quality | SonarQube (Cloud Manager) | On every Cloud Manager build |
 | End-to-end (App Builder) | `aio app run` + manual | Sprint 2 and 3 |
 | Analytics validation | Experience Platform Debugger | Sprint 3 |
 | Performance audit | Lighthouse | Sprint 4 |

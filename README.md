@@ -93,6 +93,7 @@ aem-eds-appbuilder/
 │       ├── bff-proxy/             # Secure BFF module proxy — /rewards-feed overlay (auth required)
 │       ├── device-provider/       # Device-aware layout hints action
 │       ├── webhook/               # AEM Author webhook handler
+│       ├── sitemap-generator/     # Sitemap builder & pusher
 │       └── shared/
 │           ├── market-config.js   # EDS host + locale + timezone per market
 │           ├── url-utils.js       # Safe URL helpers + Dynamic Media URL builders
@@ -120,6 +121,31 @@ aem-eds-appbuilder/
 │   │   └── sitemap.json
 │   ├── eds-uk/                    # Same structure as eds-us
 │   └── eds-jp/                    # Same structure as eds-us
+│
+├── core/                          # AEM OSGi bundle — Java back-end logic, models, services
+│   ├── pom.xml
+│   └── src/
+│
+├── ui.apps/                       # AEM /apps overlay — components, templates
+│   ├── pom.xml
+│   └── src/
+│
+├── ui.content/                    # AEM initial /content + /conf structures
+│   ├── pom.xml
+│   └── src/
+│
+├── ui.config/                     # AEM OSGi run-mode configurations
+│   ├── pom.xml
+│   └── src/
+│
+├── all/                           # AEM aggregator content package (embeds core, ui.apps, etc.)
+│   └── pom.xml
+│
+├── dispatcher/                    # AEM Dispatcher configuration
+│   ├── pom.xml
+│   └── src/
+│
+├── tests/                         # Integration tests
 │
 ├── packages/
 │   └── eds-components/            # Shared Svelte Web Components library
@@ -159,9 +185,16 @@ aem-eds-appbuilder/
 │       ├── device-detection.vcl   # Dynamic Serving — sets X-Device-Type header
 │       └── url-routing.vcl        # Device-based URL routing (subdomain / subdirectory)
 │
-└── .github/
-    └── workflows/
-        └── deploy.yml             # CI/CD — lint → build WCs → deploy
+├── .cloudmanager/
+│   └── maven/
+│       └── settings.xml           # Maven settings for Cloud Manager builds
+│
+├── .github/
+│   └── workflows/
+│       ├── deploy.yml             # CI/CD — lint → build → deploy (EDS + App Builder + AEM backend)
+│       └── delete-merged-branches.yml  # Auto-delete merged PR branches
+│
+└── pom.xml                        # Maven reactor POM (AEM Archetype 56 base)
 ```
 
 ---
@@ -241,7 +274,7 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md) | Step-by-step guide to creating pages per sitemap, adding components and AEM assets images, and generating the sitemap |
 | [Svelte Web Components Guide](docs/svelte-web-components-guide.md) | All 22 WCs: authoring rules, Vite build config, block-to-WC mapping, shared utilities, adding a new component |
 | [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
-| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline |
+| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline |
 
 ---
 
@@ -249,11 +282,14 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 
 | Tool | Version | Purpose |
 |---|---|---|
-| [Node.js](https://nodejs.org/) | 18.x | Runtime for actions and build tools |
-| [npm](https://www.npmjs.com/) | 9+ | Package manager |
+| [Node.js](https://nodejs.org/) | 20.x | Runtime for actions and build tools |
+| [npm](https://www.npmjs.com/) | 10+ | Package manager |
+| [Java](https://adoptium.net/) | 11+ | AEM backend Maven build |
+| [Maven](https://maven.apache.org/) | 3.6.3+ | AEM backend build tool |
 | [Adobe I/O CLI](https://developer.adobe.com/app-builder/docs/getting_started/) | latest | Deploy App Builder actions (`aio` command) |
 | Adobe Developer Console project | — | IMS credentials for App Builder deployment |
 | AEM EDS access | — | `EDS_TOKEN` for publishing to `admin.hlx.page` |
+| Adobe Cloud Manager | — | AEM backend deployment to AEMaaCS environments |
 
 Install the Adobe I/O CLI globally:
 
@@ -314,6 +350,34 @@ Built bundles are written directly to `apps/eds-us/blocks/` (one sub-directory p
 
 See the [Svelte Web Components Guide](docs/svelte-web-components-guide.md) for the complete reference: component inventory, authoring rules, Vite build config, the block–WC lazy-loading pattern, and step-by-step instructions for adding a new component.
 
+### AEM Backend (Maven)
+
+```bash
+# 1. Build all AEM modules
+mvn clean install -PautoInstallPackage -Padobe-public
+
+# 2. Build and install to a local AEM Author instance
+mvn clean install -PautoInstallPackage -Daem.host=localhost -Daem.port=4502
+
+# 3. Build and install to a local AEM Publish instance
+mvn clean install -PautoInstallPackagePublish -Daem.publish.host=localhost -Daem.publish.port=4503
+
+# 4. Build only the core bundle and install
+cd core
+mvn clean install -PautoInstallBundle
+```
+
+The Maven reactor builds the following modules:
+
+| Module | Description |
+|---|---|
+| `core` | OSGi bundle — Java back-end logic, Sling Models, services |
+| `ui.apps` | `/apps` overlay — components, clientlibs, templates |
+| `ui.content` | Initial `/content` + `/conf` structures |
+| `ui.config` | OSGi run-mode configurations |
+| `all` | Aggregator content package (embeds all modules) |
+| `dispatcher` | Apache / Dispatcher configuration |
+
 ---
 
 ## Configuration
@@ -359,6 +423,12 @@ The following repository secrets must be set before the CI/CD pipeline can deplo
 | `AIO_PROJECT_ID` | Adobe Developer Console project ID |
 | `AIO_WORKSPACE_ID` | Adobe Developer Console workspace ID |
 | `EDS_TOKEN` | Bearer token for the AEM EDS Admin API (`admin.hlx.page`) |
+| `CM_PROGRAM_ID` | Cloud Manager program ID for AEM backend deployment |
+| `CM_API_KEY` | Cloud Manager API key |
+| `CM_ORG_ID` | Adobe IMS organisation ID for Cloud Manager |
+| `CM_TECHNICAL_ACCOUNT_ID` | Technical account ID for Cloud Manager API |
+| `CM_IMS_TOKEN` | IMS bearer token for Cloud Manager API calls |
+| `CM_PIPELINE_ID` | Cloud Manager pipeline ID to trigger |
 
 ---
 
@@ -465,7 +535,11 @@ The [`deploy.yml`](.github/workflows/deploy.yml) workflow runs automatically on 
 push to main
     │
     ▼
-[lint]  ──────────────────────────────────────────►  ESLint on app-builder actions
+[lint]  ──────────────────────────────────────────►  ESLint + unit tests + svelte-check
+    │
+    ├──► [build-aem]  ───────────────────────────►  Maven build & verify (Java 11)
+    │         │
+    │         └──► [deploy-aem-backend]  ────────►  Trigger Cloud Manager pipeline (main only)
     │
     ├──► [build-components]  ──────────────────────►  Vite build of Svelte WCs → artifact
     │         │

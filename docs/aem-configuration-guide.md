@@ -46,7 +46,7 @@ The [AEM Project Archetype](https://github.com/adobe/aem-project-archetype) is a
 mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate \
   -D archetypeGroupId=com.adobe.aem \
   -D archetypeArtifactId=aem-project-archetype \
-  -D archetypeVersion=49 \
+  -D archetypeVersion=56 \
   -D appTitle="Quick Service Restaurant AEM" \
   -D appId="qsr" \
   -D groupId="com.qsr.aem" \
@@ -61,7 +61,7 @@ Key parameters:
 
 | Parameter | Recommended Value | Description |
 |---|---|---|
-| `archetypeVersion` | `49` (latest) | AEM Archetype release |
+| `archetypeVersion` | `56` (latest) | AEM Archetype release |
 | `aemVersion` | `cloud` | Targets AEMaaCS |
 | `frontendModule` | `general` | Vite-based front-end build |
 | `includeExamples` | `n` | Omit sample content for production projects |
@@ -297,7 +297,11 @@ This project's primary CI/CD is defined in [`.github/workflows/deploy.yml`](../.
 push to main
     │
     ▼
-[lint]               ESLint on app-builder actions + Svelte components
+[lint]               ESLint on app-builder actions + unit tests + svelte-check
+    │
+    ├──► [build-aem]             Maven build & verify (Java 11)
+    │         │
+    │         └──► [deploy-aem-backend]   Trigger Cloud Manager pipeline (main only)
     │
     ├──► [build-components]      Vite build → wc-bundles artifact
     │         │
@@ -324,6 +328,12 @@ push to main
 | `AIO_PROJECT_ID` | Adobe Developer Console → Project overview |
 | `AIO_WORKSPACE_ID` | Adobe Developer Console → Workspace overview |
 | `EDS_TOKEN` | AEM Admin API token from your Adobe account team |
+| `CM_PROGRAM_ID` | Cloud Manager → Program overview |
+| `CM_API_KEY` | Adobe Developer Console → Cloud Manager API integration |
+| `CM_ORG_ID` | Adobe Admin Console → Organisation ID |
+| `CM_TECHNICAL_ACCOUNT_ID` | Adobe Developer Console → Service Account (JWT) or OAuth Server-to-Server |
+| `CM_IMS_TOKEN` | Generated via Adobe IMS OAuth Server-to-Server credentials |
+| `CM_PIPELINE_ID` | Cloud Manager → Pipelines → Pipeline details |
 
 ### 4.4 Pipeline Quality Gates
 

@@ -37,9 +37,16 @@ aem-eds-appbuilder/
 │   ├── eds-us/               # US market EDS site
 │   ├── eds-uk/               # UK market EDS site
 │   └── eds-jp/               # JP market EDS site
+├── core/                     # AEM OSGi bundle — shared Java back-end logic
+├── ui.apps/                  # AEM /apps overlay — components, templates
+├── ui.content/               # AEM initial /content + /conf structures
+├── ui.config/                # AEM OSGi run-mode configurations
+├── all/                      # AEM aggregator content package
+├── dispatcher/               # AEM Dispatcher configuration
 ├── packages/
 │   └── eds-components/       # Shared Svelte web components (built once, copied per market)
 ├── fastly/                   # Shared Fastly VCL
+├── .cloudmanager/            # Cloud Manager Maven settings
 └── docs/                     # Shared runbooks and reference documents
 ```
 

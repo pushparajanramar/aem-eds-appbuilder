@@ -30,3 +30,4 @@ Each ADR follows the format `NNN-short-title.md` and contains the following sect
 | [005](005-svelte-web-components-for-shared-ui.md) | Svelte Web Components for Shared UI | Accepted | 2025-01-15 |
 | [006](006-fastly-cdn-device-detection-and-routing.md) | Fastly CDN for Device Detection and URL Routing | Accepted | 2025-01-22 |
 | [007](007-github-actions-cicd-pipeline.md) | GitHub Actions CI/CD Pipeline | Accepted | 2025-01-22 |
+| [008](008-cloud-manager-aem-backend-pipeline.md) | Cloud Manager Pipeline for AEM Backend Deployment | Accepted | 2026-02-26 |
