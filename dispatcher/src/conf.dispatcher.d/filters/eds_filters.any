@@ -1,0 +1,15 @@
+# Allow AEM model JSON selectors for Edge Delivery Services
+/0100 { /type "allow" /method "GET" /url "/content/*.model.json" }
+/0101 { /type "allow" /method "GET" /url "/content/*.infinity.json" }
+/0102 { /type "allow" /method "GET" /url "/content/*.content.json" }
+
+# Allow GraphQL endpoint for Content Fragments
+/0110 { /type "allow" /method "GET" /url "/graphql/*" }
+/0111 { /type "allow" /method "POST" /url "/graphql/*" }
+
+# Allow content delivery selectors used by EDS
+/0120 { /type "allow" /method "GET" /url "/content/qsr/*.json" }
+
+# Allow OPTIONS requests for CORS preflight
+/0130 { /type "allow" /method "OPTIONS" /url "/content/*" }
+/0131 { /type "allow" /method "OPTIONS" /url "/graphql/*" }

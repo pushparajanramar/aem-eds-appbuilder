@@ -1,0 +1,16 @@
+# Deny everything by default
+/0001 { /type "deny" /url "*" }
+
+# Allow standard content
+/0010 { /type "allow" /method "GET" /url "/content/*" }
+/0011 { /type "allow" /method "HEAD" /url "/content/*" }
+/0012 { /type "allow" /method "GET" /url "/etc.clientlibs/*" }
+/0013 { /type "allow" /method "GET" /url "/libs/*" }
+
+# Allow static resources
+/0020 { /type "allow" /extension "(css|gif|ico|js|png|swf|jpe?g|svg|woff2?|ttf|eot)" }
+
+# Deny access to admin and system paths
+/0050 { /type "deny" /url "/crx/*" }
+/0051 { /type "deny" /url "/system/*" }
+/0052 { /type "deny" /url "/admin/*" }

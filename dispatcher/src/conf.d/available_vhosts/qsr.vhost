@@ -1,0 +1,31 @@
+<VirtualHost *:80>
+    ServerName "publish"
+    ServerAlias "*"
+
+    DocumentRoot ${DOCROOT}
+
+    <Directory "${DOCROOT}">
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    <IfModule disp_apache2.c>
+        ModMimeUsePathInfo On
+
+        # Enable EDS JSON selectors
+        SetEnvIf Request_URI "\.model\.json$" ALLOW_JSON=1
+        SetEnvIf Request_URI "\.infinity\.json$" ALLOW_JSON=1
+        SetEnvIf Request_URI "\.content\.json$" ALLOW_JSON=1
+    </IfModule>
+
+    # CORS headers for EDS domains
+    <IfModule mod_headers.c>
+        SetEnvIf Origin "https://.*\.hlx\.(page|live)" CORS_ORIGIN=$0
+        SetEnvIf Origin "https://.*\.aem\.(page|live)" CORS_ORIGIN=$0
+        Header set Access-Control-Allow-Origin "%{CORS_ORIGIN}e" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Methods "GET, HEAD, OPTIONS" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Headers "Origin, Accept, Content-Type, Authorization" env=CORS_ORIGIN
+        Header set Access-Control-Max-Age "86400" env=CORS_ORIGIN
+    </IfModule>
+</VirtualHost>

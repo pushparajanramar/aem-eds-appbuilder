@@ -1,0 +1,4 @@
+# Cache JSON responses for Edge Delivery Services
+/0100 { /glob "*.model.json" /type "allow" }
+/0101 { /glob "*.infinity.json" /type "allow" }
+/0102 { /glob "*.content.json" /type "allow" }
