@@ -82,6 +82,29 @@ App Builder actions are invoked by EDS overlay routes defined in each market's `
 
 ```
 aem-eds-appbuilder/
+├── aem-backend/                   # AEM backend modules (Maven reactor)
+│   ├── pom.xml                    # Maven reactor POM (AEM Archetype 56 base)
+│   ├── core/                      # AEM OSGi bundle — Java back-end logic, models, services
+│   │   ├── pom.xml
+│   │   └── src/
+│   ├── ui.apps/                   # AEM /apps overlay — components, templates
+│   │   ├── pom.xml
+│   │   └── src/
+│   ├── ui.content/                # AEM initial /content + /conf structures
+│   │   ├── pom.xml
+│   │   └── src/
+│   ├── ui.config/                 # AEM OSGi run-mode configurations
+│   │   ├── pom.xml
+│   │   └── src/
+│   ├── all/                       # AEM aggregator content package (embeds core, ui.apps, etc.)
+│   │   └── pom.xml
+│   ├── dispatcher/                # AEM Dispatcher configuration
+│   │   ├── pom.xml
+│   │   └── src/
+│   └── .cloudmanager/
+│       └── maven/
+│           └── settings.xml       # Maven settings for Cloud Manager builds
+│
 ├── app-builder/                   # Adobe App Builder application
 │   ├── app.config.yaml            # Action + web-src declarations (package: qsr)
 │   ├── package.json
@@ -128,31 +151,6 @@ aem-eds-appbuilder/
 │   ├── eds-uk/                    # Same structure as eds-us
 │   └── eds-jp/                    # Same structure as eds-us
 │
-├── core/                          # AEM OSGi bundle — Java back-end logic, models, services
-│   ├── pom.xml
-│   └── src/
-│
-├── ui.apps/                       # AEM /apps overlay — components, templates
-│   ├── pom.xml
-│   └── src/
-│
-├── ui.content/                    # AEM initial /content + /conf structures
-│   ├── pom.xml
-│   └── src/
-│
-├── ui.config/                     # AEM OSGi run-mode configurations
-│   ├── pom.xml
-│   └── src/
-│
-├── all/                           # AEM aggregator content package (embeds core, ui.apps, etc.)
-│   └── pom.xml
-│
-├── dispatcher/                    # AEM Dispatcher configuration
-│   ├── pom.xml
-│   └── src/
-│
-├── tests/                         # Integration tests
-│
 ├── packages/
 │   └── eds-components/            # Shared Svelte Web Components library
 │       ├── src/
@@ -191,21 +189,19 @@ aem-eds-appbuilder/
 │       ├── device-detection.vcl   # Dynamic Serving — sets X-Device-Type header
 │       └── url-routing.vcl        # Device-based URL routing (subdomain / subdirectory)
 │
-├── .cloudmanager/
-│   └── maven/
-│       └── settings.xml           # Maven settings for Cloud Manager builds
+├── tests/                         # Integration tests
 │
 ├── .github/
 │   └── workflows/
 │       ├── pr-validation.yml          # PR checks — lint, test, build-validate all sub-apps
-│       ├── app-builder-deploy.yml     # Deploy actions + web-src (path: app-builder/**)
-│       ├── eds-deploy.yml             # Svelte WC build + EDS publishing (path: packages/**)
-│       ├── aem-backend-deploy.yml     # Maven build + Cloud Manager trigger (path: core/**)
+│       ├── app-builder-deploy.yml     # Deploy actions + web-src (folder: app-builder/)
+│       ├── eds-deploy.yml             # Svelte WC build + EDS publishing (folder: packages/)
+│       ├── aem-backend-deploy.yml     # Maven build + Cloud Manager trigger (folder: aem-backend/)
 │       └── delete-merged-branches.yml # Auto-delete merged PR branches
 │
 ├── CODEOWNERS                     # Critical path review requirements
 │
-└── pom.xml                        # Maven reactor POM (AEM Archetype 56 base)
+└── docs/                          # Shared runbooks and reference documents
 ```
 
 ---
@@ -285,7 +281,7 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md) | Step-by-step guide to creating pages per sitemap, adding components and AEM assets images, and generating the sitemap |
 | [Svelte Web Components Guide](docs/svelte-web-components-guide.md) | All 22 WCs: authoring rules, Vite build config, block-to-WC mapping, shared utilities, adding a new component |
 | [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
-| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline, path-based monorepo pipeline |
+| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline, folder-based monorepo pipeline |
 
 ---
 
@@ -365,6 +361,7 @@ See the [Svelte Web Components Guide](docs/svelte-web-components-guide.md) for t
 
 ```bash
 # 1. Build all AEM modules
+cd aem-backend
 mvn clean install -PautoInstallPackage -Padobe-public
 
 # 2. Build and install to a local AEM Author instance
@@ -536,18 +533,18 @@ Pass `push=false` to perform a dry-run (sitemap is generated but not pushed to C
 
 ## Deployment Guide
 
-### CI/CD Pipeline — Path-Based Selective Deployment (Recommended)
+### CI/CD Pipeline — Folder-Based Selective Deployment (Recommended)
 
-The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](docs/adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change, preventing unnecessary deployments.
+The project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](docs/adr/010-folder-based-monorepo-pipeline.md)). Each sub-application lives in its own top-level folder, and separate workflows trigger only when files in that folder change, preventing unnecessary deployments.
 
-| Component | Workflow | Trigger Path | Deployment Target |
+| Component | Workflow | Trigger Folder | Deployment Target |
 |---|---|---|---|
-| **EDS (vanilla)** | AEM Code Sync | `apps/**/blocks/**`, `apps/**/scripts/**`, `apps/**/styles/**` | Adobe Edge CDN (automatic) |
-| **EDS (Svelte WCs)** | [`eds-deploy.yml`](.github/workflows/eds-deploy.yml) | `packages/eds-components/**` | AEM EDS Admin API (`admin.hlx.page`) |
-| **App Builder Actions** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/actions/**` | Adobe I/O Runtime |
-| **App Builder Web UI** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/web-src/**` | Adobe App Builder CDN |
-| **AEM Backend** | [`aem-backend-deploy.yml`](.github/workflows/aem-backend-deploy.yml) | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Cloud Manager → AEMaaCS |
-| **PR Validation** | [`pr-validation.yml`](.github/workflows/pr-validation.yml) | All paths | — (lint, test, build-validate) |
+| **EDS (vanilla)** | AEM Code Sync | `apps/` | Adobe Edge CDN (automatic) |
+| **EDS (Svelte WCs)** | [`eds-deploy.yml`](.github/workflows/eds-deploy.yml) | `packages/eds-components/` | AEM EDS Admin API (`admin.hlx.page`) |
+| **App Builder Actions** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/` | Adobe I/O Runtime |
+| **App Builder Web UI** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/` | Adobe App Builder CDN |
+| **AEM Backend** | [`aem-backend-deploy.yml`](.github/workflows/aem-backend-deploy.yml) | `aem-backend/` | Cloud Manager → AEMaaCS |
+| **PR Validation** | [`pr-validation.yml`](.github/workflows/pr-validation.yml) | All folders | — (lint, test, build-validate) |
 
 **Key principles:**
 

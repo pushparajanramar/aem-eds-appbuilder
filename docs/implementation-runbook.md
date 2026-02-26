@@ -368,12 +368,12 @@ cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/block
 
 The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
 
-| Workflow | File | Trigger Path | Purpose |
+| Workflow | File | Trigger Folder | Purpose |
 |---|---|---|---|
-| PR Validation | `pr-validation.yml` | All paths (PRs only) | Lint, test, type-check, build-validate |
-| App Builder Deploy | `app-builder-deploy.yml` | `app-builder/**` | Deploy actions + web UI to I/O Runtime |
-| EDS Deploy | `eds-deploy.yml` | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
-| AEM Backend Deploy | `aem-backend-deploy.yml` | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager |
+| PR Validation | `pr-validation.yml` | All folders (PRs only) | Lint, test, type-check, build-validate |
+| App Builder Deploy | `app-builder-deploy.yml` | `app-builder/` | Deploy actions + web UI to I/O Runtime |
+| EDS Deploy | `eds-deploy.yml` | `packages/eds-components/`, `apps/**/blocks/` | Compile Svelte WCs → publish to EDS markets |
+| AEM Backend Deploy | `aem-backend-deploy.yml` | `aem-backend/` | Maven build → trigger Cloud Manager |
 
 Vanilla EDS files (`apps/*/blocks/`, `apps/*/scripts/`, `apps/*/styles/`) sync automatically via the **AEM Code Sync** GitHub App — no CI/CD build step is needed.
 

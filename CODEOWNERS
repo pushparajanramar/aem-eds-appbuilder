@@ -15,16 +15,10 @@ app-builder/app.config.yaml             @pushparajanramar
 apps/*/config/                          @pushparajanramar
 
 # AEM backend — Technical Architect
-core/                                   @pushparajanramar
-ui.apps/                                @pushparajanramar
-ui.config/                              @pushparajanramar
-ui.content/                             @pushparajanramar
-all/                                    @pushparajanramar
-dispatcher/                             @pushparajanramar
-pom.xml                                 @pushparajanramar
+aem-backend/                            @pushparajanramar
 
 # Cloud Manager configuration — Platform Engineers
-.cloudmanager/                          @pushparajanramar
+aem-backend/.cloudmanager/              @pushparajanramar
 
 # Architecture Decision Records — Technical Architect
 docs/adr/                               @pushparajanramar

@@ -80,4 +80,5 @@ jobs:
           cache: 'maven'
 
       - name: Build and verify AEM modules
+        working-directory: aem-backend
         run: mvn clean verify --batch-mode --no-transfer-progress -Padobe-public

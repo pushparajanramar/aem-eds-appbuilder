@@ -11,7 +11,7 @@
 
 ## Context
 
-The project now includes AEM backend modules (`core`, `ui.apps`, `ui.config`, `ui.content`, `all`, `dispatcher`) based on AEM Archetype 56. These modules contain OSGi bundles, content packages, run-mode configurations, and Dispatcher rules that must be deployed to AEMaaCS environments (Dev, Stage, Production) via Adobe Cloud Manager.
+The project now includes AEM backend modules (`core`, `ui.apps`, `ui.config`, `ui.content`, `all`, `dispatcher`) based on AEM Archetype 56, grouped under the `aem-backend/` directory. These modules contain OSGi bundles, content packages, run-mode configurations, and Dispatcher rules that must be deployed to AEMaaCS environments (Dev, Stage, Production) via Adobe Cloud Manager.
 
 The existing GitHub Actions pipeline (see [ADR 007](007-github-actions-cicd-pipeline.md)) handles EDS + App Builder deployment but does not cover AEM backend packaging and deployment. Cloud Manager is the required deployment vehicle for AEMaaCS and enforces quality gates (code coverage, SonarQube, Lighthouse).
 
@@ -23,7 +23,7 @@ Adopt **Adobe Cloud Manager** as the deployment pipeline for AEM backend modules
 
 ### Key elements
 
-1. A `.cloudmanager/maven/settings.xml` file provides Maven repository configuration for Cloud Manager builds.
+1. An `aem-backend/.cloudmanager/maven/settings.xml` file provides Maven repository configuration for Cloud Manager builds.
 2. The GitHub Actions `build-aem` job runs `mvn clean verify` to validate the build on every PR.
 3. The GitHub Actions `deploy-aem-backend` job triggers the Cloud Manager production pipeline via the Cloud Manager API on merge to `main`.
 4. Cloud Manager executes its own build, runs quality gates (JaCoCo, SonarQube, Lighthouse), and deploys to Dev → Stage → Production with a manual approval gate before Production.

@@ -122,12 +122,12 @@ The `X-Device-Type` header is forwarded to App Builder actions; the `device-prov
 
 The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
 
-| Workflow | File | Trigger path | Purpose |
+| Workflow | File | Trigger folder | Purpose |
 |---|---|---|---|
-| **PR Validation** | [`pr-validation.yml`](../.github/workflows/pr-validation.yml) | All paths | Lint, test, type-check, build-validate all sub-apps |
-| **App Builder Deploy** | [`app-builder-deploy.yml`](../.github/workflows/app-builder-deploy.yml) | `app-builder/**` | Deploy actions + web UI to I/O Runtime |
-| **EDS Deploy** | [`eds-deploy.yml`](../.github/workflows/eds-deploy.yml) | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
-| **AEM Backend Deploy** | [`aem-backend-deploy.yml`](../.github/workflows/aem-backend-deploy.yml) | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager |
+| **PR Validation** | [`pr-validation.yml`](../.github/workflows/pr-validation.yml) | All folders | Lint, test, type-check, build-validate all sub-apps |
+| **App Builder Deploy** | [`app-builder-deploy.yml`](../.github/workflows/app-builder-deploy.yml) | `app-builder/` | Deploy actions + web UI to I/O Runtime |
+| **EDS Deploy** | [`eds-deploy.yml`](../.github/workflows/eds-deploy.yml) | `packages/eds-components/`, `apps/**/blocks/` | Compile Svelte WCs → publish to EDS markets |
+| **AEM Backend Deploy** | [`aem-backend-deploy.yml`](../.github/workflows/aem-backend-deploy.yml) | `aem-backend/` | Maven build → trigger Cloud Manager |
 | **Branch Cleanup** | [`delete-merged-branches.yml`](../.github/workflows/delete-merged-branches.yml) | PR closed | Auto-delete merged PR branches |
 
 ```
@@ -137,15 +137,15 @@ PR opened / push to main
 [pr-validation]  ──────────────────────────────►  ESLint + unit tests + svelte-check + Maven verify
     │                                              (runs on every PR across all sub-apps)
     │
-push to main (path-filtered)
+push to main (folder-filtered)
     │
-    ├──► [app-builder-deploy]  ─────────────────►  aio app deploy (app-builder/** changed)
+    ├──► [app-builder-deploy]  ─────────────────►  aio app deploy (app-builder/ changed)
     │
     ├──► [eds-deploy]  ─────────────────────────►  Vite build → copy bundles → publish to admin.hlx.page
-    │         (packages/eds-components/** or apps/**/blocks/** changed)
+    │         (packages/eds-components/ or apps/**/blocks/ changed)
     │
     └──► [aem-backend-deploy]  ─────────────────►  mvn verify → trigger Cloud Manager pipeline
-              (core/**, ui.apps/**, dispatcher/**, pom.xml changed)
+              (aem-backend/ changed)
 ```
 
 ### GitHub Secrets
