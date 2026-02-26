@@ -280,7 +280,7 @@ A full-stack pipeline executes: **Build → Unit Tests → Code Quality → Depl
 
 ### 4.2 Front-End Pipeline (EDS Web Components)
 
-The `packages/eds-components` Svelte build is handled by the GitHub Actions workflow (`deploy.yml`). If you also want Cloud Manager to manage it:
+The `packages/eds-components` Svelte build is handled by the GitHub Actions workflow (`eds-deploy.yml`). If you also want Cloud Manager to manage it:
 
 1. Add a **Non-Production Pipeline** in Cloud Manager.
 2. Set **Type** to **Front-End**.

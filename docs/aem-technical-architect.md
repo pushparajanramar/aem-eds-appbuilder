@@ -30,9 +30,17 @@ Adobe App Builder (Adobe I/O Runtime)
     ├─ menu-provider    → text/html EDS block markup
     ├─ store-provider   → text/html EDS block markup
     ├─ rewards-provider → text/html EDS block markup (IMS-gated)
+    ├─ user-provider    → text/html EDS block markup (IMS-gated)
+    ├─ bff-proxy        → application/json BFF module proxy (IMS-gated)
+    ├─ device-provider  → text/html meta snippet or application/json layout hints
+    ├─ sitemap-generator → application/json sitemap build + push result (IMS-gated)
     └─ webhook          → triggers EDS Admin API cache purge / reindex
             │
             ▼
+Fastly CDN
+    │  (device detection via VCL — sets X-Device-Type header)
+    │  (URL routing — subdomain redirect / subdirectory rewrite)
+    ▼
 AEM Edge Delivery Services (aem.live)
     ├─ apps/eds-us   (main--qsr-us--org.aem.live)
     ├─ apps/eds-uk   (main--qsr-uk--org.aem.live)
@@ -51,7 +59,8 @@ All actions are declared under the `qsr` package in [`app-builder/app.config.yam
 | `user-provider` | **Yes** (IMS bearer) | 60 s | `text/html` user-profile block markup |
 | `bff-proxy` | **Yes** (IMS bearer) | 60 s | `application/json` proxied BFF response |
 | `device-provider` | No | 0 s (Vary: X-Device-Type) | `text/html` meta snippet or `application/json` layout hints |
-| `webhook` | **Yes** | — | `application/json` purge result |
+| `sitemap-generator` | **Yes** (IMS bearer) | — | `application/json` `{ result, market, edsHost, pageCount, pushed, sitemapUrl }` |
+| `webhook` | **Yes** (IMS bearer) | — | `application/json` purge result |
 
 ### Shared Utilities
 
@@ -67,12 +76,32 @@ These are the only files shared across all actions. Changes here require cross-a
 
 ### Svelte Web Components
 
-Shared components live in `packages/eds-components/src/components/` and are bundled by Vite into market-specific artifacts:
+Shared components live in `packages/eds-components/src/components/` and are bundled by Vite into market-specific artifacts. See [Svelte Web Components Guide](svelte-web-components-guide.md) for the full reference.
 
-| Component | Purpose |
-|---|---|
-| `qsr-menu-card.svelte` | Menu item card displayed by the `menu-item` block |
-| `qsr-product-customizer.svelte` | Size/milk/syrup customiser in the `product-detail` block |
+| Component | Custom element | EDS block directory | Auth required? |
+|---|---|---|---|
+| `qsr-accordion.svelte` | `<qsr-accordion>` | `accordion/` | No |
+| `qsr-breadcrumbs.svelte` | `<qsr-breadcrumbs>` | `breadcrumbs/` | No |
+| `qsr-cards.svelte` | `<qsr-cards>` | `cards/` | No |
+| `qsr-carousel.svelte` | `<qsr-carousel>` | `carousel/` | No |
+| `qsr-columns.svelte` | `<qsr-columns>` | `columns/` | No |
+| `qsr-embed.svelte` | `<qsr-embed>` | `embed/` | No |
+| `qsr-footer.svelte` | `<qsr-footer>` | `footer/` | No |
+| `qsr-form.svelte` | `<qsr-form>` | `form/` | No |
+| `qsr-fragment.svelte` | `<qsr-fragment>` | `fragment/` | No |
+| `qsr-header.svelte` | `<qsr-header>` | `header/` | No |
+| `qsr-hero.svelte` | `<qsr-hero>` | `hero/` | No |
+| `qsr-menu-card.svelte` | `<qsr-menu-card>` | `menu-item/` | No |
+| `qsr-modal.svelte` | `<qsr-modal>` | `modal/` | No |
+| `qsr-product-customizer.svelte` | `<qsr-product-customizer>` | `product-detail/` | No |
+| `qsr-quote.svelte` | `<qsr-quote>` | `quote/` | No |
+| `qsr-rewards-feed.svelte` | `<qsr-rewards-feed>` | `rewards-feed/` | **Yes** |
+| `qsr-search.svelte` | `<qsr-search>` | `search/` | No |
+| `qsr-store-locator.svelte` | `<qsr-store-locator>` | `store-locator/` | No |
+| `qsr-table.svelte` | `<qsr-table>` | `table/` | No |
+| `qsr-tabs.svelte` | `<qsr-tabs>` | `tabs/` | No |
+| `qsr-user-profile.svelte` | `<qsr-user-profile>` | `user-profile/` | **Yes** |
+| `qsr-video.svelte` | `<qsr-video>` | `video/` | No |
 
 Build output is copied to `apps/eds-*/blocks/` during the CI/CD pipeline.
 
@@ -91,21 +120,32 @@ The `X-Device-Type` header is forwarded to App Builder actions; the `device-prov
 
 ## CI/CD Pipeline
 
-Defined in [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml):
+The project uses a **path-based monorepo pipeline** strategy (see [ADR 009](adr/009-path-based-monorepo-pipeline.md)). Separate workflows trigger only when files in specific directories change:
+
+| Workflow | File | Trigger path | Purpose |
+|---|---|---|---|
+| **PR Validation** | [`pr-validation.yml`](../.github/workflows/pr-validation.yml) | All paths | Lint, test, type-check, build-validate all sub-apps |
+| **App Builder Deploy** | [`app-builder-deploy.yml`](../.github/workflows/app-builder-deploy.yml) | `app-builder/**` | Deploy actions + web UI to I/O Runtime |
+| **EDS Deploy** | [`eds-deploy.yml`](../.github/workflows/eds-deploy.yml) | `packages/eds-components/**`, `apps/**/blocks/**` | Compile Svelte WCs → publish to EDS markets |
+| **AEM Backend Deploy** | [`aem-backend-deploy.yml`](../.github/workflows/aem-backend-deploy.yml) | `core/**`, `ui.apps/**`, `dispatcher/**`, `pom.xml` | Maven build → trigger Cloud Manager |
+| **Branch Cleanup** | [`delete-merged-branches.yml`](../.github/workflows/delete-merged-branches.yml) | PR closed | Auto-delete merged PR branches |
 
 ```
-push to main
+PR opened / push to main
     │
     ▼
-[lint]  ──────────────────────────────────────────►  ESLint on app-builder actions
+[pr-validation]  ──────────────────────────────►  ESLint + unit tests + svelte-check + Maven verify
+    │                                              (runs on every PR across all sub-apps)
     │
-    ├──► [build-components]  ──────────────────────►  Vite build of Svelte WCs → artifact
-    │         │
-    │         ├──► [deploy-eds-us]   ──────────────►  Publish to admin.hlx.page (US)
-    │         ├──► [deploy-eds-uk]   ──────────────►  Publish to admin.hlx.page (UK)
-    │         └──► [deploy-eds-jp]   ──────────────►  Publish to admin.hlx.page (JP)
+push to main (path-filtered)
     │
-    └──► [deploy-app-builder]  ────────────────────►  aio app deploy (main branch only)
+    ├──► [app-builder-deploy]  ─────────────────►  aio app deploy (app-builder/** changed)
+    │
+    ├──► [eds-deploy]  ─────────────────────────►  Vite build → copy bundles → publish to admin.hlx.page
+    │         (packages/eds-components/** or apps/**/blocks/** changed)
+    │
+    └──► [aem-backend-deploy]  ─────────────────►  mvn verify → trigger Cloud Manager pipeline
+              (core/**, ui.apps/**, dispatcher/**, pom.xml changed)
 ```
 
 ### GitHub Secrets
@@ -116,6 +156,12 @@ push to main
 | `AIO_PROJECT_ID` | Adobe Developer Console project ID |
 | `AIO_WORKSPACE_ID` | Adobe Developer Console workspace ID |
 | `EDS_TOKEN` | Bearer token for the AEM EDS Admin API |
+| `CM_PROGRAM_ID` | Cloud Manager program ID |
+| `CM_API_KEY` | Cloud Manager API key |
+| `CM_ORG_ID` | Adobe IMS organisation ID for Cloud Manager |
+| `CM_TECHNICAL_ACCOUNT_ID` | Technical account ID for Cloud Manager API |
+| `CM_IMS_TOKEN` | IMS bearer token for Cloud Manager API calls |
+| `CM_PIPELINE_ID` | Cloud Manager pipeline ID to trigger |
 
 ---
 
@@ -133,7 +179,9 @@ See the **[ADR index](adr/README.md)** for all current decisions.
 | [004](adr/004-ims-authentication-for-secured-actions.md) | Adobe IMS Authentication for Secured Actions | Accepted |
 | [005](adr/005-svelte-web-components-for-shared-ui.md) | Svelte Web Components for Shared UI | Accepted |
 | [006](adr/006-fastly-cdn-device-detection-and-routing.md) | Fastly CDN for Device Detection and URL Routing | Accepted |
-| [007](adr/007-github-actions-cicd-pipeline.md) | GitHub Actions CI/CD Pipeline | Accepted |
+| [007](adr/007-github-actions-cicd-pipeline.md) | GitHub Actions CI/CD Pipeline | Superseded by 009 |
+| [008](adr/008-cloud-manager-aem-backend-pipeline.md) | Cloud Manager Pipeline for AEM Backend Deployment | Accepted |
+| [009](adr/009-path-based-monorepo-pipeline.md) | Path-Based Monorepo Pipeline Strategy | Accepted |
 
 ---
 

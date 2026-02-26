@@ -634,20 +634,13 @@ Add to `component-definition.json` so the block appears in the UE block palette,
 
 ### Step 6 — Add to the CI/CD copy step
 
-In `.github/workflows/deploy.yml`, add the new bundle to the artifact upload and the UK/JP copy steps:
+In `.github/workflows/eds-deploy.yml`, the build-and-copy step automatically handles all bundles matching the `blockMap` pattern in `vite.config.js`. Ensure the new block directory exists in `apps/eds-us/blocks/<name>/` and the copy step in `eds-deploy.yml` includes the new bundle for UK/JP:
 
 ```yaml
-# build-components job — upload-artifact step
-path: |
-  apps/eds-us/blocks/product-detail/qsr-product-customizer.js
-  apps/eds-us/blocks/menu-item/qsr-menu-card.js
-  apps/eds-us/blocks/<name>/qsr-<name>.js   # ← add this
-
-# deploy-eds-uk job — copy step
+# eds-deploy.yml — copy step (for each market)
 cp apps/eds-us/blocks/<name>/qsr-<name>.js \
    apps/eds-uk/blocks/<name>/qsr-<name>.js
 
-# deploy-eds-jp job — copy step
 cp apps/eds-us/blocks/<name>/qsr-<name>.js \
    apps/eds-jp/blocks/<name>/qsr-<name>.js
 ```
@@ -656,40 +649,32 @@ cp apps/eds-us/blocks/<name>/qsr-<name>.js \
 
 ## 9. CI/CD Pipeline Integration
 
-The build is part of the `build-components` job in `.github/workflows/deploy.yml`:
+The build is part of the `build-and-deploy` job in `.github/workflows/eds-deploy.yml`. This workflow is path-filtered and only triggers when files under `packages/eds-components/**` or `apps/**/blocks/**` change on `main`:
 
 ```
-push to main
+push to main (packages/eds-components/** or apps/**/blocks/** changed)
     │
     ▼
-[lint]                    ESLint on app-builder actions
-    │
-    ▼
-[build-components]
+[eds-deploy]
     ├── npm ci            Install deps in packages/eds-components
     ├── npm run build     Vite build — outputs to apps/eds-us/blocks/
-    └── upload-artifact   Saves qsr-product-customizer.js and qsr-menu-card.js
-            │
-            ├── [deploy-eds-us]
-            │     download-artifact → apps/eds-us/blocks/
-            │     curl POST admin.hlx.page/publish/org/qsr-us/main/*
-            │
-            ├── [deploy-eds-uk]
-            │     download-artifact → apps/eds-us/blocks/
-            │     cp bundles → apps/eds-uk/blocks/
-            │     curl POST admin.hlx.page/publish/org/qsr-uk/main/*
-            │
-            └── [deploy-eds-jp]
-                  download-artifact → apps/eds-us/blocks/
-                  cp bundles → apps/eds-jp/blocks/
-                  curl POST admin.hlx.page/publish/org/qsr-jp/main/*
+    ├── copy bundles      cp apps/eds-us/blocks/ → apps/eds-uk/blocks/ and apps/eds-jp/blocks/
+    │
+    ├── [deploy-eds-us]
+    │     curl POST admin.hlx.page/publish/org/qsr-us/main/*
+    │
+    ├── [deploy-eds-uk]
+    │     curl POST admin.hlx.page/publish/org/qsr-uk/main/*
+    │
+    └── [deploy-eds-jp]
+          curl POST admin.hlx.page/publish/org/qsr-jp/main/*
 ```
 
 Key points:
-- The build runs on **every** PR (not just pushes to `main`) to catch compile errors early.
-- Deployment to EDS only runs on `push` to `main`.
-- App Builder deployment runs in parallel with `build-components` (both depend on `lint`).
-- The three market deploy jobs run in parallel once `build-components` succeeds.
+- The build runs on **every** PR via `pr-validation.yml` (not just pushes to `main`) to catch compile errors early.
+- Deployment to EDS only runs on `push` to `main` when EDS/WC files change.
+- App Builder deployment runs independently via `app-builder-deploy.yml` (only when `app-builder/**` changes).
+- The three market publish steps run in parallel once the build and copy steps succeed.
 
 ---
 
