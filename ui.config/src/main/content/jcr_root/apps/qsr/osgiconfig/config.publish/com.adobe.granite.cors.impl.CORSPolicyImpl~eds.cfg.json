@@ -1,0 +1,37 @@
+{
+    "alloworigin": [
+        "https://*.hlx.page",
+        "https://*.hlx.live",
+        "https://*.aem.page",
+        "https://*.aem.live"
+    ],
+    "alloworiginregexp": [
+        "https://.*\\.hlx\\.page",
+        "https://.*\\.hlx\\.live",
+        "https://.*\\.aem\\.page",
+        "https://.*\\.aem\\.live"
+    ],
+    "allowedpaths": [
+        "/content/qsr/.*",
+        "/graphql/.*"
+    ],
+    "supportedheaders": [
+        "Origin",
+        "Accept",
+        "X-Requested-With",
+        "Content-Type",
+        "Access-Control-Request-Method",
+        "Access-Control-Request-Headers",
+        "Authorization"
+    ],
+    "supportedmethods": [
+        "GET",
+        "HEAD",
+        "OPTIONS"
+    ],
+    "maxage:Integer": 86400,
+    "supportscredentials": true,
+    "exposedheaders": [
+        ""
+    ]
+}

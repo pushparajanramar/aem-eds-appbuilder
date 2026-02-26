@@ -1,0 +1,8 @@
+{
+    "market": "uk",
+    "locale": "en-GB",
+    "currency": "GBP",
+    "timezone": "Europe/London",
+    "edsHost": "main--qsr-uk--org.aem.live",
+    "contentRoot": "/content/qsr/uk"
+}

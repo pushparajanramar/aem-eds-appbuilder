@@ -1,0 +1,7 @@
+{
+  "id": "search",
+  "fields": [
+    { "component": "reference", "name": "searchRoot", "label": "Search Root", "valueType": "string" },
+    { "component": "text", "name": "resultsSize", "label": "Results Size", "valueType": "number" }
+  ]
+}

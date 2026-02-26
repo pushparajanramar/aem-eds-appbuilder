@@ -1,0 +1,8 @@
+{
+  "id": "fragment",
+  "fields": [
+    { "component": "reference", "name": "fragmentPath", "label": "Fragment Path", "valueType": "string", "required": true },
+    { "component": "text", "name": "elementName", "label": "Element Name", "valueType": "string" },
+    { "component": "text", "name": "variation", "label": "Variation", "valueType": "string" }
+  ]
+}
