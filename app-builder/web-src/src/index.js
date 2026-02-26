@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
 import App from './App';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <Provider theme={defaultTheme}>
     <App />
   </Provider>,
-  document.getElementById('root'),
 );
