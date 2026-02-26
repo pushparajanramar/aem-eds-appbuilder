@@ -1,0 +1,9 @@
+{
+    "enabled": true,
+    "host.pattern": [
+        ".*\\.hlx\\.page",
+        ".*\\.hlx\\.live",
+        ".*\\.aem\\.page",
+        ".*\\.aem\\.live"
+    ]
+}
