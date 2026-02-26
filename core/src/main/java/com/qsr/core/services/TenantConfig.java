@@ -18,11 +18,20 @@ public final class TenantConfig {
 
     public TenantConfig(String market, String locale, String currency,
                         String timezone, String edsHost, String contentRoot) {
+        if (market == null || market.isEmpty()) {
+            throw new IllegalArgumentException("market must not be null or empty");
+        }
+        if (locale == null || locale.isEmpty()) {
+            throw new IllegalArgumentException("locale must not be null or empty");
+        }
+        if (contentRoot == null || contentRoot.isEmpty()) {
+            throw new IllegalArgumentException("contentRoot must not be null or empty");
+        }
         this.market = market;
         this.locale = locale;
-        this.currency = currency;
-        this.timezone = timezone;
-        this.edsHost = edsHost;
+        this.currency = currency != null ? currency : "";
+        this.timezone = timezone != null ? timezone : "";
+        this.edsHost = edsHost != null ? edsHost : "";
         this.contentRoot = contentRoot;
     }
 

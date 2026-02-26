@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 
-import com.qsr.core.services.TenantResolverService;
+import com.qsr.core.services.TenantRegistry;
 
 @Component(service = Filter.class)
 @SlingServletFilter(scope = SlingServletFilterScope.REQUEST)
@@ -31,7 +31,7 @@ public class EDSCorsFilter implements Filter {
     );
 
     @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
-    private volatile TenantResolverService tenantResolver;
+    private volatile TenantRegistry tenantRegistry;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -67,7 +67,7 @@ public class EDSCorsFilter implements Filter {
      * Validates the origin against both the generic EDS domain pattern and
      * per-tenant EDS host registrations.
      * <p>
-     * In a multitenant setup the {@link TenantResolverService} holds all
+     * In a multitenant setup the {@link TenantRegistry} holds all
      * registered tenant EDS hosts. If available, origins are additionally
      * checked against those hosts so that only origins belonging to a
      * registered tenant are accepted.
@@ -76,15 +76,15 @@ public class EDSCorsFilter implements Filter {
         if (!EDS_DOMAIN_PATTERN.matcher(origin).matches()) {
             return false;
         }
-        // If tenant resolver is available, further validate against registered tenants
-        TenantResolverService resolver = this.tenantResolver;
-        if (resolver != null && !resolver.getAllTenants().isEmpty()) {
+        // If tenant registry is available, further validate against registered tenants
+        TenantRegistry registry = this.tenantRegistry;
+        if (registry != null && !registry.getAllTenants().isEmpty()) {
             try {
                 String hostname = origin.replaceFirst("^https://", "");
-                return resolver.isAllowedEdsOrigin(hostname);
+                return registry.isAllowedEdsOrigin(hostname);
             } catch (Exception e) {
-                // Fallback to generic pattern match if tenant resolution fails
-                return true;
+                // Deny access if tenant resolution fails — fail closed
+                return false;
             }
         }
         // No tenant resolver available — fall back to generic pattern

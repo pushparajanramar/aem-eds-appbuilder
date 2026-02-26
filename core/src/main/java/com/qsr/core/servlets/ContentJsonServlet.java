@@ -17,7 +17,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 
 import com.google.gson.JsonObject;
 import com.qsr.core.services.TenantConfig;
-import com.qsr.core.services.TenantResolverService;
+import com.qsr.core.services.TenantRegistry;
 
 @Component(service = Servlet.class)
 @SlingServletResourceTypes(
@@ -31,7 +31,7 @@ public class ContentJsonServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 1L;
 
     @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
-    private volatile TenantResolverService tenantResolver;
+    private volatile TenantRegistry tenantRegistry;
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
@@ -58,9 +58,9 @@ public class ContentJsonServlet extends SlingSafeMethodsServlet {
         }
 
         // Add tenant/market metadata resolved from the resource path
-        TenantResolverService resolver = this.tenantResolver;
-        if (resolver != null) {
-            TenantConfig tenant = resolver.resolve(resource.getPath());
+        TenantRegistry registry = this.tenantRegistry;
+        if (registry != null) {
+            TenantConfig tenant = registry.resolve(resource.getPath());
             if (tenant != null) {
                 JsonObject tenantJson = new JsonObject();
                 tenantJson.addProperty("market", tenant.getMarket());
