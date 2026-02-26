@@ -1,0 +1,23 @@
+{
+  "id": "product-detail",
+  "fields": [
+    {
+      "component": "text",
+      "valueType": "string",
+      "name": "product-id",
+      "label": "Product ID",
+      "required": true
+    },
+    {
+      "component": "select",
+      "valueType": "string",
+      "name": "market",
+      "label": "Market",
+      "options": [
+        { "name": "US", "value": "us" },
+        { "name": "UK", "value": "uk" },
+        { "name": "JP", "value": "jp" }
+      ]
+    }
+  ]
+}
