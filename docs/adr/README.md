@@ -33,3 +33,4 @@ Each ADR follows the format `NNN-short-title.md` and contains the following sect
 | [008](008-cloud-manager-aem-backend-pipeline.md) | Cloud Manager Pipeline for AEM Backend Deployment | Accepted | 2026-02-26 |
 | [009](009-path-based-monorepo-pipeline.md) | Path-Based Monorepo Pipeline Strategy | Superseded by 010 | 2026-02-26 |
 | [010](010-folder-based-monorepo-pipeline.md) | Folder-Based Monorepo Pipeline Strategy | Accepted | 2026-02-26 |
+| [011](011-multitenancy-strategy.md) | Multitenancy Strategy (AEM Backend + EDS + Svelte Frontend) | Accepted | 2026-02-27 |
