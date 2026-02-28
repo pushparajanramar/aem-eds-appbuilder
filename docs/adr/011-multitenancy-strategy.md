@@ -1,4 +1,4 @@
-# ADR 011 — Multitenancy Strategy (AEM Backend + EDS + Svelte Frontend)
+# ADR 011 — Multitenancy Strategy (AEM Backend + AEM Assets + EDS + Svelte Frontend)
 
 | Field | Value |
 |---|---|
@@ -16,6 +16,7 @@ The programme serves three markets — United States (`us`), United Kingdom (`uk
 A clear multitenancy strategy is required so that:
 
 - **AEM authors** can manage content for each market independently without risk of cross-market side-effects.
+- **AEM Assets (DAM)** provides market-isolated digital asset management with shared brand collateral accessible to all markets.
 - **EDS sites** serve market-specific content and configuration while sharing common block code.
 - **Svelte web components** render correctly for any market without per-market forks of the component source.
 - **App Builder actions** resolve the correct back-end data sources and locale settings per market from a single deployment.
@@ -77,7 +78,71 @@ Dispatcher configuration in `aem-backend/dispatcher/` uses virtual-host rules to
 
 AEM user groups are scoped per market (`qsr-us-authors`, `qsr-uk-authors`, `qsr-jp-authors`). Each group has write access only to its own `/content/qsr-{market}` and `/content/dam/qsr-{market}` trees, enforced via ACLs in `ui.content/`. A cross-market `qsr-global-admins` group retains access to all markets.
 
-### 2. EDS Frontend (Edge Delivery Services)
+### 2. AEM Assets (Digital Asset Management)
+
+AEM Assets (DAM) stores and manages all digital assets (images, videos, PDFs, brand collateral) for every market within the same AEM as a Cloud Service instance. Tenant isolation mirrors the content tree pattern described above.
+
+#### DAM folder structure
+
+```
+/content/dam
+├── qsr-shared/              # Cross-market assets (global brand logos, icons, corporate imagery)
+├── qsr-us/                  # US market assets
+│   ├── campaigns/
+│   ├── menu/
+│   └── promotions/
+├── qsr-uk/                  # UK market assets
+│   ├── campaigns/
+│   ├── menu/
+│   └── promotions/
+└── qsr-jp/                  # JP market assets
+    ├── campaigns/
+    ├── menu/
+    └── promotions/
+```
+
+Each market has its own DAM root (`/content/dam/qsr-{market}`) for market-specific imagery, while `/content/dam/qsr-shared` holds assets that are reused across all markets (e.g. global brand logos, iconography, corporate photography). Authors reference shared assets via cross-market paths; no duplication is required.
+
+#### Metadata schemas
+
+Market-specific metadata schemas are defined under `/conf/qsr-{market}/settings/dam/cfm/models` and `/conf/qsr-{market}/settings/dam/metadata-schemas` to capture locale-specific metadata such as:
+
+- **Alt text** in the market's language.
+- **Copyright and usage rights** per regional jurisdiction.
+- **Market tags** (`market:us`, `market:uk`, `market:jp`) applied via auto-tagging rules for faceted search and reporting.
+
+The shared folder `/content/dam/qsr-shared` uses the global metadata schema defined under `/conf/global`.
+
+#### Processing profiles
+
+Per-market processing profiles under `/conf/qsr-{market}/settings/dam/processing` define:
+
+- **Image renditions** — Market-specific crop ratios and image sizes (e.g. different hero banner aspect ratios for JP mobile layouts).
+- **Video transcoding** — Region-appropriate bitrate ladders and subtitle handling.
+
+Processing profiles for the shared folder use global defaults defined under `/conf/global/settings/dam/processing`.
+
+#### Asset permissions
+
+DAM permissions follow the same per-market user-group model described in the AEM Backend section:
+
+- `qsr-us-authors` → read/write to `/content/dam/qsr-us`, read-only to `/content/dam/qsr-shared`.
+- `qsr-uk-authors` → read/write to `/content/dam/qsr-uk`, read-only to `/content/dam/qsr-shared`.
+- `qsr-jp-authors` → read/write to `/content/dam/qsr-jp`, read-only to `/content/dam/qsr-shared`.
+- `qsr-global-admins` → read/write to all DAM trees including `/content/dam/qsr-shared`.
+
+This prevents one market's authors from modifying another market's assets while still allowing read access to shared brand collateral.
+
+#### Asset delivery via EDS
+
+EDS pages reference DAM assets using the AEM publish domain. Each market's EDS blocks resolve image URLs from the market's own DAM tree or from the shared tree:
+
+- Market-specific: `https://publish.qsr.com/content/dam/qsr-us/menu/burger-hero.jpg`
+- Shared: `https://publish.qsr.com/content/dam/qsr-shared/brand/logo.svg`
+
+Dispatcher rewrite rules (see AEM Backend — Dispatcher isolation) ensure correct caching and CDN routing for asset URLs.
+
+### 3. EDS Frontend (Edge Delivery Services)
 
 Each market has its own EDS site directory under `apps/` (see [ADR 003](003-multi-market-single-repository.md)):
 
@@ -114,10 +179,12 @@ To onboard a new market (e.g. `au` for Australia):
 2. Update `config/site-config.json` with AU-specific values.
 3. Add AU-specific CSS custom properties in `styles/`.
 4. Add the market entry to `app-builder/actions/shared/market-config.js`.
-5. Create the AEM content tree `/content/qsr-au` and corresponding `/conf` and `/content/dam` nodes.
-6. Add the EDS deploy job for the new market in the CI/CD workflow.
+5. Create the AEM content tree `/content/qsr-au` and corresponding `/conf` and `/content/dam/qsr-au` nodes.
+6. Configure AU-specific DAM metadata schemas and processing profiles under `/conf/qsr-au/settings/dam/`.
+7. Create the `qsr-au-authors` user group with read/write access to `/content/dam/qsr-au` and read-only access to `/content/dam/qsr-shared`.
+8. Add the EDS deploy job for the new market in the CI/CD workflow.
 
-### 3. Svelte Web Components (Shared Component Library)
+### 4. Svelte Web Components (Shared Component Library)
 
 The shared component library in `packages/eds-components/` is **market-agnostic by design** (see [ADR 005](005-svelte-web-components-for-shared-ui.md)). Multitenancy support is achieved through props and configuration, not per-market source code.
 
@@ -138,7 +205,7 @@ The shared API utility in `packages/eds-components/src/utils/` maps the `market`
 | `uk` | `https://bff.qsr.co.uk` |
 | `jp` | `https://bff.qsr.co.jp` |
 
-### 4. App Builder Actions (Serverless Backend)
+### 5. App Builder Actions (Serverless Backend)
 
 App Builder actions are deployed once and serve all markets (see [ADR 002](002-byom-pattern-for-app-builder-actions.md)). Multitenancy is achieved via the `market` query parameter and a centralised configuration module.
 
@@ -155,6 +222,7 @@ App Builder actions are deployed once and serve all markets (see [ADR 002](002-b
 ### Positive
 
 - **Single codebase, multiple markets** — All shared code (actions, Svelte components, block JavaScript) is maintained once. Market-specific concerns are isolated to configuration files and content trees.
+- **Centralised asset management** — Shared brand assets in `/content/dam/qsr-shared` are maintained once and referenced by all markets, eliminating duplication and ensuring brand consistency.
 - **Low onboarding cost for new markets** — Adding a market requires creating a new EDS directory, AEM content tree and `market-config.js` entry. No new code branches, repositories or deployments are needed.
 - **Independent content workflows** — AEM authors for each market work within their own content tree with scoped permissions. Publishing in one market does not affect others.
 - **Consistent user experience** — Shared components guarantee feature parity across markets. Brand differentiation is achieved through CSS custom properties, not code forks.
@@ -164,6 +232,7 @@ App Builder actions are deployed once and serve all markets (see [ADR 002](002-b
 
 - **Shared instance risk** — A misconfiguration in shared code (e.g. `market-config.js`) or a bad AEM deployment can affect all markets simultaneously. Mitigated by per-market CI/CD deploy jobs and staged rollout (US → UK → JP).
 - **Content tree discipline** — Authors must be trained to work within their market's content tree. ACLs enforce this at the platform level, but human error in template or component configuration can still reference the wrong market's assets. Mitigated by per-market user groups and content policy constraints.
+- **Shared DAM folder governance** — Assets in `/content/dam/qsr-shared` are read-only for market authors but writable by global admins. Changes to shared assets (e.g. updating a global logo) affect all markets immediately. Mitigated by a review-and-approval workflow for shared asset modifications and by previewing changes across all markets before activation.
 - **CSS custom-property contract** — Adding a new brand token requires updating all market `styles/` directories. A missing token in one market causes a silent fallback to the browser default. Mitigated by a CI/CD lint step that validates all markets define the same set of required custom properties.
 - **Market parameter trust** — The `market` query parameter is supplied by the client. A malformed or incorrect value falls back to the `us` default. For actions that return sensitive data (e.g. `rewards-provider`), the market is also validated against the IMS token's organisation scope.
 
@@ -172,4 +241,5 @@ App Builder actions are deployed once and serve all markets (see [ADR 002](002-b
 - Document the complete list of per-market CSS custom properties and add a CI/CD lint step to validate consistency across all market `styles/` directories.
 - Add integration tests that exercise each App Builder action with all three market values to ensure `market-config.js` entries are correct and complete.
 - Create an AEM content policy document describing the per-market content tree structure, DAM folder conventions and author group permissions.
+- Define per-market DAM metadata schemas and processing profiles, and document the shared-vs-market asset governance model in the content policy document.
 - Document the step-by-step process for onboarding a new market in `docs/new-market-onboarding.md`.
