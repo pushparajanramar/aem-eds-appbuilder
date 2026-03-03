@@ -2,6 +2,7 @@
  * Tests for shared/datalog.js
  */
 
+import { jest } from '@jest/globals';
 import { logRequest } from '../src/shared/datalog.js';
 
 describe('datalog', () => {
