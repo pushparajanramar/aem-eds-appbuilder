@@ -7,6 +7,7 @@
 
 import { getMarketConfig } from '../shared/market-config.js';
 import { getDeviceType, getDeviceLayout } from '../shared/device-utils.js';
+import { escapeHtml } from '../shared/html-utils.js';
 import { logRequest } from '../shared/datalog.js';
 
 /**
@@ -18,17 +19,19 @@ import { logRequest } from '../shared/datalog.js';
  * @returns {string}
  */
 export function renderDeviceMetaHTML(deviceType, layout, market) {
-  return `<meta name="x-device-type" content="${deviceType}">
+  const safeDevice = escapeHtml(deviceType);
+  const safeMarket = escapeHtml(market);
+  return `<meta name="x-device-type" content="${safeDevice}">
 <meta name="x-device-columns" content="${layout.columns}">
 <meta name="x-device-image-width" content="${layout.imageWidth}">
-<meta name="x-device-font-size" content="${layout.fontSize}">
+<meta name="x-device-font-size" content="${escapeHtml(layout.fontSize)}">
 <meta name="x-device-touch" content="${layout.touch}">
-<meta name="x-market" content="${market}">
+<meta name="x-market" content="${safeMarket}">
 <script>
 (function(){
   var d=document.documentElement;
-  d.setAttribute('data-device','${deviceType}');
-  d.setAttribute('data-market','${market}');
+  d.setAttribute('data-device','${safeDevice}');
+  d.setAttribute('data-market','${safeMarket}');
   if(${layout.touch}){d.classList.add('touch-device');}
 })();
 </script>`;
