@@ -1,0 +1,18 @@
+{
+  "name": "@qsr/fastly-compute",
+  "version": "1.0.0",
+  "description": "Fastly Compute edge functions — EDS dynamic block providers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "js-compute-runtime src/index.js bin/main.wasm",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --config jest.config.js",
+    "lint": "eslint src --ext .js"
+  },
+  "devDependencies": {
+    "@fastly/js-compute": "^3.0.0",
+    "jest": "^29.0.0",
+    "@jest/globals": "^29.0.0",
+    "eslint": "^8.0.0"
+  }
+}
