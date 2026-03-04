@@ -1,0 +1,50 @@
+@import '../../styles/tokens.css';
+
+.image {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--max-width-content);
+}
+
+.image__picture {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.image__picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.image--rounded .image__picture {
+  border-radius: var(--radius-lg);
+}
+
+.image--circle .image__picture {
+  border-radius: var(--radius-circle);
+  aspect-ratio: 1;
+}
+
+.image__caption {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2);
+  line-height: var(--line-height-normal);
+}
+
+.image--bordered .image__picture {
+  border: 1px solid var(--color-border);
+}
+
+.image--shadow .image__picture {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-device='mobile'] .image__caption {
+  font-size: var(--font-size-xs);
+}
