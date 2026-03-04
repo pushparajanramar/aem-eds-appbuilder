@@ -296,21 +296,6 @@
           }
         },
         {
-          "title": "Rich Text Editor",
-          "id": "rich-text-editor",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Rich Text Editor",
-                  "model": "rich-text-editor"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Fragment",
           "id": "fragment",
           "plugins": {
@@ -497,21 +482,6 @@
           }
         },
         {
-          "title": "Number Input",
-          "id": "number-input",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Number Input",
-                  "model": "number-input"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "File Upload",
           "id": "file-upload",
           "plugins": {
@@ -521,36 +491,6 @@
                 "template": {
                   "name": "File Upload",
                   "model": "file-upload"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Combobox",
-          "id": "combobox",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Combobox",
-                  "model": "combobox"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Color Picker",
-          "id": "color-picker",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Color Picker",
-                  "model": "color-picker"
                 }
               }
             }
@@ -653,21 +593,6 @@
           }
         },
         {
-          "title": "Bottom Navigation",
-          "id": "bottom-navigation",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Bottom Navigation",
-                  "model": "bottom-navigation"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Stepper",
           "id": "stepper",
           "plugins": {
@@ -698,21 +623,6 @@
           }
         },
         {
-          "title": "Back To Top",
-          "id": "back-to-top",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Back To Top",
-                  "model": "back-to-top"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Dropdown Menu",
           "id": "dropdown-menu",
           "plugins": {
@@ -722,21 +632,6 @@
                 "template": {
                   "name": "Dropdown Menu",
                   "model": "dropdown-menu"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Tree View",
-          "id": "tree-view",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Tree View",
-                  "model": "tree-view"
                 }
               }
             }
@@ -794,21 +689,6 @@
           }
         },
         {
-          "title": "Snackbar",
-          "id": "snackbar",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Snackbar",
-                  "model": "snackbar"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Modal",
           "id": "modal",
           "plugins": {
@@ -833,21 +713,6 @@
                 "template": {
                   "name": "Drawer",
                   "model": "drawer"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Bottom Sheet",
-          "id": "bottom-sheet",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Bottom Sheet",
-                  "model": "bottom-sheet"
                 }
               }
             }
@@ -938,21 +803,6 @@
                 "template": {
                   "name": "Banner",
                   "model": "banner"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Empty State",
-          "id": "empty-state",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Empty State",
-                  "model": "empty-state"
                 }
               }
             }

@@ -2,12 +2,66 @@
   {
     "id": "main",
     "components": [
-      "promotion-banner",
-      "product-detail",
+      "accordion",
+      "alert",
+      "avatar",
+      "badge",
+      "banner",
+      "breadcrumbs",
+      "button",
+      "button-group",
+      "calendar",
+      "cards",
+      "carousel",
+      "checkbox",
+      "columns",
+      "date-picker",
+      "divider",
+      "drawer",
+      "dropdown-menu",
+      "embed",
+      "file-upload",
+      "footer",
+      "form",
+      "fragment",
+      "header",
+      "hero",
+      "icon",
+      "image",
+      "input-field",
+      "link",
+      "list",
       "menu-item",
+      "modal",
+      "pagination",
+      "popover",
+      "pricing-table",
+      "product-detail",
+      "progress-bar",
+      "promotion-banner",
+      "quote",
+      "radio-button",
+      "rating-stars",
+      "rewards-feed",
+      "search",
+      "select-dropdown",
+      "sidebar",
+      "skeleton-loader",
+      "slider",
+      "spinner",
+      "stepper",
       "store-locator",
+      "table",
+      "tabs",
+      "tag",
+      "testimonials",
+      "textarea",
+      "timeline",
+      "toast",
+      "toggle-switch",
+      "tooltip",
       "user-profile",
-      "rewards-feed"
+      "video"
     ]
   },
   {
@@ -15,34 +69,144 @@
     "components": [
       "promotion-banner",
       "menu-item",
-      "store-locator"
+      "store-locator",
+      "hero",
+      "cards",
+      "carousel",
+      "columns",
+      "accordion",
+      "tabs",
+      "quote"
     ]
   },
   {
     "id": "product-page",
     "components": [
       "product-detail",
-      "menu-item"
+      "menu-item",
+      "hero",
+      "cards",
+      "carousel",
+      "tabs",
+      "accordion",
+      "rating-stars",
+      "pricing-table"
     ]
   },
   {
     "id": "menu-page",
     "components": [
       "menu-item",
-      "promotion-banner"
+      "promotion-banner",
+      "cards",
+      "tabs",
+      "search",
+      "badge",
+      "tag"
     ]
   },
   {
     "id": "account-page",
     "components": [
       "user-profile",
-      "rewards-feed"
+      "rewards-feed",
+      "tabs",
+      "avatar",
+      "badge",
+      "progress-bar",
+      "timeline"
     ]
   },
   {
     "id": "stores-page",
     "components": [
-      "store-locator"
+      "store-locator",
+      "cards",
+      "search"
+    ]
+  },
+  {
+    "id": "component-showcase",
+    "components": [
+      "hero",
+      "columns",
+      "cards",
+      "carousel",
+      "accordion",
+      "tabs",
+      "quote",
+      "table",
+      "embed",
+      "video",
+      "image",
+      "list",
+      "divider",
+      "icon",
+      "link",
+      "fragment"
+    ]
+  },
+  {
+    "id": "form-components",
+    "components": [
+      "form",
+      "input-field",
+      "textarea",
+      "checkbox",
+      "radio-button",
+      "select-dropdown",
+      "toggle-switch",
+      "slider",
+      "date-picker",
+      "file-upload",
+      "button",
+      "button-group",
+      "calendar"
+    ]
+  },
+  {
+    "id": "navigation-components",
+    "components": [
+      "breadcrumbs",
+      "sidebar",
+      "stepper",
+      "pagination",
+      "dropdown-menu",
+      "link",
+      "divider",
+      "search",
+      "header",
+      "footer"
+    ]
+  },
+  {
+    "id": "feedback-components",
+    "components": [
+      "alert",
+      "toast",
+      "modal",
+      "drawer",
+      "popover",
+      "tooltip",
+      "spinner",
+      "skeleton-loader",
+      "progress-bar",
+      "banner"
+    ]
+  },
+  {
+    "id": "data-display",
+    "components": [
+      "pricing-table",
+      "testimonials",
+      "timeline",
+      "rating-stars",
+      "badge",
+      "tag",
+      "avatar",
+      "icon",
+      "image",
+      "list"
     ]
   }
 ]
