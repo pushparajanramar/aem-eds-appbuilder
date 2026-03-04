@@ -6,7 +6,7 @@
  */
 
 import { getMarketConfig } from '../shared/market-config.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 const SUPPORTED_EVENTS = ['publish', 'unpublish', 'delete'];
 
@@ -48,6 +48,7 @@ export async function handleWebhook(req) {
   logRequest('webhook', req, market);
 
   if (!path) {
+    logError('webhook', req, market, 'Missing required param: path', 400);
     return new Response(JSON.stringify({ error: 'Missing required param: path' }), {
       status: 400,
       headers: { 'content-type': 'application/json' },
@@ -55,6 +56,7 @@ export async function handleWebhook(req) {
   }
 
   if (!SUPPORTED_EVENTS.includes(event)) {
+    logError('webhook', req, market, `Unsupported event: ${event}`, 400);
     return new Response(
       JSON.stringify({ error: `Unsupported event: ${event}. Must be one of: ${SUPPORTED_EVENTS.join(', ')}` }),
       { status: 400, headers: { 'content-type': 'application/json' } },
@@ -70,6 +72,7 @@ export async function handleWebhook(req) {
     });
   } catch (err) {
     console.error('webhook error:', err);
+    logError('webhook', req, market, err, 500);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
       headers: { 'content-type': 'application/json' },

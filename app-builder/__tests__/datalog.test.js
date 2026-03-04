@@ -3,7 +3,7 @@
  */
 
 const fs = require('fs');
-const { logRequest, DATALOG_FALLBACK_PATH } = require('../actions/shared/datalog');
+const { logRequest, logError, shouldLog, DATALOG_FALLBACK_PATH } = require('../actions/shared/datalog');
 
 describe('datalog', () => {
   describe('logRequest', () => {
@@ -55,6 +55,127 @@ describe('datalog', () => {
       logRequest(logger, 'user-provider', {});
       const record = JSON.parse(logger.info.mock.calls[0][0]);
       expect(record.timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+    });
+
+    it('includes level "info" in the record', () => {
+      const logger = { info: jest.fn() };
+      logRequest(logger, 'device-provider', {});
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.level).toBe('info');
+    });
+  });
+
+  describe('logError', () => {
+    it('logs a datalog error record with level "error"', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'menu-provider', { market: 'us' }, new Error('upstream failed'), 500);
+      expect(logger.info).toHaveBeenCalledTimes(1);
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.type).toBe('datalog');
+      expect(record.level).toBe('error');
+      expect(record.action).toBe('menu-provider');
+      expect(record.statusCode).toBe(500);
+      expect(record.error).toBe('upstream failed');
+    });
+
+    it('logs the action name and market', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'store-provider', { market: 'uk' }, new Error('timeout'), 502);
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.action).toBe('store-provider');
+      expect(record.market).toBe('uk');
+      expect(record.statusCode).toBe(502);
+    });
+
+    it('handles string errors', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'webhook', {}, 'Missing required param: path', 400);
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.error).toBe('Missing required param: path');
+      expect(record.statusCode).toBe(400);
+    });
+
+    it('defaults market to "us" and method to "GET"', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'bff-proxy', {}, new Error('fail'), 500);
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.market).toBe('us');
+      expect(record.method).toBe('GET');
+    });
+
+    it('includes the HTTP method from __ow_method', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'bff-proxy', { __ow_method: 'post' }, new Error('fail'), 502);
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.method).toBe('POST');
+    });
+
+    it('includes a timestamp in ISO 8601 format', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'user-provider', {}, new Error('auth'), 401);
+      const record = JSON.parse(logger.info.mock.calls[0][0]);
+      expect(record.timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+    });
+
+    it('falls back to filesystem when logger.info throws', () => {
+      const appendSpy = jest.spyOn(fs, 'appendFileSync').mockImplementation(() => {});
+      const logger = { info: jest.fn().mockImplementation(() => { throw new Error('logger down'); }) };
+      logError(logger, 'webhook', { market: 'jp' }, new Error('fail'), 500);
+      expect(appendSpy).toHaveBeenCalledTimes(1);
+      const [path, content] = appendSpy.mock.calls[0];
+      expect(path).toBe(DATALOG_FALLBACK_PATH);
+      const record = JSON.parse(content.trim());
+      expect(record.level).toBe('error');
+      expect(record.error).toBe('fail');
+      appendSpy.mockRestore();
+    });
+  });
+
+  describe('shouldLog', () => {
+    it('returns true for all entry levels when DATALOG_LEVEL is "all"', () => {
+      expect(shouldLog('all', 'request')).toBe(true);
+      expect(shouldLog('all', 'error')).toBe(true);
+    });
+
+    it('defaults to "all" when DATALOG_LEVEL is undefined', () => {
+      expect(shouldLog(undefined, 'request')).toBe(true);
+      expect(shouldLog(undefined, 'error')).toBe(true);
+    });
+
+    it('only logs errors when DATALOG_LEVEL is "error"', () => {
+      expect(shouldLog('error', 'request')).toBe(false);
+      expect(shouldLog('error', 'error')).toBe(true);
+    });
+
+    it('disables all logging when DATALOG_LEVEL is "none"', () => {
+      expect(shouldLog('none', 'request')).toBe(false);
+      expect(shouldLog('none', 'error')).toBe(false);
+    });
+  });
+
+  describe('DATALOG_LEVEL configuration', () => {
+    it('skips request logging when DATALOG_LEVEL is "none"', () => {
+      const logger = { info: jest.fn() };
+      logRequest(logger, 'device-provider', { DATALOG_LEVEL: 'none' });
+      expect(logger.info).not.toHaveBeenCalled();
+    });
+
+    it('skips error logging when DATALOG_LEVEL is "none"', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'menu-provider', { DATALOG_LEVEL: 'none' }, new Error('fail'), 500);
+      expect(logger.info).not.toHaveBeenCalled();
+    });
+
+    it('skips request logging when DATALOG_LEVEL is "error"', () => {
+      const logger = { info: jest.fn() };
+      logRequest(logger, 'device-provider', { DATALOG_LEVEL: 'error' });
+      expect(logger.info).not.toHaveBeenCalled();
+    });
+
+    it('still logs errors when DATALOG_LEVEL is "error"', () => {
+      const logger = { info: jest.fn() };
+      logError(logger, 'menu-provider', { DATALOG_LEVEL: 'error' }, new Error('fail'), 500);
+      expect(logger.info).toHaveBeenCalledTimes(1);
     });
   });
 

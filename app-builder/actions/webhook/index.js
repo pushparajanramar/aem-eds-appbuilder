@@ -8,7 +8,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 const SUPPORTED_EVENTS = ['publish', 'unpublish', 'delete'];
 
@@ -48,10 +48,12 @@ async function main(params) {
   const event = params.event;
 
   if (!path) {
+    logError(logger, 'webhook', params, 'Missing required param: path', 400);
     return { statusCode: 400, body: { error: 'Missing required param: path' } };
   }
 
   if (!SUPPORTED_EVENTS.includes(event)) {
+    logError(logger, 'webhook', params, `Unsupported event: ${event}`, 400);
     return {
       statusCode: 400,
       body: { error: `Unsupported event: ${event}. Must be one of: ${SUPPORTED_EVENTS.join(', ')}` },
@@ -69,6 +71,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('webhook error:', err);
+    logError(logger, 'webhook', params, err, 500);
     return {
       statusCode: 500,
       body: { error: err.message },

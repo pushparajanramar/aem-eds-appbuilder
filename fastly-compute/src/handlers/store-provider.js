@@ -8,7 +8,7 @@
 import { getMarketConfig } from '../shared/market-config.js';
 import { getDeviceType, getDeviceLayout, isHeadless } from '../shared/device-utils.js';
 import { escapeHtml } from '../shared/html-utils.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 /**
  * Fetch store locations from the BFF locations endpoint.
@@ -104,6 +104,7 @@ export async function handleStoreProvider(req) {
     });
   } catch (err) {
     console.error('store-provider error:', err);
+    logError('store-provider', req, market, err, 500);
     return new Response('<p class="error">Unable to load stores. Please try again later.</p>', {
       status: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },

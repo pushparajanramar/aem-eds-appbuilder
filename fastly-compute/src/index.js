@@ -24,6 +24,7 @@ import { handleBffProxy } from './handlers/bff-proxy.js';
 import { handleDeviceProvider } from './handlers/device-provider.js';
 import { handleWebhook } from './handlers/webhook.js';
 import { handleSitemapGenerator } from './handlers/sitemap-generator.js';
+import { logError } from './shared/datalog.js';
 
 /**
  * Route map — pathname prefix → handler function.
@@ -88,6 +89,7 @@ async function handleRequest(request) {
         return addCorsHeaders(response, request);
       } catch (err) {
         console.error(`Unhandled error in ${prefix}:`, err);
+        logError(prefix.slice(1), request, 'unknown', err, 500);
         return addCorsHeaders(
           new Response(JSON.stringify({ error: 'Internal server error' }), {
             status: 500,

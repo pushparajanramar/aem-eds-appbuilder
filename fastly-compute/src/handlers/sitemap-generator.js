@@ -8,7 +8,7 @@
  */
 
 import { getMarketConfig } from '../shared/market-config.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 /**
  * Parse the EDS org, repo and branch from an EDS host string.
@@ -211,6 +211,7 @@ export async function handleSitemapGenerator(req) {
   logRequest('sitemap-generator', req, market);
 
   if (push && !edsToken) {
+    logError('sitemap-generator', req, market, 'EDS_TOKEN is required when push=true', 400);
     return new Response(
       JSON.stringify({ error: 'EDS_TOKEN is required when push=true. Pass push=false for a dry-run.' }),
       { status: 400, headers: { 'content-type': 'application/json' } },
@@ -247,6 +248,7 @@ export async function handleSitemapGenerator(req) {
     });
   } catch (err) {
     console.error('sitemap-generator error:', err);
+    logError('sitemap-generator', req, market, err, 500);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
       headers: { 'content-type': 'application/json' },

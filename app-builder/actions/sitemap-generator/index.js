@@ -17,7 +17,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 // ---------------------------------------------------------------------------
 // Pure helpers (exported for unit testing)
@@ -280,6 +280,7 @@ async function main(params) {
   const push = String(params.push ?? 'true') !== 'false';
 
   if (push && !edsToken) {
+    logError(logger, 'sitemap-generator', params, 'EDS_TOKEN is required when push=true', 400);
     return {
       statusCode: 400,
       headers: { 'content-type': 'application/json' },
@@ -323,6 +324,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('sitemap-generator error:', err);
+    logError(logger, 'sitemap-generator', params, err, 500);
     return {
       statusCode: 500,
       headers: { 'content-type': 'application/json' },

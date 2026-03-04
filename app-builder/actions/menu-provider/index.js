@@ -13,7 +13,7 @@ const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl, buildDynamicMediaUrl, buildDynamicMediaSrcset } = require('../shared/url-utils');
 const { getDeviceType, getDeviceLayout, isHeadless } = require('../shared/device-utils');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 /**
  * Fetch menu items from the BFF ordering menu endpoint.
@@ -132,6 +132,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('menu-provider error:', err);
+    logError(logger, 'menu-provider', params, err, 500);
     return {
       statusCode: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },

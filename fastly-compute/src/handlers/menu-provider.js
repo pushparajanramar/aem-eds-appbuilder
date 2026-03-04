@@ -10,7 +10,7 @@ import { getMarketConfig } from '../shared/market-config.js';
 import { safeUrl, buildDynamicMediaUrl, buildDynamicMediaSrcset } from '../shared/url-utils.js';
 import { getDeviceType, getDeviceLayout, isHeadless } from '../shared/device-utils.js';
 import { escapeHtml } from '../shared/html-utils.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 /**
  * Fetch menu items from the BFF ordering menu endpoint.
@@ -100,6 +100,7 @@ export async function handleMenuProvider(req) {
     });
   } catch (err) {
     console.error('menu-provider error:', err);
+    logError('menu-provider', req, market, err, 500);
     return new Response('<p class="error">Unable to load menu. Please try again later.</p>', {
       status: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },
