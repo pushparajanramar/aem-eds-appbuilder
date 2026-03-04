@@ -16,9 +16,11 @@
     const config = await response.json();
     const sso = config.sso || {};
 
+    const ALLOWED_PROVIDERS = ['azure', 'ims'];
     const enabled = sso.enabled ? '✅ Enabled' : '❌ Disabled';
-    const provider = sso.provider || 'not configured';
-    const publicPaths = (sso.publicPaths || []).join(', ') || 'none';
+    const rawProvider = String(sso.provider || 'not configured');
+    const provider = ALLOWED_PROVIDERS.includes(rawProvider) ? rawProvider : 'not configured';
+    const publicPaths = (sso.publicPaths || []).map((p) => String(p).replace(/[<>&"']/g, '')).join(', ') || 'none';
 
     const html = `
       <div class="sso-status">

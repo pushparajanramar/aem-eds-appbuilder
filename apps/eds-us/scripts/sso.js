@@ -135,9 +135,14 @@ export class SSOPlugin {
    * Return the provider-specific sub-config (azure or ims).
    *
    * @returns {object}
+   * @throws {Error} if the provider configuration is missing
    */
   getProviderConfig() {
-    return this.provider === 'azure' ? this.config.azure : this.config.ims;
+    const pc = this.provider === 'azure' ? this.config.azure : this.config.ims;
+    if (!pc) {
+      throw new Error(`SSO provider configuration missing for "${this.provider}"`);
+    }
+    return pc;
   }
 
   /**

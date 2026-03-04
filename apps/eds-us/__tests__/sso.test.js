@@ -163,6 +163,13 @@ describe('SSOPlugin — provider endpoints (Azure)', () => {
   it('logout endpoint includes Azure tenant', () => {
     expect(plugin.getLogoutEndpoint()).toContain('test-tenant');
   });
+
+  it('throws when provider config is missing', () => {
+    const cfg = makeAzureConfig();
+    delete cfg.azure;
+    const broken = new SSOPlugin(cfg);
+    expect(() => broken.getProviderConfig()).toThrow('SSO provider configuration missing');
+  });
 });
 
 describe('SSOPlugin — provider endpoints (IMS)', () => {
