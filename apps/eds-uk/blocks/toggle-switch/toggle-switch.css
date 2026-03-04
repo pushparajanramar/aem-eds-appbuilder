@@ -1,0 +1,70 @@
+@import '../../styles/tokens.css';
+
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-family-sans);
+  cursor: pointer;
+}
+
+.toggle-switch__track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-400);
+  transition: background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.toggle-switch__track--checked {
+  background: var(--color-interactive);
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-circle);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.toggle-switch__track--checked .toggle-switch__thumb {
+  transform: translateX(20px);
+}
+
+.toggle-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.toggle-switch__input:focus-visible + .toggle-switch__track {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+.toggle-switch__input:disabled + .toggle-switch__track {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggle-switch__label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  user-select: none;
+}
+
+html[data-device='mobile'] .toggle-switch__label {
+  font-size: var(--font-size-sm);
+}

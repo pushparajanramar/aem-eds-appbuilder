@@ -1,0 +1,68 @@
+@import '../../styles/tokens.css';
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.tag--info {
+  background: #e8f4fd;
+  color: #0c5a97;
+}
+
+.tag--success {
+  background: var(--color-green-light);
+  color: var(--color-green-dark);
+}
+
+.tag--warning {
+  background: #fff4e5;
+  color: #8a6914;
+}
+
+.tag--error {
+  background: #fde8e8;
+  color: var(--color-error);
+}
+
+.tag--outline {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+.tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  color: inherit;
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+  padding: 0;
+}
+
+.tag__remove:hover {
+  opacity: 1;
+}
+
+.tag__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
