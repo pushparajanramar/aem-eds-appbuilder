@@ -1,0 +1,58 @@
+@import '../../styles/tokens.css';
+
+.radio-button {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-family: var(--font-family-sans);
+}
+
+.radio-button__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+.radio-button__input {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-gray-400);
+  border-radius: var(--radius-circle);
+  background: var(--color-background);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--transition-fast);
+}
+
+.radio-button__input:checked {
+  border-color: var(--color-interactive);
+  border-width: 6px;
+}
+
+.radio-button__input:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+.radio-button__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.radio-button__label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+  user-select: none;
+}
+
+.radio-button__label--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+html[data-device='mobile'] .radio-button__label {
+  font-size: var(--font-size-sm);
+}
