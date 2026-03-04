@@ -1,0 +1,84 @@
+@import '../../styles/tokens.css';
+
+.snackbar {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 280px;
+  max-width: 560px;
+  opacity: 0;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.snackbar--visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.snackbar__message {
+  flex: 1;
+  line-height: var(--line-height-normal);
+}
+
+.snackbar__action {
+  flex-shrink: 0;
+  padding: var(--space-1) var(--space-3);
+  border: none;
+  background: transparent;
+  color: var(--color-green-light);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: background var(--transition-fast);
+}
+
+.snackbar__action:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.snackbar__dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  color: var(--color-white);
+  opacity: 0.7;
+}
+
+.snackbar__dismiss:hover {
+  opacity: 1;
+}
+
+html[data-device='mobile'] .snackbar {
+  left: var(--space-4);
+  right: var(--space-4);
+  transform: translateY(100%);
+  min-width: auto;
+  max-width: none;
+  bottom: var(--space-4);
+}
+
+html[data-device='mobile'] .snackbar--visible {
+  transform: translateY(0);
+}
