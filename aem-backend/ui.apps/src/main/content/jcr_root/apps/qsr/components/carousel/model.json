@@ -1,0 +1,8 @@
+{
+  "id": "carousel",
+  "fields": [
+    { "component": "boolean", "name": "autoplay", "label": "Autoplay", "valueType": "boolean" },
+    { "component": "text", "name": "delay", "label": "Delay", "valueType": "number" },
+    { "component": "boolean", "name": "autopauseDisabled", "label": "Autopause Disabled", "valueType": "boolean" }
+  ]
+}

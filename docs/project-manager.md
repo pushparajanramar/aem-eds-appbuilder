@@ -66,7 +66,7 @@ The Project Manager is responsible for planning, monitoring and controlling the 
 | RAID log | Project management tool | Risks, assumptions, issues, dependencies |
 | Status report | Shared drive / SharePoint | Weekly stakeholder update |
 | Repository README | [`README.md`](../README.md) | Technical overview for onboarding |
-| CI/CD pipeline | `.github/workflows/deploy.yml` | Automated deployment — tracks release readiness |
+| CI/CD pipeline | `.github/workflows/` | Automated path-based deployment — tracks release readiness |
 
 ---
 

@@ -1,0 +1,15 @@
+{
+  "id": "columns",
+  "fields": [
+    {
+      "component": "select",
+      "name": "layout",
+      "label": "Layout",
+      "valueType": "string",
+      "options": [
+        { "name": "Simple", "value": "simple" },
+        { "name": "Responsive", "value": "responsive" }
+      ]
+    }
+  ]
+}

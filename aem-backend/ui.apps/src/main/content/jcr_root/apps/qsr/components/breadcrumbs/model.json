@@ -1,0 +1,7 @@
+{
+  "id": "breadcrumbs",
+  "fields": [
+    { "component": "text", "name": "startLevel", "label": "Start Level", "valueType": "number" },
+    { "component": "boolean", "name": "hideCurrent", "label": "Hide Current", "valueType": "boolean" }
+  ]
+}

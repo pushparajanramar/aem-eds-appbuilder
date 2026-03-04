@@ -1,0 +1,36 @@
+{
+  "id": "promotion-banner",
+  "fields": [
+    {
+      "component": "text",
+      "valueType": "string",
+      "name": "title",
+      "label": "Title",
+      "required": true
+    },
+    {
+      "component": "richtext",
+      "valueType": "string",
+      "name": "description",
+      "label": "Description"
+    },
+    {
+      "component": "aem-asset",
+      "valueType": "string",
+      "name": "bannerImage",
+      "label": "Banner Image"
+    },
+    {
+      "component": "aem-content",
+      "valueType": "string",
+      "name": "ctaLink",
+      "label": "CTA Link"
+    },
+    {
+      "component": "text",
+      "valueType": "string",
+      "name": "ctaText",
+      "label": "CTA Text"
+    }
+  ]
+}

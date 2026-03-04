@@ -1,0 +1,20 @@
+{
+    "allow.empty": false,
+    "allow.hosts": [
+        "*.hlx.page",
+        "*.hlx.live",
+        "*.aem.page",
+        "*.aem.live"
+    ],
+    "allow.hosts.regexp": [
+        "https://.*\\.hlx\\.page",
+        "https://.*\\.hlx\\.live",
+        "https://.*\\.aem\\.page",
+        "https://.*\\.aem\\.live"
+    ],
+    "filter.methods": [
+        "POST",
+        "PUT",
+        "DELETE"
+    ]
+}

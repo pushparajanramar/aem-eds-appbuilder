@@ -46,7 +46,7 @@ The Client Partner does not make day-to-day technical decisions but must underst
 |---|---|---|
 | Repository README | [`README.md`](../README.md) | Architecture and deployment overview |
 | Market configuration | `apps/eds-<market>/config/site-config.json` | Overlay routes per market |
-| CI/CD pipeline | `.github/workflows/deploy.yml` | Automated deployment across all markets |
+| CI/CD pipeline | `.github/workflows/` | Automated path-based deployment across all markets |
 
 ---
 

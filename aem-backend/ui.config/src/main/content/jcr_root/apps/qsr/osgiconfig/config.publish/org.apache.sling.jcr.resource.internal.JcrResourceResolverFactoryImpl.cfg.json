@@ -1,0 +1,7 @@
+{
+    "resource.resolver.mapping": [
+        "/content/qsr/us/:/",
+        "/content/qsr/uk/:/uk/",
+        "/content/qsr/jp/:/jp/"
+    ]
+}

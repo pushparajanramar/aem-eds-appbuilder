@@ -318,7 +318,7 @@ The diagram below shows the end-to-end content supply chain, from authoring to d
 1. Page or fragment metadata (title, description, locale, market, category) is authored alongside the content.
 2. On publish, EDS automatically populates its query index with all metadata properties listed in `index-config.yaml`.
 3. App Builder provider actions read this index to filter and sort content by market and taxonomy values.
-4. Changes to taxonomy options require a code change to `component-models.json` + Git push, which triggers the CI/CD pipeline (`deploy.yml`) to redeploy.
+4. Changes to taxonomy options require a code change to `component-models.json` + Git push, which triggers the `pr-validation.yml` CI/CD workflow and, on merge to `main`, the relevant path-based deploy workflow.
 
 ### Translation Flow
 

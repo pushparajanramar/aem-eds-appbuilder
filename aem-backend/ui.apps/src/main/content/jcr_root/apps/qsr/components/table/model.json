@@ -1,0 +1,6 @@
+{
+  "id": "table",
+  "fields": [
+    { "component": "richtext", "name": "content", "label": "Content", "valueType": "string" }
+  ]
+}

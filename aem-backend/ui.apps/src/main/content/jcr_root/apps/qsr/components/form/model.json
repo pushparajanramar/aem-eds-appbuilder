@@ -1,0 +1,17 @@
+{
+  "id": "form",
+  "fields": [
+    {
+      "component": "select",
+      "name": "actionType",
+      "label": "Action Type",
+      "valueType": "string",
+      "options": [
+        { "name": "Mail", "value": "mail" },
+        { "name": "Store", "value": "store" },
+        { "name": "Custom", "value": "custom" }
+      ]
+    },
+    { "component": "text", "name": "id", "label": "ID", "valueType": "string" }
+  ]
+}

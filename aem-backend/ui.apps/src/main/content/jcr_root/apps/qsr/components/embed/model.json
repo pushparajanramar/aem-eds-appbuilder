@@ -1,0 +1,17 @@
+{
+  "id": "embed",
+  "fields": [
+    { "component": "text", "name": "url", "label": "URL", "valueType": "string" },
+    {
+      "component": "select",
+      "name": "type",
+      "label": "Type",
+      "valueType": "string",
+      "options": [
+        { "name": "URL", "value": "url" },
+        { "name": "HTML", "value": "html" },
+        { "name": "Embeddable", "value": "embeddable" }
+      ]
+    }
+  ]
+}

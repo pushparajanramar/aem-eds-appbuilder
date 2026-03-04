@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+    ServerName "publish"
+    ServerAlias "*"
+
+    DocumentRoot ${DOCROOT}
+
+    <Directory "${DOCROOT}">
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    # ---------------------------------------------------------------
+    # CORS headers for Universal Editor and Edge Delivery Services
+    # Allows the Universal Editor (experience.adobe.com) and EDS
+    # preview/live domains to communicate with the AEM instance.
+    # ---------------------------------------------------------------
+    <IfModule mod_headers.c>
+        # Universal Editor origin
+        SetEnvIf Origin "https://experience\.adobe\.com" CORS_ORIGIN=$0
+
+        # EDS preview and live origins
+        SetEnvIf Origin "https://.*\.hlx\.(page|live)" CORS_ORIGIN=$0
+        SetEnvIf Origin "https://.*\.aem\.(page|live)" CORS_ORIGIN=$0
+
+        Header set Access-Control-Allow-Origin "%{CORS_ORIGIN}e" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Methods "GET, HEAD, POST, PUT, DELETE, OPTIONS" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Headers "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization" env=CORS_ORIGIN
+        Header set Access-Control-Allow-Credentials "true" env=CORS_ORIGIN
+        Header set Access-Control-Max-Age "86400" env=CORS_ORIGIN
+    </IfModule>
+</VirtualHost>

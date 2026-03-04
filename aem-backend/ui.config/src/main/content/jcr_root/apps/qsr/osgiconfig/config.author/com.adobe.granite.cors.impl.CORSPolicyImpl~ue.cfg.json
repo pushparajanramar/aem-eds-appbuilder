@@ -1,0 +1,33 @@
+{
+    "alloworigin": [
+        "https://experience.adobe.com"
+    ],
+    "alloworiginregexp": [
+        "https://experience\\.adobe\\.com"
+    ],
+    "allowedpaths": [
+        "/content/qsr/.*"
+    ],
+    "supportedheaders": [
+        "Origin",
+        "Accept",
+        "X-Requested-With",
+        "Content-Type",
+        "Access-Control-Request-Method",
+        "Access-Control-Request-Headers",
+        "Authorization"
+    ],
+    "supportedmethods": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+    ],
+    "maxage:Integer": 86400,
+    "supportscredentials": true,
+    "exposedheaders": [
+        ""
+    ]
+}

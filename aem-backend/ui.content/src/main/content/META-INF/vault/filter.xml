@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/qsr"/>
+    <filter root="/content/qsr"/>
+    <filter root="/content/experience-fragments/qsr"/>
+    <filter root="/content/dam/qsr"/>
+</workspaceFilter>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.qsr</groupId>
+        <artifactId>aem-eds-appbuilder</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>aem-eds-appbuilder.all</artifactId>
+    <packaging>content-package</packaging>
+    <name>AEM EDS AppBuilder - All</name>
+    <description>All-in-one content package that embeds all sub-packages and bundles</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>filevault-package-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <packageType>container</packageType>
+                    <properties>
+                        <cloudManagerTarget>none</cloudManagerTarget>
+                    </properties>
+                    <embeddeds>
+                        <!-- Core bundle -->
+                        <embedded>
+                            <groupId>com.qsr</groupId>
+                            <artifactId>aem-eds-appbuilder.core</artifactId>
+                            <target>/apps/qsr-packages/application/install</target>
+                        </embedded>
+                        <!-- UI Apps content package -->
+                        <embedded>
+                            <groupId>com.qsr</groupId>
+                            <artifactId>aem-eds-appbuilder.ui.apps</artifactId>
+                            <target>/apps/qsr-packages/application/install</target>
+                        </embedded>
+                        <!-- UI Config content package -->
+                        <embedded>
+                            <groupId>com.qsr</groupId>
+                            <artifactId>aem-eds-appbuilder.ui.config</artifactId>
+                            <target>/apps/qsr-packages/application/install</target>
+                        </embedded>
+                        <!-- UI Content content package -->
+                        <embedded>
+                            <groupId>com.qsr</groupId>
+                            <artifactId>aem-eds-appbuilder.ui.content</artifactId>
+                            <target>/apps/qsr-packages/content/install</target>
+                        </embedded>
+                        <!-- AEM Core WCM Components -->
+                        <embedded>
+                            <groupId>com.adobe.cq</groupId>
+                            <artifactId>core.wcm.components.all</artifactId>
+                            <type>zip</type>
+                            <target>/apps/qsr-vendor-packages/application/install</target>
+                        </embedded>
+                    </embeddeds>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.adobe.aem</groupId>
+                <artifactId>aemanalyser-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>aem-analyser</id>
+                        <goals>
+                            <goal>project-analyse</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.qsr</groupId>
+            <artifactId>aem-eds-appbuilder.core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qsr</groupId>
+            <artifactId>aem-eds-appbuilder.ui.apps</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>com.qsr</groupId>
+            <artifactId>aem-eds-appbuilder.ui.config</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>com.qsr</groupId>
+            <artifactId>aem-eds-appbuilder.ui.content</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.cq</groupId>
+            <artifactId>core.wcm.components.all</artifactId>
+            <type>zip</type>
+        </dependency>
+    </dependencies>
+</project>

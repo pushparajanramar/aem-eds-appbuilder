@@ -46,7 +46,7 @@ The [AEM Project Archetype](https://github.com/adobe/aem-project-archetype) is a
 mvn -B org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate \
   -D archetypeGroupId=com.adobe.aem \
   -D archetypeArtifactId=aem-project-archetype \
-  -D archetypeVersion=49 \
+  -D archetypeVersion=56 \
   -D appTitle="Quick Service Restaurant AEM" \
   -D appId="qsr" \
   -D groupId="com.qsr.aem" \
@@ -61,7 +61,7 @@ Key parameters:
 
 | Parameter | Recommended Value | Description |
 |---|---|---|
-| `archetypeVersion` | `49` (latest) | AEM Archetype release |
+| `archetypeVersion` | `56` (latest) | AEM Archetype release |
 | `aemVersion` | `cloud` | Targets AEMaaCS |
 | `frontendModule` | `general` | Vite-based front-end build |
 | `includeExamples` | `n` | Omit sample content for production projects |
@@ -280,7 +280,7 @@ A full-stack pipeline executes: **Build → Unit Tests → Code Quality → Depl
 
 ### 4.2 Front-End Pipeline (EDS Web Components)
 
-The `packages/eds-components` Svelte build is handled by the GitHub Actions workflow (`deploy.yml`). If you also want Cloud Manager to manage it:
+The `packages/eds-components` Svelte build is handled by the GitHub Actions workflow (`eds-deploy.yml`). If you also want Cloud Manager to manage it:
 
 1. Add a **Non-Production Pipeline** in Cloud Manager.
 2. Set **Type** to **Front-End**.
@@ -289,24 +289,16 @@ The `packages/eds-components` Svelte build is handled by the GitHub Actions work
 
 ### 4.3 GitHub Actions Pipeline (This Repository)
 
-This project's primary CI/CD is defined in [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml).
+This project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](adr/010-folder-based-monorepo-pipeline.md)). Each sub-application lives in its own top-level folder, and separate workflows trigger only when files in that folder change:
 
-**Pipeline stages:**
+| Workflow | Trigger Folder | Purpose |
+|---|---|---|
+| `pr-validation.yml` | All folders (PRs only) | Lint, test, type-check, build-validate all sub-apps |
+| `app-builder-deploy.yml` | `app-builder/` | Deploy actions + web UI via `aio app deploy` |
+| `eds-deploy.yml` | `packages/eds-components/`, `apps/**/blocks/` | Compile Svelte WCs → publish to EDS markets |
+| `aem-backend-deploy.yml` | `aem-backend/` | Maven build → trigger Cloud Manager pipeline |
 
-```
-push to main
-    │
-    ▼
-[lint]               ESLint on app-builder actions + Svelte components
-    │
-    ├──► [build-components]      Vite build → wc-bundles artifact
-    │         │
-    │         ├──► [deploy-eds-us]   Publish to admin.hlx.page (US)
-    │         ├──► [deploy-eds-uk]   Publish to admin.hlx.page (UK)
-    │         └──► [deploy-eds-jp]   Publish to admin.hlx.page (JP)
-    │
-    └──► [deploy-app-builder]    aio app deploy (main branch only)
-```
+Vanilla EDS files sync automatically via the **AEM Code Sync** GitHub App.
 
 **Environment protection rules** (configure in GitHub → Settings → Environments → `production`):
 
@@ -324,6 +316,12 @@ push to main
 | `AIO_PROJECT_ID` | Adobe Developer Console → Project overview |
 | `AIO_WORKSPACE_ID` | Adobe Developer Console → Workspace overview |
 | `EDS_TOKEN` | AEM Admin API token from your Adobe account team |
+| `CM_PROGRAM_ID` | Cloud Manager → Program overview |
+| `CM_API_KEY` | Adobe Developer Console → Cloud Manager API integration |
+| `CM_ORG_ID` | Adobe Admin Console → Organisation ID |
+| `CM_TECHNICAL_ACCOUNT_ID` | Adobe Developer Console → Service Account (JWT) or OAuth Server-to-Server |
+| `CM_IMS_TOKEN` | Generated via Adobe IMS OAuth Server-to-Server credentials |
+| `CM_PIPELINE_ID` | Cloud Manager → Pipelines → Pipeline details |
 
 ### 4.4 Pipeline Quality Gates
 
@@ -535,7 +533,7 @@ Never commit secrets to source control. Use the following patterns:
 Configure CSP headers in the Dispatcher virtualhost to protect EDS pages:
 
 ```apache
-# dispatcher/src/conf.d/available_vhosts/qsr-us.vhost
+# aem-backend/dispatcher/src/conf.d/available_vhosts/qsr-us.vhost
 Header always set Content-Security-Policy \
   "default-src 'self'; \
    script-src 'self' 'unsafe-inline' https://assets.adobedtm.com https://cdn.experienceleague.adobe.com; \

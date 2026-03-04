@@ -1,0 +1,8 @@
+{
+    "market": "jp",
+    "locale": "ja-JP",
+    "currency": "JPY",
+    "timezone": "Asia/Tokyo",
+    "edsHost": "main--qsr-jp--org.aem.live",
+    "contentRoot": "/content/qsr/jp"
+}

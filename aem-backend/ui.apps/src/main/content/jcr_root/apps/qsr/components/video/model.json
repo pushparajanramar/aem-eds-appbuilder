@@ -1,0 +1,9 @@
+{
+  "id": "video",
+  "fields": [
+    { "component": "text", "name": "videoUrl", "label": "Video URL", "valueType": "string", "required": true },
+    { "component": "boolean", "name": "autoplay", "label": "Autoplay", "valueType": "boolean" },
+    { "component": "boolean", "name": "muted", "label": "Muted", "valueType": "boolean" },
+    { "component": "boolean", "name": "loop", "label": "Loop", "valueType": "boolean" }
+  ]
+}

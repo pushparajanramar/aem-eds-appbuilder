@@ -1,0 +1,6 @@
+{
+  "id": "tabs",
+  "fields": [
+    { "component": "text", "name": "activeItem", "label": "Active Item", "valueType": "string" }
+  ]
+}

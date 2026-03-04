@@ -1,0 +1,8 @@
+{
+    "market": "us",
+    "locale": "en-US",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "edsHost": "main--qsr-us--org.aem.live",
+    "contentRoot": "/content/qsr/us"
+}
