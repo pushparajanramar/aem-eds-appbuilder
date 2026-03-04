@@ -32,6 +32,27 @@
     "clientId": "{IMS_CLIENT_ID}",
     "scope": "openid,AdobeID,read_organizations"
   },
+  "sso": {
+    "enabled": false,
+    "provider": "azure",
+    "logLevel": "info",
+    "publicPaths": ["/", "/login", "/callback", "/logout", "/menu", "/stores"],
+    "callbackPath": "/callback",
+    "logoutPath": "/logout",
+    "azure": {
+      "tenantId": "{AZURE_TENANT_ID}",
+      "clientId": "{AZURE_CLIENT_ID}",
+      "redirectUri": "https://main--qsr-uk--org.aem.live/callback",
+      "scope": "openid profile email",
+      "postLogoutRedirectUri": "https://main--qsr-uk--org.aem.live"
+    },
+    "ims": {
+      "clientId": "{IMS_CLIENT_ID}",
+      "redirectUri": "https://main--qsr-uk--org.aem.live/callback",
+      "scope": "openid,AdobeID,read_organizations",
+      "postLogoutRedirectUri": "https://main--qsr-uk--org.aem.live"
+    }
+  },
   "market": "uk",
   "edsHost": "main--qsr-uk--org.aem.live"
 }
