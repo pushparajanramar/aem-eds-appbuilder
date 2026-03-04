@@ -1,0 +1,102 @@
+@import '../../styles/tokens.css';
+
+.calendar {
+  width: 100%;
+  max-width: 360px;
+  font-family: var(--font-family-sans);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  overflow: hidden;
+}
+
+.calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.calendar__nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  color: var(--color-text-primary);
+  transition: background var(--transition-fast);
+}
+
+.calendar__nav-btn:hover {
+  background: var(--color-gray-200);
+}
+
+.calendar__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: var(--space-2);
+  gap: var(--space-1);
+}
+
+.calendar__day-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.calendar__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  transition: background var(--transition-fast);
+}
+
+.calendar__day:hover {
+  background: var(--color-surface);
+}
+
+.calendar__day--today {
+  font-weight: var(--font-weight-bold);
+  border: 1px solid var(--color-interactive);
+}
+
+.calendar__day--selected {
+  background: var(--color-interactive);
+  color: var(--color-white);
+}
+
+.calendar__day--outside {
+  color: var(--color-gray-400);
+}
+
+.calendar__day--disabled {
+  color: var(--color-gray-400);
+  cursor: not-allowed;
+}
+
+html[data-device='mobile'] .calendar {
+  max-width: 100%;
+}

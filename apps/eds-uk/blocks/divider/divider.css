@@ -1,0 +1,49 @@
+@import '../../styles/tokens.css';
+
+.divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: var(--space-6) 0;
+}
+
+.divider__line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.divider--dashed .divider__line {
+  background: transparent;
+  border-top: 1px dashed var(--color-border);
+}
+
+.divider--dotted .divider__line {
+  background: transparent;
+  border-top: 1px dotted var(--color-border);
+}
+
+.divider--thick .divider__line {
+  height: 2px;
+}
+
+.divider__label {
+  padding: 0 var(--space-4);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.divider--vertical {
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+  margin: 0 var(--space-4);
+}
+
+.divider--vertical .divider__line {
+  width: 1px;
+  height: auto;
+  flex: 1;
+}

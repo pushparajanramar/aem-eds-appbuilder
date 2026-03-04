@@ -1,0 +1,125 @@
+@import '../../styles/tokens.css';
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  font-family: var(--font-family-sans);
+}
+
+.stepper__step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+
+.stepper__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-circle);
+  border: 2px solid var(--color-border);
+  background: var(--color-background);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  z-index: 1;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.stepper__step--active .stepper__indicator {
+  border-color: var(--color-interactive);
+  background: var(--color-interactive);
+  color: var(--color-white);
+}
+
+.stepper__step--completed .stepper__indicator {
+  border-color: var(--color-interactive);
+  background: var(--color-interactive);
+  color: var(--color-white);
+}
+
+.stepper__step--completed .stepper__indicator::after {
+  content: '\2713';
+}
+
+.stepper__connector {
+  position: absolute;
+  top: 16px;
+  left: calc(50% + 16px);
+  right: calc(-50% + 16px);
+  height: 2px;
+  background: var(--color-border);
+}
+
+.stepper__step--completed .stepper__connector {
+  background: var(--color-interactive);
+}
+
+.stepper__label {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.stepper__description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+}
+
+/* Vertical variant */
+.stepper--vertical {
+  flex-direction: column;
+}
+
+.stepper--vertical .stepper__step {
+  flex-direction: row;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.stepper--vertical .stepper__connector {
+  position: absolute;
+  top: 32px;
+  bottom: -32px;
+  left: 15px;
+  right: auto;
+  width: 2px;
+  height: auto;
+}
+
+.stepper--vertical .stepper__label {
+  margin-top: 0;
+  margin-left: var(--space-3);
+}
+
+html[data-device='mobile'] .stepper {
+  flex-direction: column;
+}
+
+html[data-device='mobile'] .stepper__step {
+  flex-direction: row;
+  align-items: flex-start;
+  text-align: left;
+}
+
+html[data-device='mobile'] .stepper__connector {
+  top: 32px;
+  bottom: -32px;
+  left: 15px;
+  right: auto;
+  width: 2px;
+  height: auto;
+}
+
+html[data-device='mobile'] .stepper__label {
+  margin-top: 0;
+  margin-left: var(--space-3);
+}

@@ -1,0 +1,99 @@
+@import '../../styles/tokens.css';
+
+.testimonials {
+  width: 100%;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  padding: var(--space-8) 0;
+}
+
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+.testimonials__item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.testimonials__quote {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-loose);
+  margin: 0 0 var(--space-5);
+  flex: 1;
+  position: relative;
+  padding-top: var(--space-4);
+}
+
+.testimonials__quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  font-family: var(--font-family-serif);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--color-green-accent);
+  opacity: 0.5;
+}
+
+.testimonials__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.testimonials__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.testimonials__name {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.testimonials__role {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.testimonials__stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: var(--space-3);
+  color: var(--color-green-accent);
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: 767px) {
+  .testimonials__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+html[data-device='mobile'] .testimonials {
+  padding: var(--space-6) 0;
+}
+
+html[data-device='mobile'] .testimonials__grid {
+  grid-template-columns: 1fr;
+}
+
+html[data-device='mobile'] .testimonials__item {
+  padding: var(--space-5);
+}

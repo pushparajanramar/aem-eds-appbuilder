@@ -1,39 +1,101 @@
 {
-  "library": [
-    {
-      "path": "/tools/menu-plugin",
-      "icon": "🍔",
-      "title": "Menu Block",
-      "type": "dialog",
-      "url": "/tools/menu-plugin/menu-plugin.html"
-    },
-    {
-      "path": "/tools/store-plugin",
-      "icon": "🏪",
-      "title": "Store Locator",
-      "type": "dialog",
-      "url": "/tools/store-plugin/store-plugin.html"
-    },
-    {
-      "path": "/tools/rewards-plugin",
-      "icon": "🎁",
-      "title": "Rewards",
-      "type": "dialog",
-      "url": "/tools/rewards-plugin/rewards-plugin.html"
-    },
-    {
-      "path": "/tools/user-plugin",
-      "icon": "👤",
-      "title": "User Profile",
-      "type": "dialog",
-      "url": "/tools/user-plugin/user-plugin.html"
-    },
-    {
-      "path": "/tools/device-plugin",
-      "icon": "📱",
-      "title": "Device Info",
-      "type": "dialog",
-      "url": "/tools/device-plugin/device-plugin.html"
-    }
-  ]
+  "blocks": {
+    "total": 60,
+    "offset": 0,
+    "limit": 60,
+    "data": [
+      { "name": "Accordion", "path": "/apps/eds-us/blocks/accordion", "searchTags": "accordion, collapse, expand, faq" },
+      { "name": "Alert", "path": "/apps/eds-us/blocks/alert", "searchTags": "alert, notification, message, warning" },
+      { "name": "Avatar", "path": "/apps/eds-us/blocks/avatar", "searchTags": "avatar, user, profile, image" },
+      { "name": "Badge", "path": "/apps/eds-us/blocks/badge", "searchTags": "badge, label, tag, status" },
+      { "name": "Banner", "path": "/apps/eds-us/blocks/banner", "searchTags": "banner, announcement, notification" },
+      { "name": "Breadcrumbs", "path": "/apps/eds-us/blocks/breadcrumbs", "searchTags": "breadcrumbs, navigation, path" },
+      { "name": "Button", "path": "/apps/eds-us/blocks/button", "searchTags": "button, cta, action" },
+      { "name": "Button Group", "path": "/apps/eds-us/blocks/button-group", "searchTags": "button group, toolbar, actions" },
+      { "name": "Calendar", "path": "/apps/eds-us/blocks/calendar", "searchTags": "calendar, date, schedule" },
+      { "name": "Cards", "path": "/apps/eds-us/blocks/cards", "searchTags": "cards, grid, tiles, content" },
+      { "name": "Carousel", "path": "/apps/eds-us/blocks/carousel", "searchTags": "carousel, slider, slideshow" },
+      { "name": "Checkbox", "path": "/apps/eds-us/blocks/checkbox", "searchTags": "checkbox, input, form, toggle" },
+      { "name": "Columns", "path": "/apps/eds-us/blocks/columns", "searchTags": "columns, layout, grid" },
+      { "name": "Date Picker", "path": "/apps/eds-us/blocks/date-picker", "searchTags": "date picker, date, input, calendar" },
+      { "name": "Divider", "path": "/apps/eds-us/blocks/divider", "searchTags": "divider, separator, line, hr" },
+      { "name": "Drawer", "path": "/apps/eds-us/blocks/drawer", "searchTags": "drawer, side panel, sidebar, overlay" },
+      { "name": "Dropdown Menu", "path": "/apps/eds-us/blocks/dropdown-menu", "searchTags": "dropdown, menu, navigation, select" },
+      { "name": "Embed", "path": "/apps/eds-us/blocks/embed", "searchTags": "embed, iframe, youtube, vimeo, video" },
+      { "name": "File Upload", "path": "/apps/eds-us/blocks/file-upload", "searchTags": "file upload, upload, attachment, input" },
+      { "name": "Footer", "path": "/apps/eds-us/blocks/footer", "searchTags": "footer, page footer, site footer" },
+      { "name": "Form", "path": "/apps/eds-us/blocks/form", "searchTags": "form, input, submit, fields" },
+      { "name": "Fragment", "path": "/apps/eds-us/blocks/fragment", "searchTags": "fragment, include, reusable content" },
+      { "name": "Header", "path": "/apps/eds-us/blocks/header", "searchTags": "header, navigation, site header" },
+      { "name": "Hero", "path": "/apps/eds-us/blocks/hero", "searchTags": "hero, banner, hero image, landing" },
+      { "name": "Icon", "path": "/apps/eds-us/blocks/icon", "searchTags": "icon, symbol, glyph" },
+      { "name": "Image", "path": "/apps/eds-us/blocks/image", "searchTags": "image, picture, photo, media" },
+      { "name": "Input Field", "path": "/apps/eds-us/blocks/input-field", "searchTags": "input, text field, form input" },
+      { "name": "Link", "path": "/apps/eds-us/blocks/link", "searchTags": "link, anchor, hyperlink, url" },
+      { "name": "List", "path": "/apps/eds-us/blocks/list", "searchTags": "list, items, ordered, unordered" },
+      { "name": "Menu Item", "path": "/apps/eds-us/blocks/menu-item", "searchTags": "menu item, food, product, restaurant" },
+      { "name": "Modal", "path": "/apps/eds-us/blocks/modal", "searchTags": "modal, dialog, popup, overlay" },
+      { "name": "Pagination", "path": "/apps/eds-us/blocks/pagination", "searchTags": "pagination, paging, next, previous" },
+      { "name": "Popover", "path": "/apps/eds-us/blocks/popover", "searchTags": "popover, popup, tooltip, overlay" },
+      { "name": "Pricing Table", "path": "/apps/eds-us/blocks/pricing-table", "searchTags": "pricing, plans, table, comparison" },
+      { "name": "Product Detail", "path": "/apps/eds-us/blocks/product-detail", "searchTags": "product detail, product, pdp" },
+      { "name": "Progress Bar", "path": "/apps/eds-us/blocks/progress-bar", "searchTags": "progress bar, loading, percentage" },
+      { "name": "Promotion Banner", "path": "/apps/eds-us/blocks/promotion-banner", "searchTags": "promotion, banner, offer, sale" },
+      { "name": "Quote", "path": "/apps/eds-us/blocks/quote", "searchTags": "quote, blockquote, testimonial, citation" },
+      { "name": "Radio Button", "path": "/apps/eds-us/blocks/radio-button", "searchTags": "radio, radio button, form, select" },
+      { "name": "Rating Stars", "path": "/apps/eds-us/blocks/rating-stars", "searchTags": "rating, stars, review, score" },
+      { "name": "Rewards Feed", "path": "/apps/eds-us/blocks/rewards-feed", "searchTags": "rewards, loyalty, points, feed" },
+      { "name": "Search", "path": "/apps/eds-us/blocks/search", "searchTags": "search, find, query" },
+      { "name": "Select Dropdown", "path": "/apps/eds-us/blocks/select-dropdown", "searchTags": "select, dropdown, options, form" },
+      { "name": "Sidebar", "path": "/apps/eds-us/blocks/sidebar", "searchTags": "sidebar, side navigation, aside" },
+      { "name": "Skeleton Loader", "path": "/apps/eds-us/blocks/skeleton-loader", "searchTags": "skeleton, loading, placeholder" },
+      { "name": "Slider", "path": "/apps/eds-us/blocks/slider", "searchTags": "slider, range, input range" },
+      { "name": "Spinner", "path": "/apps/eds-us/blocks/spinner", "searchTags": "spinner, loader, loading, animation" },
+      { "name": "Stepper", "path": "/apps/eds-us/blocks/stepper", "searchTags": "stepper, steps, wizard, progress" },
+      { "name": "Store Locator", "path": "/apps/eds-us/blocks/store-locator", "searchTags": "store locator, map, locations, find" },
+      { "name": "Table", "path": "/apps/eds-us/blocks/table", "searchTags": "table, data, grid, rows" },
+      { "name": "Tabs", "path": "/apps/eds-us/blocks/tabs", "searchTags": "tabs, tabbed content, tab panels" },
+      { "name": "Tag", "path": "/apps/eds-us/blocks/tag", "searchTags": "tag, pill, chip, label" },
+      { "name": "Testimonials", "path": "/apps/eds-us/blocks/testimonials", "searchTags": "testimonials, reviews, social proof" },
+      { "name": "Textarea", "path": "/apps/eds-us/blocks/textarea", "searchTags": "textarea, multiline, text input, form" },
+      { "name": "Timeline", "path": "/apps/eds-us/blocks/timeline", "searchTags": "timeline, history, events, chronological" },
+      { "name": "Toast", "path": "/apps/eds-us/blocks/toast", "searchTags": "toast, notification, snackbar, alert" },
+      { "name": "Toggle Switch", "path": "/apps/eds-us/blocks/toggle-switch", "searchTags": "toggle, switch, on off, boolean" },
+      { "name": "Tooltip", "path": "/apps/eds-us/blocks/tooltip", "searchTags": "tooltip, hint, help, info" },
+      { "name": "User Profile", "path": "/apps/eds-us/blocks/user-profile", "searchTags": "user profile, account, member" },
+      { "name": "Video", "path": "/apps/eds-us/blocks/video", "searchTags": "video, player, media, mp4" }
+    ]
+  },
+  "templates": {
+    "total": 10,
+    "offset": 0,
+    "limit": 10,
+    "data": [
+      { "name": "Landing Page", "path": "/apps/eds-us/templates/landing-page" },
+      { "name": "Product Page", "path": "/apps/eds-us/templates/product-page" },
+      { "name": "Menu Page", "path": "/apps/eds-us/templates/menu-page" },
+      { "name": "Account Page", "path": "/apps/eds-us/templates/account-page" },
+      { "name": "Stores Page", "path": "/apps/eds-us/templates/stores-page" },
+      { "name": "Component Showcase", "path": "/apps/eds-us/templates/component-showcase" },
+      { "name": "Form Components", "path": "/apps/eds-us/templates/form-components" },
+      { "name": "Navigation Components", "path": "/apps/eds-us/templates/navigation-components" },
+      { "name": "Feedback Components", "path": "/apps/eds-us/templates/feedback-components" },
+      { "name": "Data Display", "path": "/apps/eds-us/templates/data-display" }
+    ]
+  },
+  "plugins": {
+    "total": 5,
+    "offset": 0,
+    "limit": 5,
+    "data": [
+      { "name": "Menu Block", "path": "/tools/menu-plugin", "url": "/tools/menu-plugin/menu-plugin.html" },
+      { "name": "Store Locator", "path": "/tools/store-plugin", "url": "/tools/store-plugin/store-plugin.html" },
+      { "name": "Rewards", "path": "/tools/rewards-plugin", "url": "/tools/rewards-plugin/rewards-plugin.html" },
+      { "name": "User Profile", "path": "/tools/user-plugin", "url": "/tools/user-plugin/user-plugin.html" },
+      { "name": "Device Info", "path": "/tools/device-plugin", "url": "/tools/device-plugin/device-plugin.html" }
+    ]
+  },
+  ":version": 3,
+  ":names": ["blocks", "templates", "plugins"],
+  ":type": "multi-sheet"
 }

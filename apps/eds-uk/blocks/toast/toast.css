@@ -1,0 +1,105 @@
+@import '../../styles/tokens.css';
+
+.toast {
+  position: fixed;
+  z-index: var(--z-toast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  color: var(--color-white);
+  background: var(--color-green-dark);
+  box-shadow: var(--shadow-lg);
+  min-width: 280px;
+  max-width: 480px;
+  animation: toast-slide-in var(--transition-normal) ease forwards;
+}
+
+.toast--bottom {
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast--top {
+  top: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast--info {
+  background: #0c5a97;
+}
+
+.toast--success {
+  background: var(--color-green-primary);
+}
+
+.toast--warning {
+  background: #b8860b;
+}
+
+.toast--error {
+  background: var(--color-error);
+}
+
+.toast__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.toast__message {
+  flex: 1;
+  line-height: var(--line-height-normal);
+}
+
+.toast__dismiss {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.toast__dismiss:hover {
+  opacity: 1;
+}
+
+.toast--exit {
+  animation: toast-slide-out var(--transition-normal) ease forwards;
+}
+
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes toast-slide-out {
+  from { opacity: 1; transform: translateX(-50%) translateY(0); }
+  to { opacity: 0; transform: translateX(-50%) translateY(16px); }
+}
+
+html[data-device='mobile'] .toast {
+  left: var(--space-4);
+  right: var(--space-4);
+  transform: none;
+  min-width: auto;
+  max-width: none;
+}
+
+html[data-device='mobile'] .toast--bottom {
+  bottom: var(--space-4);
+}

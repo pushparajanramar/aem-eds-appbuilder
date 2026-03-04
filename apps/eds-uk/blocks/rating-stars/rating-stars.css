@@ -1,0 +1,57 @@
+@import '../../styles/tokens.css';
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-family-sans);
+}
+
+.rating-stars__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: var(--color-gray-200);
+  font-size: var(--font-size-xl);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.rating-stars__star::before {
+  content: '\2605';
+}
+
+.rating-stars__star--filled {
+  color: var(--color-green-accent);
+}
+
+.rating-stars__star--half {
+  color: var(--color-green-accent);
+  opacity: 0.5;
+}
+
+.rating-stars__star:hover {
+  transform: scale(1.2);
+}
+
+.rating-stars--readonly .rating-stars__star {
+  cursor: default;
+  pointer-events: none;
+}
+
+.rating-stars__value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-left: var(--space-2);
+}
+
+html[data-device='mobile'] .rating-stars__star {
+  width: 28px;
+  height: 28px;
+  font-size: var(--font-size-2xl);
+}
