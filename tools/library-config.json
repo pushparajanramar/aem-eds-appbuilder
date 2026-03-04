@@ -84,15 +84,16 @@
     ]
   },
   "plugins": {
-    "total": 5,
+    "total": 6,
     "offset": 0,
-    "limit": 5,
+    "limit": 6,
     "data": [
       { "name": "Menu Block", "path": "/tools/menu-plugin", "url": "/tools/menu-plugin/menu-plugin.html" },
       { "name": "Store Locator", "path": "/tools/store-plugin", "url": "/tools/store-plugin/store-plugin.html" },
       { "name": "Rewards", "path": "/tools/rewards-plugin", "url": "/tools/rewards-plugin/rewards-plugin.html" },
       { "name": "User Profile", "path": "/tools/user-plugin", "url": "/tools/user-plugin/user-plugin.html" },
-      { "name": "Device Info", "path": "/tools/device-plugin", "url": "/tools/device-plugin/device-plugin.html" }
+      { "name": "Device Info", "path": "/tools/device-plugin", "url": "/tools/device-plugin/device-plugin.html" },
+      { "name": "SSO Login", "path": "/tools/sso-plugin", "url": "/tools/sso-plugin/sso-plugin.html" }
     ]
   },
   ":version": 3,
