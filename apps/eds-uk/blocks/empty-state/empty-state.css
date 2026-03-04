@@ -1,0 +1,74 @@
+@import '../../styles/tokens.css';
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  max-width: var(--max-width-text);
+  margin: 0 auto;
+}
+
+.empty-state__image {
+  width: 120px;
+  height: 120px;
+  margin-bottom: var(--space-6);
+  opacity: 0.6;
+}
+
+.empty-state__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empty-state__title {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-3);
+}
+
+.empty-state__description {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--space-6);
+}
+
+.empty-state__description p {
+  margin: 0;
+}
+
+.empty-state__action a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-interactive);
+  color: var(--color-white);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  min-height: 44px;
+  transition: background var(--transition-fast);
+}
+
+.empty-state__action a:hover {
+  background: var(--color-interactive-hover);
+}
+
+html[data-device='mobile'] .empty-state {
+  padding: var(--space-8) var(--space-4);
+}
+
+html[data-device='mobile'] .empty-state__image {
+  width: 80px;
+  height: 80px;
+}

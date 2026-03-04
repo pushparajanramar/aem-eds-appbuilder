@@ -1,0 +1,40 @@
+@import '../../styles/tokens.css';
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: currentColor;
+  flex-shrink: 0;
+}
+
+.icon--small {
+  width: 16px;
+  height: 16px;
+}
+
+.icon--large {
+  width: 32px;
+  height: 32px;
+}
+
+.icon--xlarge {
+  width: 48px;
+  height: 48px;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.icon--stroke svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
