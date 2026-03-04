@@ -1,0 +1,19 @@
+# Fastly Compute service configuration
+# See https://developer.fastly.com/reference/compute/fastly-toml/
+
+authors = ["QSR Engineering <engineering@qsr.example.com>"]
+description = "EDS Dynamic Blocks — Fastly Compute edge functions replacing App Builder actions"
+language = "javascript"
+manifest_version = 3
+name = "eds-dynamic-blocks"
+service_id = ""
+
+[scripts]
+  build = "npm run build"
+
+[local_server]
+  [local_server.backends]
+    [local_server.backends.eds_origin]
+      url = "https://main--qsr-us--org.aem.live"
+    [local_server.backends.eds_admin]
+      url = "https://admin.hlx.page"

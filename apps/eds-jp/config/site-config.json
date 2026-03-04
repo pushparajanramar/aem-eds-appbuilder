@@ -4,27 +4,27 @@
   "overlays": {
     "/menu": {
       "provider": "menu-provider",
-      "url": "https://{app-builder-host}/api/v1/web/qsr/menu-provider",
+      "url": "https://dynamic.yourbrand.com/menu-provider",
       "cacheTtl": 300
     },
     "/stores": {
       "provider": "store-provider",
-      "url": "https://{app-builder-host}/api/v1/web/qsr/store-provider",
+      "url": "https://dynamic.yourbrand.com/store-provider",
       "cacheTtl": 600
     },
     "/rewards": {
       "provider": "rewards-provider",
-      "url": "https://{app-builder-host}/api/v1/web/qsr/rewards-provider",
+      "url": "https://dynamic.yourbrand.com/rewards-provider",
       "cacheTtl": 120
     },
     "/account": {
       "provider": "user-provider",
-      "url": "https://{app-builder-host}/api/v1/web/qsr/user-provider",
+      "url": "https://dynamic.yourbrand.com/user-provider",
       "cacheTtl": 60
     },
     "/rewards-feed": {
       "provider": "bff-proxy",
-      "url": "https://{app-builder-host}/api/v1/web/qsr/bff-proxy",
+      "url": "https://dynamic.yourbrand.com/bff-proxy",
       "cacheTtl": 60
     }
   },

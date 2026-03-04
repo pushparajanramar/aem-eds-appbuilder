@@ -1,0 +1,39 @@
+{
+  "library": [
+    {
+      "path": "/tools/menu-plugin",
+      "icon": "🍔",
+      "title": "Menu Block",
+      "type": "dialog",
+      "url": "/tools/menu-plugin/menu-plugin.html"
+    },
+    {
+      "path": "/tools/store-plugin",
+      "icon": "🏪",
+      "title": "Store Locator",
+      "type": "dialog",
+      "url": "/tools/store-plugin/store-plugin.html"
+    },
+    {
+      "path": "/tools/rewards-plugin",
+      "icon": "🎁",
+      "title": "Rewards",
+      "type": "dialog",
+      "url": "/tools/rewards-plugin/rewards-plugin.html"
+    },
+    {
+      "path": "/tools/user-plugin",
+      "icon": "👤",
+      "title": "User Profile",
+      "type": "dialog",
+      "url": "/tools/user-plugin/user-plugin.html"
+    },
+    {
+      "path": "/tools/device-plugin",
+      "icon": "📱",
+      "title": "Device Info",
+      "type": "dialog",
+      "url": "/tools/device-plugin/device-plugin.html"
+    }
+  ]
+}
