@@ -1,0 +1,57 @@
+@import '../../styles/tokens.css';
+
+.back-to-top {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-circle);
+  background: var(--color-interactive);
+  color: var(--color-white);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-fast), visibility var(--transition-fast), background var(--transition-fast);
+}
+
+.back-to-top--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--color-interactive-hover);
+}
+
+.back-to-top:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+.back-to-top__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.back-to-top__icon::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-top: 4px;
+}
+
+html[data-device='mobile'] .back-to-top {
+  bottom: var(--space-4);
+  right: var(--space-4);
+}

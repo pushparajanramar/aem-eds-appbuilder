@@ -1,0 +1,85 @@
+@import '../../styles/tokens.css';
+
+.banner {
+  width: 100%;
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  background: var(--color-green-dark);
+  color: var(--color-white);
+}
+
+.banner--info {
+  background: #0c5a97;
+}
+
+.banner--warning {
+  background: #b8860b;
+}
+
+.banner--error {
+  background: var(--color-error);
+}
+
+.banner__content {
+  flex: 1;
+  text-align: center;
+  line-height: var(--line-height-normal);
+}
+
+.banner__content p {
+  margin: 0;
+}
+
+.banner__content a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: var(--font-weight-semibold);
+}
+
+.banner__cta a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-4);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition-fast);
+}
+
+.banner__cta a:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.banner__dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-circle);
+  color: var(--color-white);
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.banner__dismiss:hover {
+  opacity: 1;
+}
+
+html[data-device='mobile'] .banner {
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-2);
+}
