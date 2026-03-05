@@ -3,13 +3,15 @@
         "https://*.hlx.page",
         "https://*.hlx.live",
         "https://*.aem.page",
-        "https://*.aem.live"
+        "https://*.aem.live",
+        "https://*.da.live"
     ],
     "alloworiginregexp": [
         "https://.*\\.hlx\\.page",
         "https://.*\\.hlx\\.live",
         "https://.*\\.aem\\.page",
-        "https://.*\\.aem\\.live"
+        "https://.*\\.aem\\.live",
+        "https://.*\\.da\\.live"
     ],
     "allowedpaths": [
         "/content/qsr/.*",

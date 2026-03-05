@@ -60,7 +60,8 @@ export function renderRewardsHTML(rewards) {
 export async function handleRewardsProvider(req) {
   const url = new URL(req.url);
   const market = url.searchParams.get('market') || 'us';
-  const { edsHost, locale } = getMarketConfig(market);
+  const contentSource = url.searchParams.get('contentSource') || undefined;
+  const { edsHost, locale } = getMarketConfig(market, contentSource);
   const deviceType = getDeviceType(req);
 
   logRequest('rewards-provider', req, market);

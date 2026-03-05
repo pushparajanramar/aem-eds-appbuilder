@@ -108,7 +108,7 @@ async function main(params) {
 
   const market = params.market || 'us';
   const { city, lat, lng, place } = params;
-  const { edsHost, locale } = getMarketConfig(market);
+  const { edsHost, locale } = getMarketConfig(market, params.CONTENT_SOURCE);
   const deviceType = getDeviceType(params);
   const layout = getDeviceLayout(deviceType);
 

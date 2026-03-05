@@ -50,7 +50,8 @@ export async function handleDeviceProvider(req) {
   logRequest('device-provider', req, market);
 
   try {
-    const { locale } = getMarketConfig(market);
+    const contentSource = url.searchParams.get('contentSource') || undefined;
+    const { locale } = getMarketConfig(market, contentSource);
     const deviceType = getDeviceType(req);
     const layout = getDeviceLayout(deviceType);
 

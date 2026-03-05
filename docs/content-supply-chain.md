@@ -150,11 +150,13 @@ Market-specific locales are configured in [`app-builder/actions/shared/market-co
 ```js
 // market-config.js
 {
-  us: { locale: 'en-US', currency: 'USD', edsHost: 'main--qsr-us--org.aem.live' },
-  uk: { locale: 'en-GB', currency: 'GBP', edsHost: 'main--qsr-uk--org.aem.live' },
-  jp: { locale: 'ja-JP', currency: 'JPY', edsHost: 'main--qsr-jp--org.aem.live' },
+  us: { locale: 'en-US', currency: 'USD', edsHost: 'main--qsr-us--org.aem.live', daHost: 'main--qsr-us--org.da.live' },
+  uk: { locale: 'en-GB', currency: 'GBP', edsHost: 'main--qsr-uk--org.aem.live', daHost: 'main--qsr-uk--org.da.live' },
+  jp: { locale: 'ja-JP', currency: 'JPY', edsHost: 'main--qsr-jp--org.aem.live', daHost: 'main--qsr-jp--org.da.live' },
 }
 ```
+
+Each market supports two content sources selected via the `CONTENT_SOURCE` action input (`aem` or `da`). When set to `da`, the `edsHost` returned by `getMarketConfig()` is swapped to the DA.live host, enabling Document Authoring as the content source instead of AEM (JCR).
 
 ### Taxonomy
 

@@ -91,7 +91,7 @@ async function main(params) {
   // Adobe I/O Runtime.  Do not fall back to a body/query param to prevent
   // token confusion attacks.
   const accessToken = params.__ow_headers?.authorization?.replace(/^Bearer\s+/i, '');
-  const { edsHost } = getMarketConfig(market);
+  const { edsHost } = getMarketConfig(market, params.CONTENT_SOURCE);
 
   if (!accessToken) {
     logError(logger, 'user-provider', params, 'Authentication required', 401);

@@ -218,7 +218,7 @@ export async function handleSitemapGenerator(req) {
     );
   }
 
-  const { edsHost } = getMarketConfig(market);
+  const { edsHost } = getMarketConfig(market, body.contentSource);
   const { org, repo, branch } = parseEdsHost(edsHost);
 
   try {

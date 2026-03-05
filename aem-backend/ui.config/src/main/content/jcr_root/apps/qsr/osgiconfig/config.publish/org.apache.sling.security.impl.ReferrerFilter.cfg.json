@@ -4,13 +4,15 @@
         "*.hlx.page",
         "*.hlx.live",
         "*.aem.page",
-        "*.aem.live"
+        "*.aem.live",
+        "*.da.live"
     ],
     "allow.hosts.regexp": [
         "https://.*\\.hlx\\.page",
         "https://.*\\.hlx\\.live",
         "https://.*\\.aem\\.page",
-        "https://.*\\.aem\\.live"
+        "https://.*\\.aem\\.live",
+        "https://.*\\.da\\.live"
     ],
     "filter.methods": [
         "POST",

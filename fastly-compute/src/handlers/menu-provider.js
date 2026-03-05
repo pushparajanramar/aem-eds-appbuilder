@@ -72,7 +72,8 @@ export async function handleMenuProvider(req) {
   const url = new URL(req.url);
   const market = url.searchParams.get('market') || 'us';
   const category = url.searchParams.get('category') || 'drinks';
-  const { edsHost, locale } = getMarketConfig(market);
+  const contentSource = url.searchParams.get('contentSource') || undefined;
+  const { edsHost, locale } = getMarketConfig(market, contentSource);
   const deviceType = getDeviceType(req);
   const layout = getDeviceLayout(deviceType);
 

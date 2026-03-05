@@ -3,6 +3,8 @@
     "locale": "en-GB",
     "currency": "GBP",
     "timezone": "Europe/London",
+    "contentSource": "aem",
     "edsHost": "main--qsr-uk--org.aem.live",
+    "daHost": "main--qsr-uk--org.da.live",
     "contentRoot": "/content/qsr/uk"
 }

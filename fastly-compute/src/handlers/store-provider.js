@@ -76,7 +76,8 @@ export async function handleStoreProvider(req) {
   const lat = url.searchParams.get('lat') || undefined;
   const lng = url.searchParams.get('lng') || undefined;
   const place = url.searchParams.get('place') || undefined;
-  const { edsHost, locale } = getMarketConfig(market);
+  const contentSource = url.searchParams.get('contentSource') || undefined;
+  const { edsHost, locale } = getMarketConfig(market, contentSource);
   const deviceType = getDeviceType(req);
   const layout = getDeviceLayout(deviceType);
 

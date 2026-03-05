@@ -54,5 +54,7 @@
     }
   },
   "market": "us",
-  "edsHost": "main--qsr-us--org.aem.live"
+  "contentSource": "aem",
+  "edsHost": "main--qsr-us--org.aem.live",
+  "daHost": "main--qsr-us--org.da.live"
 }

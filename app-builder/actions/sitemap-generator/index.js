@@ -288,7 +288,7 @@ async function main(params) {
     };
   }
 
-  const { edsHost } = getMarketConfig(market);
+  const { edsHost } = getMarketConfig(market, params.CONTENT_SOURCE);
   const { org, repo, branch } = parseEdsHost(edsHost);
   logger.info(`sitemap-generator: market=${market}, host=${edsHost}, push=${push}`);
 

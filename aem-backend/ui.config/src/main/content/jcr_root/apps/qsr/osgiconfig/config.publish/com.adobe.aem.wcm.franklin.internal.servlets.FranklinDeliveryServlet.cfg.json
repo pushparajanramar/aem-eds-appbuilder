@@ -4,6 +4,7 @@
         ".*\\.hlx\\.page",
         ".*\\.hlx\\.live",
         ".*\\.aem\\.page",
-        ".*\\.aem\\.live"
+        ".*\\.aem\\.live",
+        ".*\\.da\\.live"
     ]
 }
