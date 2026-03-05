@@ -8,7 +8,7 @@ import { getMarketConfig } from '../shared/market-config.js';
 import { safeUrl } from '../shared/url-utils.js';
 import { getDeviceType, isHeadless } from '../shared/device-utils.js';
 import { escapeHtml } from '../shared/html-utils.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 /**
  * Fetch rewards catalog from the upstream rewards API.
@@ -87,6 +87,7 @@ export async function handleRewardsProvider(req) {
     });
   } catch (err) {
     console.error('rewards-provider error:', err);
+    logError('rewards-provider', req, market, err, 500);
     return new Response('<p class="error">Unable to load rewards. Please try again later.</p>', {
       status: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },

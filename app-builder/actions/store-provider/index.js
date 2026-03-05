@@ -10,7 +10,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { getDeviceType, getDeviceLayout, isHeadless } = require('../shared/device-utils');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 /**
  * Fetch store locations from the BFF locations endpoint.
@@ -140,6 +140,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('store-provider error:', err);
+    logError(logger, 'store-provider', params, err, 500);
     return {
       statusCode: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },

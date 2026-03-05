@@ -10,7 +10,7 @@ const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { safeUrl } = require('../shared/url-utils');
 const { getDeviceType, isHeadless } = require('../shared/device-utils');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 /**
  * Fetch rewards catalog from the upstream rewards API.
@@ -113,6 +113,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('rewards-provider error:', err);
+    logError(logger, 'rewards-provider', params, err, 500);
     return {
       statusCode: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },

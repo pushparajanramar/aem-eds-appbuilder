@@ -20,7 +20,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { sanitizeBffModule } = require('../shared/url-utils');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 /**
  * Strip any path-traversal sequences from a sub-path segment.
@@ -95,6 +95,7 @@ async function main(params) {
   const accessToken = params.__ow_headers?.authorization?.replace(/^Bearer\s+/i, '');
 
   if (!accessToken) {
+    logError(logger, 'bff-proxy', params, 'Authentication required', 401);
     return { statusCode: 401, body: { error: 'Authentication required.' } };
   }
 
@@ -107,6 +108,7 @@ async function main(params) {
   const module = sanitizeBffModule(rawModule);
   if (!module) {
     logger.warn(`bff-proxy: rejected module="${rawModule}"`);
+    logError(logger, 'bff-proxy', params, `Module "${rawModule}" is not permitted`, 400);
     return {
       statusCode: 400,
       body: { error: `Module "${rawModule}" is not permitted.` },
@@ -128,6 +130,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('bff-proxy error:', err);
+    logError(logger, 'bff-proxy', params, err, 502);
     return {
       statusCode: 502,
       body: { error: 'Upstream BFF proxy request failed.' },

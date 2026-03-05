@@ -8,7 +8,7 @@
 
 import { getMarketConfig } from '../shared/market-config.js';
 import { escapeHtml } from '../shared/html-utils.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 /**
  * Fetch the authenticated user's profile from the BFF orchestra endpoint.
@@ -73,6 +73,7 @@ export async function handleUserProvider(req) {
   logRequest('user-provider', req, market);
 
   if (!accessToken) {
+    logError('user-provider', req, market, 'Authentication required', 401);
     return new Response('<p class="error">Authentication required.</p>', {
       status: 401,
       headers: { 'content-type': 'text/html; charset=utf-8' },
@@ -88,6 +89,7 @@ export async function handleUserProvider(req) {
     });
   } catch (err) {
     console.error('user-provider error:', err);
+    logError('user-provider', req, market, err, 500);
     return new Response('<p class="error">Unable to load user profile. Please try again later.</p>', {
       status: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },

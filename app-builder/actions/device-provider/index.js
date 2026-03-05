@@ -17,7 +17,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
 const { getDeviceType, getDeviceLayout } = require('../shared/device-utils');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 /**
  * Build the EDS-compatible HTML snippet that embeds device metadata.
@@ -61,43 +61,53 @@ async function main(params) {
   const logger = Core.Logger('device-provider', { level: params.LOG_LEVEL || 'info' });
   logRequest(logger, 'device-provider', params);
 
-  const market = params.market || 'us';
-  const { locale } = getMarketConfig(market);
-  const deviceType = getDeviceType(params);
-  const layout = getDeviceLayout(deviceType);
+  try {
+    const market = params.market || 'us';
+    const { locale } = getMarketConfig(market);
+    const deviceType = getDeviceType(params);
+    const layout = getDeviceLayout(deviceType);
 
-  logger.info(`device-provider: market=${market}, device=${deviceType}, locale=${locale}`);
+    logger.info(`device-provider: market=${market}, device=${deviceType}, locale=${locale}`);
 
-  // Accept header determines response format:
-  //   text/html → <meta> snippet for <head> injection
-  //   *         → JSON payload for programmatic consumption
-  const accept = params?.__ow_headers?.accept || '';
-  if (accept.includes('text/html')) {
+    // Accept header determines response format:
+    //   text/html → <meta> snippet for <head> injection
+    //   *         → JSON payload for programmatic consumption
+    const accept = params?.__ow_headers?.accept || '';
+    if (accept.includes('text/html')) {
+      return {
+        statusCode: 200,
+        headers: {
+          'content-type': 'text/html; charset=utf-8',
+          'cache-control': 'public, max-age=0',
+          'vary': 'X-Device-Type',
+        },
+        body: renderDeviceMetaHTML(deviceType, layout, market),
+      };
+    }
+
     return {
       statusCode: 200,
       headers: {
-        'content-type': 'text/html; charset=utf-8',
+        'content-type': 'application/json',
         'cache-control': 'public, max-age=0',
         'vary': 'X-Device-Type',
       },
-      body: renderDeviceMetaHTML(deviceType, layout, market),
+      body: {
+        deviceType,
+        layout,
+        market,
+        locale,
+      },
+    };
+  } catch (err) {
+    logger.error('device-provider error:', err);
+    logError(logger, 'device-provider', params, err, 500);
+    return {
+      statusCode: 500,
+      headers: { 'content-type': 'application/json' },
+      body: { error: 'Unable to resolve device information.' },
     };
   }
-
-  return {
-    statusCode: 200,
-    headers: {
-      'content-type': 'application/json',
-      'cache-control': 'public, max-age=0',
-      'vary': 'X-Device-Type',
-    },
-    body: {
-      deviceType,
-      layout,
-      market,
-      locale,
-    },
-  };
 }
 
 module.exports = { main, renderDeviceMetaHTML };

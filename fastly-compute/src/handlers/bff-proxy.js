@@ -10,7 +10,7 @@
 
 import { getMarketConfig } from '../shared/market-config.js';
 import { sanitizeBffModule } from '../shared/url-utils.js';
-import { logRequest } from '../shared/datalog.js';
+import { logRequest, logError } from '../shared/datalog.js';
 
 /**
  * Strip any path-traversal sequences from a sub-path segment.
@@ -73,6 +73,7 @@ export async function handleBffProxy(req) {
   logRequest('bff-proxy', req, market);
 
   if (!accessToken) {
+    logError('bff-proxy', req, market, 'Authentication required', 401);
     return new Response(JSON.stringify({ error: 'Authentication required.' }), {
       status: 401,
       headers: { 'content-type': 'application/json' },
@@ -86,6 +87,7 @@ export async function handleBffProxy(req) {
   // Validate module against the allowlist
   const module = sanitizeBffModule(rawModule);
   if (!module) {
+    logError('bff-proxy', req, market, `Module "${rawModule}" is not permitted`, 400);
     return new Response(JSON.stringify({ error: `Module "${rawModule}" is not permitted.` }), {
       status: 400,
       headers: { 'content-type': 'application/json' },
@@ -113,6 +115,7 @@ export async function handleBffProxy(req) {
     });
   } catch (err) {
     console.error('bff-proxy error:', err);
+    logError('bff-proxy', req, market, err, 502);
     return new Response(JSON.stringify({ error: 'Upstream BFF proxy request failed.' }), {
       status: 502,
       headers: { 'content-type': 'application/json' },

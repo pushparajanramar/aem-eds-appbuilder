@@ -11,7 +11,7 @@
 
 const { Core } = require('@adobe/aio-sdk');
 const { getMarketConfig } = require('../shared/market-config');
-const { logRequest } = require('../shared/datalog');
+const { logRequest, logError } = require('../shared/datalog');
 
 /**
  * Fetch the authenticated user's profile from the BFF orchestra endpoint.
@@ -94,6 +94,7 @@ async function main(params) {
   const { edsHost } = getMarketConfig(market);
 
   if (!accessToken) {
+    logError(logger, 'user-provider', params, 'Authentication required', 401);
     return {
       statusCode: 401,
       headers: { 'content-type': 'text/html; charset=utf-8' },
@@ -114,6 +115,7 @@ async function main(params) {
     };
   } catch (err) {
     logger.error('user-provider error:', err);
+    logError(logger, 'user-provider', params, err, 500);
     return {
       statusCode: 500,
       headers: { 'content-type': 'text/html; charset=utf-8' },
