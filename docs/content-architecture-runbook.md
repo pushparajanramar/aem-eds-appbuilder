@@ -361,7 +361,7 @@ The `sitemap-generator` App Builder action automates the creation and CDN delive
 # Generate and push sitemap.xml for a market
 curl -X POST \
   -H "Authorization: Bearer $IMS_TOKEN" \
-  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  "https://{fastly-compute-host}/sitemap-generator" \
   -d '{"market":"us","EDS_TOKEN":"<your-eds-token>"}'
 ```
 

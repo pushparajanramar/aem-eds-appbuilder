@@ -75,14 +75,15 @@ mvn clean install -PautoInstallPackage -Daem.host=localhost -Daem.port=4502
 
 ### 1.4 Connecting to This EDS Project
 
-Once deployed, configure AEM Author to fire publish/unpublish/delete events to the App Builder **webhook** action:
+Once deployed, configure AEM Author to fire publish/unpublish/delete events to the **webhook** endpoint (Fastly Compute by default):
 
 1. In AEM, open **Tools → Operations → Web Console → OSGi configurations**.
-2. Search for `com.day.cq.replication.ReplicationAction` and add the App Builder webhook URL:
+2. Search for `com.day.cq.replication.ReplicationAction` and add the Fastly Compute webhook URL:
    ```
-   https://<app-builder-host>/api/v1/web/qsr/webhook
+   https://<fastly-compute-host>/webhook
    ```
-3. Set the request header `Authorization: Bearer <IMS_TOKEN>` (the webhook action requires `require-adobe-auth: true`).
+   (Alternatively, if using App Builder: `https://<app-builder-host>/api/v1/web/qsr/webhook`)
+3. Set the request header `Authorization: Bearer <IMS_TOKEN>` (the webhook handler requires a valid bearer token).
 
 ---
 

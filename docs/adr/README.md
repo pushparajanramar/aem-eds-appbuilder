@@ -35,3 +35,4 @@ Each ADR follows the format `NNN-short-title.md` and contains the following sect
 | [010](010-folder-based-monorepo-pipeline.md) | Folder-Based Monorepo Pipeline Strategy | Accepted | 2026-02-26 |
 | [011](011-multitenancy-strategy.md) | Multitenancy Strategy (AEM Backend + AEM Assets + EDS + Svelte Frontend) | Accepted | 2026-02-27 |
 | [012](012-fastly-compute-edge-functions.md) | Fastly Compute Edge Functions for Dynamic Block Providers | Accepted | 2026-03-05 |
+| [013](013-sso-authentication.md) | SSO Authentication for AEM EDS | Accepted | 2026-03-05 |
