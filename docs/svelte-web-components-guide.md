@@ -40,10 +40,67 @@ The `packages/eds-components` library contains all Svelte Web Components used by
 ```
 packages/eds-components/
 └── src/
-    ├── components/           ← Svelte source files
+    ├── components/           ← Svelte source files (60 components — one per EDS block)
+    │   ├── qsr-accordion.svelte
+    │   ├── qsr-alert.svelte
+    │   ├── qsr-avatar.svelte
+    │   ├── qsr-badge.svelte
+    │   ├── qsr-banner.svelte
+    │   ├── qsr-breadcrumbs.svelte
+    │   ├── qsr-button.svelte
+    │   ├── qsr-button-group.svelte
+    │   ├── qsr-calendar.svelte
+    │   ├── qsr-cards.svelte
+    │   ├── qsr-carousel.svelte
+    │   ├── qsr-checkbox.svelte
+    │   ├── qsr-columns.svelte
+    │   ├── qsr-date-picker.svelte
+    │   ├── qsr-divider.svelte
+    │   ├── qsr-drawer.svelte
+    │   ├── qsr-dropdown-menu.svelte
+    │   ├── qsr-embed.svelte
+    │   ├── qsr-file-upload.svelte
+    │   ├── qsr-footer.svelte
+    │   ├── qsr-form.svelte
+    │   ├── qsr-fragment.svelte
+    │   ├── qsr-header.svelte
     │   ├── qsr-hero.svelte
+    │   ├── qsr-icon.svelte
+    │   ├── qsr-image.svelte
+    │   ├── qsr-input-field.svelte
+    │   ├── qsr-link.svelte
+    │   ├── qsr-list.svelte
     │   ├── qsr-menu-card.svelte
-    │   └── … (22 components total)
+    │   ├── qsr-modal.svelte
+    │   ├── qsr-pagination.svelte
+    │   ├── qsr-popover.svelte
+    │   ├── qsr-pricing-table.svelte
+    │   ├── qsr-product-customizer.svelte
+    │   ├── qsr-progress-bar.svelte
+    │   ├── qsr-promotion-banner.svelte
+    │   ├── qsr-quote.svelte
+    │   ├── qsr-radio-button.svelte
+    │   ├── qsr-rating-stars.svelte
+    │   ├── qsr-rewards-feed.svelte
+    │   ├── qsr-search.svelte
+    │   ├── qsr-select-dropdown.svelte
+    │   ├── qsr-sidebar.svelte
+    │   ├── qsr-skeleton-loader.svelte
+    │   ├── qsr-slider.svelte
+    │   ├── qsr-spinner.svelte
+    │   ├── qsr-stepper.svelte
+    │   ├── qsr-store-locator.svelte
+    │   ├── qsr-table.svelte
+    │   ├── qsr-tabs.svelte
+    │   ├── qsr-tag.svelte
+    │   ├── qsr-testimonials.svelte
+    │   ├── qsr-textarea.svelte
+    │   ├── qsr-timeline.svelte
+    │   ├── qsr-toast.svelte
+    │   ├── qsr-toggle-switch.svelte
+    │   ├── qsr-tooltip.svelte
+    │   ├── qsr-user-profile.svelte
+    │   └── qsr-video.svelte
     └── utils/
         ├── api.js            ← BFF fetch helpers
         ├── auth.js           ← IMS token store (in-memory only)
@@ -61,29 +118,67 @@ The table below lists every Svelte Web Component, the custom element tag it regi
 | Svelte file | Custom element tag | EDS block directory | Fetches data? | Auth required? |
 |---|---|---|---|---|
 | `qsr-accordion.svelte` | `<qsr-accordion>` | `accordion/` | No | No |
+| `qsr-alert.svelte` | `<qsr-alert>` | `alert/` | No | No |
+| `qsr-avatar.svelte` | `<qsr-avatar>` | `avatar/` | No | No |
+| `qsr-badge.svelte` | `<qsr-badge>` | `badge/` | No | No |
+| `qsr-banner.svelte` | `<qsr-banner>` | `banner/` | No | No |
 | `qsr-breadcrumbs.svelte` | `<qsr-breadcrumbs>` | `breadcrumbs/` | No | No |
+| `qsr-button.svelte` | `<qsr-button>` | `button/` | No | No |
+| `qsr-button-group.svelte` | `<qsr-button-group>` | `button-group/` | No | No |
+| `qsr-calendar.svelte` | `<qsr-calendar>` | `calendar/` | No | No |
 | `qsr-cards.svelte` | `<qsr-cards>` | `cards/` | No | No |
 | `qsr-carousel.svelte` | `<qsr-carousel>` | `carousel/` | No | No |
+| `qsr-checkbox.svelte` | `<qsr-checkbox>` | `checkbox/` | No | No |
 | `qsr-columns.svelte` | `<qsr-columns>` | `columns/` | No | No |
+| `qsr-date-picker.svelte` | `<qsr-date-picker>` | `date-picker/` | No | No |
+| `qsr-divider.svelte` | `<qsr-divider>` | `divider/` | No | No |
+| `qsr-drawer.svelte` | `<qsr-drawer>` | `drawer/` | No | No |
+| `qsr-dropdown-menu.svelte` | `<qsr-dropdown-menu>` | `dropdown-menu/` | No | No |
 | `qsr-embed.svelte` | `<qsr-embed>` | `embed/` | No | No |
+| `qsr-file-upload.svelte` | `<qsr-file-upload>` | `file-upload/` | No | No |
 | `qsr-footer.svelte` | `<qsr-footer>` | `footer/` | No | No |
 | `qsr-form.svelte` | `<qsr-form>` | `form/` | No | No |
 | `qsr-fragment.svelte` | `<qsr-fragment>` | `fragment/` | No | No |
 | `qsr-header.svelte` | `<qsr-header>` | `header/` | No | No |
 | `qsr-hero.svelte` | `<qsr-hero>` | `hero/` | No | No |
+| `qsr-icon.svelte` | `<qsr-icon>` | `icon/` | No | No |
+| `qsr-image.svelte` | `<qsr-image>` | `image/` | No | No |
+| `qsr-input-field.svelte` | `<qsr-input-field>` | `input-field/` | No | No |
+| `qsr-link.svelte` | `<qsr-link>` | `link/` | No | No |
+| `qsr-list.svelte` | `<qsr-list>` | `list/` | No | No |
 | `qsr-menu-card.svelte` | `<qsr-menu-card>` | `menu-item/` | Yes — `/bff/ordering` | No |
 | `qsr-modal.svelte` | `<qsr-modal>` | `modal/` | No | No |
+| `qsr-pagination.svelte` | `<qsr-pagination>` | `pagination/` | No | No |
+| `qsr-popover.svelte` | `<qsr-popover>` | `popover/` | No | No |
+| `qsr-pricing-table.svelte` | `<qsr-pricing-table>` | `pricing-table/` | No | No |
 | `qsr-product-customizer.svelte` | `<qsr-product-customizer>` | `product-detail/` | Yes — `/bff/ordering` | No |
+| `qsr-progress-bar.svelte` | `<qsr-progress-bar>` | `progress-bar/` | No | No |
+| `qsr-promotion-banner.svelte` | `<qsr-promotion-banner>` | `promotion-banner/` | No | No |
 | `qsr-quote.svelte` | `<qsr-quote>` | `quote/` | No | No |
+| `qsr-radio-button.svelte` | `<qsr-radio-button>` | `radio-button/` | No | No |
+| `qsr-rating-stars.svelte` | `<qsr-rating-stars>` | `rating-stars/` | No | No |
 | `qsr-rewards-feed.svelte` | `<qsr-rewards-feed>` | `rewards-feed/` | Yes — `/bff/proxy/stream` | **Yes** |
 | `qsr-search.svelte` | `<qsr-search>` | `search/` | No | No |
+| `qsr-select-dropdown.svelte` | `<qsr-select-dropdown>` | `select-dropdown/` | No | No |
+| `qsr-sidebar.svelte` | `<qsr-sidebar>` | `sidebar/` | No | No |
+| `qsr-skeleton-loader.svelte` | `<qsr-skeleton-loader>` | `skeleton-loader/` | No | No |
+| `qsr-slider.svelte` | `<qsr-slider>` | `slider/` | No | No |
+| `qsr-spinner.svelte` | `<qsr-spinner>` | `spinner/` | No | No |
+| `qsr-stepper.svelte` | `<qsr-stepper>` | `stepper/` | No | No |
 | `qsr-store-locator.svelte` | `<qsr-store-locator>` | `store-locator/` | Yes — `/bff/locations` | No |
 | `qsr-table.svelte` | `<qsr-table>` | `table/` | No | No |
 | `qsr-tabs.svelte` | `<qsr-tabs>` | `tabs/` | No | No |
+| `qsr-tag.svelte` | `<qsr-tag>` | `tag/` | No | No |
+| `qsr-testimonials.svelte` | `<qsr-testimonials>` | `testimonials/` | No | No |
+| `qsr-textarea.svelte` | `<qsr-textarea>` | `textarea/` | No | No |
+| `qsr-timeline.svelte` | `<qsr-timeline>` | `timeline/` | No | No |
+| `qsr-toast.svelte` | `<qsr-toast>` | `toast/` | No | No |
+| `qsr-toggle-switch.svelte` | `<qsr-toggle-switch>` | `toggle-switch/` | No | No |
+| `qsr-tooltip.svelte` | `<qsr-tooltip>` | `tooltip/` | No | No |
 | `qsr-user-profile.svelte` | `<qsr-user-profile>` | `user-profile/` | Yes — `/bff/proxy/orchestra` | **Yes** |
 | `qsr-video.svelte` | `<qsr-video>` | `video/` | No | No |
 
-> **22 components** total. The three components that ship in `vite.config.js` entry map (`qsr-product-customizer`, `qsr-menu-card`, plus all others with implicit 1:1 mapping) are all built automatically — no manual entry is needed when the Svelte file name matches the block directory name via `blockMap`.
+> **60 components** total. The two components with special block-directory mappings (`qsr-product-customizer` → `product-detail`, `qsr-menu-card` → `menu-item`) are listed in the `blockMap` in `vite.config.js`. All other 58 components follow the default 1:1 pattern where the `qsr-` prefix is stripped to derive the block directory name.
 
 ---
 
@@ -325,23 +420,22 @@ Vite builds each `.svelte` file as a separate ES-module entry. The `entryFileNam
 const blockMap = {
   'qsr-product-customizer': 'product-detail',  // special mapping
   'qsr-menu-card':          'menu-item',        // special mapping
-  'qsr-accordion':          'accordion',        // 1:1 (key = block dir)
-  'qsr-hero':               'hero',
-  // … all other WCs follow the same 1:1 pattern
+  // all 58 other WCs strip the 'qsr-' prefix to get the block directory name
 };
 
 entryFileNames: (chunk) => {
-  const blockDir = blockMap[chunk.name] || chunk.name;
+  const blockDir = blockMap[chunk.name] || chunk.name.replace(/^qsr-/, '');
   return `${blockDir}/${chunk.name}.js`;
 }
 ```
 
 This means:
 - `qsr-hero` → `hero/qsr-hero.js`
+- `qsr-alert` → `alert/qsr-alert.js`
 - `qsr-menu-card` → `menu-item/qsr-menu-card.js`
 - `qsr-product-customizer` → `product-detail/qsr-product-customizer.js`
 
-The two special-cased entries (`qsr-product-customizer` → `product-detail`, `qsr-menu-card` → `menu-item`) exist because the Svelte component name differs from its host block directory name. All other components follow the default 1:1 pattern — the entry key is both the custom element tag suffix and the block directory name.
+The two special-cased entries (`qsr-product-customizer` → `product-detail`, `qsr-menu-card` → `menu-item`) exist because the Svelte component name differs from its host block directory name. All other 58 components follow the default 1:1 pattern — the `qsr-` prefix is stripped from the entry key to derive the block directory name.
 
 ### 5.2 Build Output Structure
 
@@ -351,6 +445,8 @@ The Vite `outDir` is set to `../../apps/eds-us/blocks`. After `npm run build` co
 apps/eds-us/blocks/
 ├── accordion/
 │   └── qsr-accordion.js
+├── alert/
+│   └── qsr-alert.js
 ├── breadcrumbs/
 │   └── qsr-breadcrumbs.js
 ├── hero/
@@ -365,7 +461,7 @@ apps/eds-us/blocks/
 │   ├── product-detail.js
 │   ├── product-detail.css
 │   └── qsr-product-customizer.js
-└── … (one sub-directory per block)
+└── … (60 sub-directories total — one per block)
 ```
 
 `emptyOutDir: false` prevents Vite from wiping hand-authored block `.js` and `.css` files on each build.

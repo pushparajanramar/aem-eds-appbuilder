@@ -14,7 +14,7 @@ The AEM Consultant (Tech/Dev) / UX Consultant implements the front-end and back-
 |---|---|
 | **EDS Block Development** | Implement and maintain JavaScript/CSS blocks (`menu-item`, `product-detail`, `promotion-banner`) |
 | **App Builder Actions** | Develop and test serverless actions (`menu-provider`, `store-provider`, `rewards-provider`, `webhook`) |
-| **Svelte Web Components** | Build and maintain all 22 `qsr-*` Web Components in `packages/eds-components` — see [Svelte Web Components Guide](svelte-web-components-guide.md) |
+| **Svelte Web Components** | Build and maintain all 60 `qsr-*` Web Components in `packages/eds-components` — see [Svelte Web Components Guide](svelte-web-components-guide.md) |
 | **Unit Testing** | Write and maintain Jest tests for App Builder actions (`npm test` in `app-builder/`) |
 | **Linting & Quality** | Ensure code passes ESLint (`npm run lint`) and `svelte-check` before raising a PR |
 | **Universal Editor** | Implement `data-aue-*` instrumentation in `ue/instrumentation.js` for each market |
@@ -131,30 +131,68 @@ cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-uk/block
 cp apps/eds-us/blocks/product-detail/qsr-product-customizer.js apps/eds-jp/blocks/product-detail/
 ```
 
-**Component inventory** (22 components):
+**Component inventory** (60 components):
 
 | Component | Block | Auth |
 |---|---|---|
 | `qsr-accordion` | `accordion/` | No |
+| `qsr-alert` | `alert/` | No |
+| `qsr-avatar` | `avatar/` | No |
+| `qsr-badge` | `badge/` | No |
+| `qsr-banner` | `banner/` | No |
 | `qsr-breadcrumbs` | `breadcrumbs/` | No |
+| `qsr-button` | `button/` | No |
+| `qsr-button-group` | `button-group/` | No |
+| `qsr-calendar` | `calendar/` | No |
 | `qsr-cards` | `cards/` | No |
 | `qsr-carousel` | `carousel/` | No |
+| `qsr-checkbox` | `checkbox/` | No |
 | `qsr-columns` | `columns/` | No |
+| `qsr-date-picker` | `date-picker/` | No |
+| `qsr-divider` | `divider/` | No |
+| `qsr-drawer` | `drawer/` | No |
+| `qsr-dropdown-menu` | `dropdown-menu/` | No |
 | `qsr-embed` | `embed/` | No |
+| `qsr-file-upload` | `file-upload/` | No |
 | `qsr-footer` | `footer/` | No |
 | `qsr-form` | `form/` | No |
 | `qsr-fragment` | `fragment/` | No |
 | `qsr-header` | `header/` | No |
 | `qsr-hero` | `hero/` | No |
+| `qsr-icon` | `icon/` | No |
+| `qsr-image` | `image/` | No |
+| `qsr-input-field` | `input-field/` | No |
+| `qsr-link` | `link/` | No |
+| `qsr-list` | `list/` | No |
 | `qsr-menu-card` | `menu-item/` | No |
 | `qsr-modal` | `modal/` | No |
+| `qsr-pagination` | `pagination/` | No |
+| `qsr-popover` | `popover/` | No |
+| `qsr-pricing-table` | `pricing-table/` | No |
 | `qsr-product-customizer` | `product-detail/` | No |
+| `qsr-progress-bar` | `progress-bar/` | No |
+| `qsr-promotion-banner` | `promotion-banner/` | No |
 | `qsr-quote` | `quote/` | No |
+| `qsr-radio-button` | `radio-button/` | No |
+| `qsr-rating-stars` | `rating-stars/` | No |
 | `qsr-rewards-feed` | `rewards-feed/` | **Yes** |
 | `qsr-search` | `search/` | No |
+| `qsr-select-dropdown` | `select-dropdown/` | No |
+| `qsr-sidebar` | `sidebar/` | No |
+| `qsr-skeleton-loader` | `skeleton-loader/` | No |
+| `qsr-slider` | `slider/` | No |
+| `qsr-spinner` | `spinner/` | No |
+| `qsr-stepper` | `stepper/` | No |
 | `qsr-store-locator` | `store-locator/` | No |
 | `qsr-table` | `table/` | No |
 | `qsr-tabs` | `tabs/` | No |
+| `qsr-tag` | `tag/` | No |
+| `qsr-testimonials` | `testimonials/` | No |
+| `qsr-textarea` | `textarea/` | No |
+| `qsr-timeline` | `timeline/` | No |
+| `qsr-toast` | `toast/` | No |
+| `qsr-toggle-switch` | `toggle-switch/` | No |
+| `qsr-tooltip` | `tooltip/` | No |
 | `qsr-user-profile` | `user-profile/` | **Yes** |
 | `qsr-video` | `video/` | No |
 

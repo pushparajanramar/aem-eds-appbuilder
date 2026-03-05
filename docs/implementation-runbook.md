@@ -333,7 +333,7 @@ Changes to shared utilities require regression testing across **all four actions
 
 The full reference for the Svelte Web Component library is in the **[Svelte Web Components Guide](svelte-web-components-guide.md)**. That guide covers:
 
-- The complete inventory of all 22 components and their block mappings (§2)
+- The complete inventory of all 60 components and their block mappings (§2)
 - The four authoring rules: `<svelte:options customElement>`, lowercase props, `CustomEvent` with `composed: true`, and Shadow DOM token copying (§3)
 - Shared utilities: `api.js`, `auth.js`, `image-utils.js` (§4)
 - The Vite build configuration: entry points, output path resolution, why ES modules (§5)

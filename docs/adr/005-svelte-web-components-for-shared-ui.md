@@ -15,7 +15,7 @@ EDS block JavaScript is intentionally minimal — it fetches data and appends DO
 
 The programme requires:
 
-- **22 shared UI components** used across all three markets (accordion, breadcrumbs, cards, carousel, footer, header, hero, menu-card, modal, product-customiser, etc.).
+- **60 shared UI components** used across all three markets (accordion, alert, banner, button, calendar, breadcrumbs, cards, carousel, footer, header, hero, menu-card, modal, product-customiser, slider, toast, tooltip, etc.).
 - Components must be **distributable as browser-native Custom Elements** so they work inside EDS block HTML without a framework runtime.
 - Components must be **independently bundled** (one JS file per component) to allow EDS lazy-loading.
 - The build toolchain must produce **ESM bundles** compatible with modern browsers (Chrome 100+, Safari 15+, Firefox 100+).

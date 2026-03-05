@@ -415,19 +415,19 @@ The `sitemap-generator` App Builder action generates a complete `sitemap.xml` fr
 # Generate and push sitemap for US
 curl -X POST \
   -H "Authorization: Bearer $IMS_TOKEN" \
-  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  "https://{fastly-compute-host}/sitemap-generator" \
   -d '{"market":"us","EDS_TOKEN":"<your-eds-token>"}'
 
 # Generate and push sitemap for UK
 curl -X POST \
   -H "Authorization: Bearer $IMS_TOKEN" \
-  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  "https://{fastly-compute-host}/sitemap-generator" \
   -d '{"market":"uk","EDS_TOKEN":"<your-eds-token>"}'
 
 # Generate and push sitemap for JP
 curl -X POST \
   -H "Authorization: Bearer $IMS_TOKEN" \
-  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  "https://{fastly-compute-host}/sitemap-generator" \
   -d '{"market":"jp","EDS_TOKEN":"<your-eds-token>"}'
 ```
 
@@ -436,7 +436,7 @@ curl -X POST \
 ```bash
 curl -X POST \
   -H "Authorization: Bearer $IMS_TOKEN" \
-  "https://{app-builder-host}/api/v1/web/qsr/sitemap-generator" \
+  "https://{fastly-compute-host}/sitemap-generator" \
   -d '{"market":"us","push":"false"}'
 ```
 

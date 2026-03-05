@@ -4,27 +4,27 @@
   "overlays": {
     "/menu": {
       "provider": "menu-provider",
-      "url": "https://dynamic.yourbrand.com/menu-provider",
+      "url": "https://{fastly-compute-host}/menu-provider",
       "cacheTtl": 300
     },
     "/stores": {
       "provider": "store-provider",
-      "url": "https://dynamic.yourbrand.com/store-provider",
+      "url": "https://{fastly-compute-host}/store-provider",
       "cacheTtl": 600
     },
     "/rewards": {
       "provider": "rewards-provider",
-      "url": "https://dynamic.yourbrand.com/rewards-provider",
+      "url": "https://{fastly-compute-host}/rewards-provider",
       "cacheTtl": 120
     },
     "/account": {
       "provider": "user-provider",
-      "url": "https://dynamic.yourbrand.com/user-provider",
+      "url": "https://{fastly-compute-host}/user-provider",
       "cacheTtl": 60
     },
     "/rewards-feed": {
       "provider": "bff-proxy",
-      "url": "https://dynamic.yourbrand.com/bff-proxy",
+      "url": "https://{fastly-compute-host}/bff-proxy",
       "cacheTtl": 60
     }
   },
