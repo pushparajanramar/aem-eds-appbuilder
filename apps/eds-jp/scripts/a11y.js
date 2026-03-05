@@ -165,7 +165,7 @@ export function withLazyLoading(block, { loadComponent, role, label, rootMargin 
     } catch (err) {
       // On error, mark the block as no longer loading and show error state
       block.removeAttribute('aria-busy');
-      block.setAttribute('aria-label', `${effectiveLabel || blockName} — failed to load`);
+      block.setAttribute('aria-label', `${effectiveLabel || blockName} — failed to load, please refresh the page`);
       // eslint-disable-next-line no-console
       console.error(`Failed to load component: ${blockName}`, err);
     }

@@ -232,7 +232,7 @@ describe('withLazyLoading', () => {
     await new Promise((r) => { setTimeout(r, 10); });
 
     expect(consoleSpy).toHaveBeenCalled();
-    expect(block.getAttribute('aria-label')).toContain('failed to load');
+    expect(block.getAttribute('aria-label')).toContain('failed to load, please refresh the page');
     consoleSpy.mockRestore();
   });
 });

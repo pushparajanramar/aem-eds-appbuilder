@@ -44,7 +44,10 @@ export default async function decorate(block) {
     const mediaWrap = document.createElement('div');
     mediaWrap.className = 'promotion-banner__media';
     const img = picture.querySelector('img');
-    if (img && !img.alt) img.alt = 'Promotion banner image';
+    if (img && !img.alt) {
+      const titleText = title?.textContent?.trim() || '';
+      img.alt = titleText ? `Promotion: ${titleText}` : 'Promotional banner';
+    }
     mediaWrap.append(picture);
     banner.append(mediaWrap);
   }

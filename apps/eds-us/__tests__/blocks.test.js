@@ -115,7 +115,7 @@ describe('Block decorators', () => {
     });
 
     it('ensures images have alt text fallback', () => {
-      expect(source).toContain("img.alt = 'Promotion banner image'");
+      expect(source).toContain("'Promotional banner'");
     });
   });
 });
