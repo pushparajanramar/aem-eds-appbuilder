@@ -211,8 +211,9 @@ App Builder actions are deployed once and serve all markets (see [ADR 002](002-b
 
 #### Tenancy mechanism
 
-- **`market-config.js`** — A single configuration module maps each market identifier to its `edsHost`, `locale`, `currency`, `timezone` and upstream API base URLs. Every action calls `getMarketConfig(market)` to resolve the correct settings.
+- **`market-config.js`** — A single configuration module maps each market identifier to its `edsHost`, `daHost`, `locale`, `currency`, `timezone` and upstream API base URLs. Every action calls `getMarketConfig(market, contentSource)` to resolve the correct settings. Setting `contentSource` to `'da'` swaps the returned `edsHost` to the DA.live host, enabling Document Authoring as the content source.
 - **`market` query parameter** — All action endpoints accept `?market=us|uk|jp`. The parameter defaults to `us` when omitted.
+- **`CONTENT_SOURCE` input** — All actions accept a `CONTENT_SOURCE` input (`aem` or `da`) to select the content source. Defaults to `aem` (AEM as a Cloud Service).
 - **Shared action code** — Actions contain no market-specific logic. Data fetching, HTML rendering and caching behaviour are identical across markets; only the resolved configuration values differ.
 
 ---

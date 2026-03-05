@@ -42,7 +42,8 @@ const MARKET_CONFIG = {
 /**
  * Returns market configuration for the given market code and content source.
  * Falls back to 'us' if the market is not found.
- * When contentSource is 'da', the returned edsHost is swapped to the DA.live host.
+ * When contentSource is 'da', the returned edsHost is set to the DA.live host
+ * instead of the default AEM host.
  *
  * @param {string} market - Market code: 'us' | 'uk' | 'jp'
  * @param {string} [contentSource='aem'] - Content source: 'aem' | 'da'
