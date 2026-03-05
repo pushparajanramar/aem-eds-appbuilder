@@ -1,4 +1,5 @@
 import { decorateMain, loadBlock } from '../../scripts/aem.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export async function loadFragment(path) {
   if (path && path.startsWith('/')) {
@@ -20,13 +21,12 @@ export default function decorate(block) {
   const link = block.querySelector('a');
   const path = link ? link.getAttribute('href') : block.textContent.trim();
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/fragment/qsr-fragment.js');
-    const wc = document.createElement('qsr-fragment');
-    wc.setAttribute('path', path);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/fragment/qsr-fragment.js');
+      const wc = document.createElement('qsr-fragment');
+      wc.setAttribute('path', path);
+      return wc;
+    },
+  });
 }
