@@ -1,6 +1,6 @@
 # aem-eds-appbuilder
 
-Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project with Adobe App Builder serverless back-end actions for Quick Service Restaurant (US, UK, JP).
+Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project with Adobe App Builder serverless back-end actions and Fastly Compute edge functions for Quick Service Restaurant (US, UK, JP).
 
 ---
 
@@ -15,6 +15,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
 - [Prerequisites](#prerequisites)
 - [Local Development](#local-development)
   - [App Builder Actions](#app-builder-actions)
+  - [Fastly Compute Edge Functions](#fastly-compute-edge-functions)
   - [Svelte Web Components](#svelte-web-components)
 - [Configuration](#configuration)
   - [Market Configuration](#market-configuration)
@@ -25,6 +26,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
 - [Deployment Guide](#deployment-guide)
   - [CI/CD Pipeline (Recommended)](#cicd-pipeline-recommended)
   - [Manual Deployment — App Builder](#manual-deployment--app-builder)
+  - [Manual Deployment — Fastly Compute](#manual-deployment--fastly-compute)
   - [Manual Deployment — EDS Sites](#manual-deployment--eds-sites)
 - [Process Documents](#process-documents)
 
@@ -32,7 +34,7 @@ Multi-market Adobe Experience Manager Edge Delivery Services (AEM EDS) project w
 
 ## Project Overview
 
-This repository contains all assets for a multi-market AEM EDS implementation backed by Adobe App Builder serverless actions (BYOM — Bring Your Own Markup).
+This repository contains all assets for a multi-market AEM EDS implementation backed by Adobe App Builder serverless actions and Fastly Compute edge functions (BYOM — Bring Your Own Markup).
 
 **Markets supported:** United States (`us`), United Kingdom (`uk`), Japan (`jp`)
 
@@ -44,7 +46,9 @@ Key capabilities:
 | **Store Provider** | Fetches store locations and returns EDS-compatible HTML block markup |
 | **Rewards Provider** | Fetches the rewards catalog (requires Adobe IMS authentication) |
 | **Webhook** | Listens for AEM Author publish / unpublish / delete events and triggers EDS cache invalidation |
-| **Svelte Web Components** | Shared `qsr-menu-card` and `qsr-product-customizer` web components bundled per market |
+| **Sitemap Generator** | Builds and pushes a standards-compliant `sitemap.xml` to the EDS CDN |
+| **Device Provider** | Returns device-aware layout hints or a `<meta>` snippet based on the `X-Device-Type` header |
+| **Svelte Web Components** | 22 shared Svelte Custom Elements bundled per market (accordion, hero, menu-card, product-customizer, etc.) |
 
 ---
 
@@ -54,27 +58,37 @@ Key capabilities:
 AEM Author
     │  (webhook on publish / unpublish / delete)
     ▼
-Adobe App Builder (Adobe I/O Runtime)
+Adobe App Builder (Adobe I/O Runtime)          ← app-builder/
     ├─ menu-provider    → text/html EDS block markup
     ├─ store-provider   → text/html EDS block markup
     ├─ rewards-provider → text/html EDS block markup (IMS-gated)
     ├─ user-provider    → text/html EDS block markup (IMS-gated)
     ├─ bff-proxy        → application/json BFF module proxy (IMS-gated)
     ├─ device-provider  → text/html meta snippet or application/json layout hints
+    ├─ sitemap-generator → application/json sitemap build result
     └─ webhook          → triggers EDS Admin API cache purge / reindex
+
+Fastly CDN
+    ├─ VCL (device detection + URL routing)    ← fastly/vcl/
+    │  (sets X-Device-Type header; Vary-aware caching)
+    └─ Compute (edge functions)                ← fastly-compute/
+       ├─ /menu-provider    → text/html EDS block markup
+       ├─ /store-provider   → text/html EDS block markup
+       ├─ /rewards-provider → text/html EDS block markup (auth required)
+       ├─ /user-provider    → text/html EDS block markup (auth required)
+       ├─ /bff-proxy        → application/json BFF proxy (auth required)
+       ├─ /device-provider  → text/html meta snippet or application/json layout hints
+       ├─ /sitemap-generator → application/json sitemap build result
+       └─ /webhook          → EDS Admin API cache purge / reindex
             │
             ▼
-Fastly CDN
-    │  (device detection via VCL — sets X-Device-Type header)
-    │  (URL routing — subdomain redirect / subdirectory rewrite)
-    ▼
 AEM Edge Delivery Services (aem.live)
     ├─ apps/eds-us   (main--qsr-us--org.aem.live)
     ├─ apps/eds-uk   (main--qsr-uk--org.aem.live)
     └─ apps/eds-jp   (main--qsr-jp--org.aem.live)
 ```
 
-App Builder actions are invoked by EDS overlay routes defined in each market's `site-config.json`.
+Dynamic block providers can be served from either App Builder or Fastly Compute — both implement the same BYOM contract (see [ADR 002](docs/adr/002-byom-pattern-for-app-builder-actions.md) and [ADR 012](docs/adr/012-fastly-compute-edge-functions.md)). The active endpoint for each overlay is configured in the market's `site-config.json`.
 
 ---
 
@@ -131,18 +145,23 @@ aem-eds-appbuilder/
 │
 ├── apps/                          # (1) EDS site configurations (one per market — syncs via AEM Code Sync)
 │   ├── eds-us/
-│   │   ├── blocks/                # EDS blocks (menu-item, product-detail, promotion-banner)
+│   │   ├── blocks/                # EDS blocks (60 blocks — accordion, hero, menu-item, product-detail, etc.)
 │   │   ├── config/
-│   │   │   ├── site-config.json   # Overlay route → App Builder URL mappings
+│   │   │   ├── site-config.json   # Overlay route → provider URL mappings
 │   │   │   └── index-config.yaml  # EDS query index definitions
 │   │   ├── scripts/aem.js         # EDS core runtime script
 │   │   ├── styles/                # Global CSS
 │   │   ├── templates/             # Page templates (initial block structure per template type)
-│   │   │   ├── landing-page.html  # Home / landing page — promotion-banner, menu-item, store-locator
-│   │   │   ├── menu-page.html     # Menu listing — menu-item, promotion-banner
-│   │   │   ├── product-page.html  # Product detail — product-detail, menu-item
-│   │   │   ├── stores-page.html   # Store locator — store-locator
-│   │   │   └── account-page.html  # User account (auth-gated) — user-profile, rewards-feed
+│   │   │   ├── landing-page.html          # Home / landing page — hero, promotion-banner, menu-item, store-locator
+│   │   │   ├── menu-page.html             # Menu listing — menu-item, promotion-banner
+│   │   │   ├── product-page.html          # Product detail — product-detail, menu-item
+│   │   │   ├── stores-page.html           # Store locator — store-locator
+│   │   │   ├── account-page.html          # User account (auth-gated) — user-profile, rewards-feed
+│   │   │   ├── component-showcase.html    # Component demo — hero, columns, cards, carousel
+│   │   │   ├── form-components.html       # Form demo — input-field, textarea, select-dropdown, checkbox
+│   │   │   ├── feedback-components.html   # Feedback UI — alert, toast, modal, progress-bar
+│   │   │   ├── navigation-components.html # Navigation UI — breadcrumbs, tabs, pagination, sidebar
+│   │   │   └── data-display.html          # Data UI — table, timeline, pricing-table, testimonials
 │   │   ├── ue/                    # Universal Editor configuration
 │   │   ├── component-definition.json
 │   │   ├── component-filters.json
@@ -184,10 +203,24 @@ aem-eds-appbuilder/
 │       ├── vite.config.js             # Multi-entry Vite build — outputs to apps/eds-us/blocks/
 │       └── package.json
 │
-├── fastly/                        # Fastly CDN configuration
+├── fastly/                        # Fastly CDN VCL configuration
 │   └── vcl/
 │       ├── device-detection.vcl   # Dynamic Serving — sets X-Device-Type header
 │       └── url-routing.vcl        # Device-based URL routing (subdomain / subdirectory)
+│
+├── fastly-compute/                # Fastly Compute edge functions (alternative to App Builder)
+│   ├── src/
+│   │   ├── index.js               # Entry point — path-based router, CORS, error handling
+│   │   ├── handlers/              # One handler per provider (mirrors app-builder/actions/)
+│   │   └── shared/                # Shared utilities (mirrors app-builder/actions/shared/)
+│   │       ├── market-config.js
+│   │       ├── url-utils.js
+│   │       ├── device-utils.js
+│   │       ├── html-utils.js
+│   │       └── datalog.js
+│   ├── __tests__/
+│   ├── fastly.toml                # Fastly service configuration
+│   └── package.json
 │
 ├── tests/                         # Integration tests
 │
@@ -197,6 +230,7 @@ aem-eds-appbuilder/
 │       ├── app-builder-deploy.yml     # Deploy actions + web-src (folder: app-builder/)
 │       ├── eds-deploy.yml             # Svelte WC build + EDS publishing (folder: packages/)
 │       ├── aem-backend-deploy.yml     # Maven build + Cloud Manager trigger (folder: aem-backend/)
+│       ├── fastly-compute-deploy.yml  # Fastly Compute build + deploy (folder: fastly-compute/)
 │       └── delete-merged-branches.yml # Auto-delete merged PR branches
 │
 ├── CODEOWNERS                     # Critical path review requirements
@@ -216,15 +250,20 @@ Page templates define the initial block layout when an author creates a new page
 | UK | [`apps/eds-uk/templates/`](apps/eds-uk/templates/) |
 | JP | [`apps/eds-jp/templates/`](apps/eds-jp/templates/) |
 
-Each market contains the same five template files:
+Each market contains the same ten template files:
 
-| Template file | Template ID | Allowed blocks | Typical page path |
+| Template file | Template ID | Key blocks | Typical page path |
 |---|---|---|---|
-| `landing-page.html` | `landing-page` | `promotion-banner`, `menu-item`, `store-locator` | `/` |
+| `landing-page.html` | `landing-page` | `hero`, `promotion-banner`, `menu-item`, `store-locator` | `/` |
 | `menu-page.html` | `menu-page` | `menu-item`, `promotion-banner` | `/menu` |
 | `product-page.html` | `product-page` | `product-detail`, `menu-item` | `/menu/<item-id>` |
 | `stores-page.html` | `stores-page` | `store-locator` | `/stores` |
 | `account-page.html` | `account-page` | `user-profile`, `rewards-feed` | `/account` |
+| `component-showcase.html` | `component-showcase` | `hero`, `columns`, `cards`, `carousel` | `/components` |
+| `form-components.html` | `form-components` | `input-field`, `textarea`, `select-dropdown`, `checkbox` | `/forms` |
+| `feedback-components.html` | `feedback-components` | `alert`, `toast`, `modal`, `progress-bar` | `/feedback` |
+| `navigation-components.html` | `navigation-components` | `breadcrumbs`, `tabs`, `pagination`, `sidebar` | `/navigation` |
+| `data-display.html` | `data-display` | `table`, `timeline`, `pricing-table`, `testimonials` | `/data` |
 
 The `component-filters.json` file in each market directory references these template IDs to control which blocks the Universal Editor component palette displays for a given page template. See [docs/universal-editor-authoring-guide.md §4.3](docs/universal-editor-authoring-guide.md#43-page-templates-and-allowed-components) for full details.
 
@@ -281,7 +320,7 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | [Universal Editor Authoring Guide](docs/universal-editor-authoring-guide.md) | Step-by-step guide to creating pages per sitemap, adding components and AEM assets images, and generating the sitemap |
 | [Svelte Web Components Guide](docs/svelte-web-components-guide.md) | All 22 WCs: authoring rules, Vite build config, block-to-WC mapping, shared utilities, adding a new component |
 | [Go-Live Checklist](docs/golive-checklist.md) | Pre-production sign-off checklist covering Development, QA, Sysadmin & Business |
-| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline, folder-based monorepo pipeline |
+| [Architecture Decision Records](docs/adr/README.md) | All accepted ADRs: solution architecture, BYOM pattern, multi-market repo, IMS auth, Svelte WCs, Fastly CDN, CI/CD pipeline, Cloud Manager pipeline, folder-based monorepo pipeline, multitenancy strategy, Fastly Compute edge functions |
 
 ---
 
@@ -294,9 +333,11 @@ Role-specific onboarding and reference documents are located in the [`docs/`](do
 | [Java](https://adoptium.net/) | 11+ | AEM backend Maven build |
 | [Maven](https://maven.apache.org/) | 3.6.3+ | AEM backend build tool |
 | [Adobe I/O CLI](https://developer.adobe.com/app-builder/docs/getting_started/) | latest | Deploy App Builder actions (`aio` command) |
+| [Fastly CLI](https://developer.fastly.com/reference/cli/) | latest | Deploy Fastly Compute service (`fastly compute publish`) |
 | Adobe Developer Console project | — | IMS credentials for App Builder deployment |
 | AEM EDS access | — | `EDS_TOKEN` for publishing to `admin.hlx.page` |
 | Adobe Cloud Manager | — | AEM backend deployment to AEMaaCS environments |
+| Fastly account | — | `FASTLY_API_TOKEN` for Fastly Compute deployment |
 
 Install the Adobe I/O CLI globally:
 
@@ -332,6 +373,34 @@ AIO_IMS_CONTEXT_CONFIG=<base64-encoded IMS context JSON>
 AIO_PROJECT_ID=<your-project-id>
 AIO_WORKSPACE_ID=<your-workspace-id>
 ```
+
+### Fastly Compute Edge Functions
+
+```bash
+# 1. Install dependencies
+cd fastly-compute
+npm ci
+
+# 2. Lint handlers
+npm run lint
+
+# 3. Run unit tests
+npm test
+
+# 4. Build the Wasm binary
+npm run build
+
+# 5. Run locally with the Fastly CLI (requires Fastly CLI installed)
+fastly compute serve
+```
+
+Install the Fastly CLI globally:
+
+```bash
+npm install -g @fastly/cli
+```
+
+To test a handler locally without the Fastly CLI, point the relevant overlay URL in `site-config.json` at the App Builder endpoint instead.
 
 ### Svelte Web Components
 
@@ -437,6 +506,7 @@ The following repository secrets must be set before the CI/CD pipeline can deplo
 | `CM_TECHNICAL_ACCOUNT_ID` | Technical account ID for Cloud Manager API |
 | `CM_IMS_TOKEN` | IMS bearer token for Cloud Manager API calls |
 | `CM_PIPELINE_ID` | Cloud Manager pipeline ID to trigger |
+| `FASTLY_API_TOKEN` | Fastly API token with write access to the `eds-dynamic-blocks` Compute service |
 
 ---
 
@@ -544,6 +614,7 @@ The project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](do
 | **App Builder Actions** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/` | Adobe I/O Runtime |
 | **App Builder Web UI** | [`app-builder-deploy.yml`](.github/workflows/app-builder-deploy.yml) | `app-builder/` | Adobe App Builder CDN |
 | **AEM Backend** | [`aem-backend-deploy.yml`](.github/workflows/aem-backend-deploy.yml) | `aem-backend/` | Cloud Manager → AEMaaCS |
+| **Fastly Compute** | [`fastly-compute-deploy.yml`](.github/workflows/fastly-compute-deploy.yml) | `fastly-compute/` | Fastly Compute service (`eds-dynamic-blocks`) |
 | **PR Validation** | [`pr-validation.yml`](.github/workflows/pr-validation.yml) | All folders | — (lint, test, build-validate) |
 
 **Key principles:**
@@ -551,7 +622,8 @@ The project uses a **folder-based monorepo pipeline** strategy (see [ADR 010](do
 1. **EDS vanilla files sync automatically** via the AEM Code Sync GitHub App — no build step needed.
 2. **App Builder deploys only when action or web-src code changes** — a CSS change in EDS will not redeploy the backend.
 3. **AEM backend deploys only when Maven modules change** — triggered via Cloud Manager API.
-4. **All sub-apps are validated on every PR** via `pr-validation.yml`.
+4. **Fastly Compute deploys only when edge function source changes** — triggered by changes to `fastly-compute/src/**` or `fastly-compute/fastly.toml`.
+5. **All sub-apps are validated on every PR** via `pr-validation.yml`.
 
 To trigger a deployment for a single EDS market via the GitHub UI, use **Actions → Deploy EDS Sites → Run workflow** and set the `market` input to `us`, `uk`, or `jp`.
 
@@ -578,6 +650,25 @@ npm run undeploy
 ```
 
 `aio app deploy` deploys both the serverless actions to Adobe I/O Runtime and the web UI to the Adobe App Builder CDN. After deployment the CLI prints the live action URLs and the web UI URL. Update each market's `config/site-config.json` overlay URLs with the printed `{app-builder-host}`.
+
+### Manual Deployment — Fastly Compute
+
+```bash
+# 1. Authenticate with Fastly
+fastly profile create   # follow the prompts; use your FASTLY_API_TOKEN
+
+# 2. Install dependencies
+cd fastly-compute
+npm ci
+
+# 3. Build the Wasm binary
+npm run build
+
+# 4. Deploy to the Fastly Compute service
+fastly compute publish --token "<FASTLY_API_TOKEN>"
+```
+
+After deployment the CLI prints the service URL. The Fastly Compute service name is `eds-dynamic-blocks` as configured in `fastly-compute/fastly.toml`.
 
 ### Manual Deployment — EDS Sites
 

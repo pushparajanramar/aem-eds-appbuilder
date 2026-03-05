@@ -49,6 +49,7 @@ aem-eds-appbuilder/
 ├── packages/
 │   └── eds-components/       # Shared Svelte web components (built once, copied per market)
 ├── fastly/                   # Shared Fastly VCL
+├── fastly-compute/           # Fastly Compute edge functions (mirrors app-builder/actions/)
 └── docs/                     # Shared runbooks and reference documents
 ```
 
