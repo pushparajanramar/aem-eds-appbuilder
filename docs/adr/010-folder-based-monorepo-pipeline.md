@@ -22,7 +22,8 @@ A **folder-based** organisation groups each sub-application under a single top-l
 | **App Builder** | `app-builder/` |
 | **EDS Market Sites** | `apps/` |
 | **Svelte Web Components** | `packages/eds-components/` |
-| **Fastly CDN** | `fastly/` |
+| **Fastly CDN (VCL)** | `fastly/` |
+| **Fastly Compute (Edge Functions)** | `fastly-compute/` |
 | **Documentation** | `docs/` |
 
 ---
@@ -58,6 +59,7 @@ aem-eds-appbuilder/
 ├── apps/                    # EDS market sites (eds-us, eds-uk, eds-jp)
 ├── packages/                # Shared packages (eds-components)
 ├── fastly/                  # Fastly CDN VCL configuration
+├── fastly-compute/          # Fastly Compute edge functions
 ├── tests/                   # Integration tests
 ├── docs/                    # Documentation and ADRs
 ├── .github/workflows/       # CI/CD pipelines
@@ -72,6 +74,7 @@ aem-eds-appbuilder/
 | **App Builder Deploy** | `app-builder-deploy.yml` | `push` → `main` | `app-builder/` | Deploy actions + web UI to I/O Runtime |
 | **EDS Deploy** | `eds-deploy.yml` | `push` → `main` | `packages/eds-components/`, `apps/**/blocks/` | Compile Svelte WCs → publish to EDS markets |
 | **AEM Backend Deploy** | `aem-backend-deploy.yml` | `push` → `main` | `aem-backend/` | Maven build → trigger Cloud Manager |
+| **Fastly Compute Deploy** | `fastly-compute-deploy.yml` | `push` → `main` | `fastly-compute/` | Lint, test, then `fastly compute publish` |
 | **Branch Cleanup** | `delete-merged-branches.yml` | `pull_request` closed | — | Auto-delete merged PR branches |
 
 The AEM backend workflow trigger is simplified from listing six individual paths (`core/**`, `ui.apps/**`, `ui.config/**`, `ui.content/**`, `all/**`, `dispatcher/**`, `pom.xml`) to a single folder trigger: `aem-backend/**`.
