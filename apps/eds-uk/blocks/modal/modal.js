@@ -13,6 +13,9 @@ export async function createModal(contentNodes) {
   const wc = document.createElement('qsr-modal');
   wc.setAttribute('contenthtml', html);
   wc.setAttribute('label', 'Dialog');
+  wc.setAttribute('role', 'dialog');
+  wc.setAttribute('aria-modal', 'true');
+  wc.setAttribute('aria-label', 'Dialog');
   document.body.append(wc);
 
   return {

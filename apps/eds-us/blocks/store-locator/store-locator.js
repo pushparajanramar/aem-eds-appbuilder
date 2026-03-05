@@ -7,6 +7,7 @@
  */
 
 import { readBlockConfig } from '../../scripts/aem.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 import { annotateBlock, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
 
 export default async function decorate(block) {
@@ -27,11 +28,8 @@ export default async function decorate(block) {
   const lng = config.lng || '';
   const place = config.place || '';
 
-  // RULE 1: use IntersectionObserver — never top-level await import
-  const observer = new IntersectionObserver(
-    async ([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
+  withLazyLoading(block, {
+    loadComponent: async () => {
       await import('/blocks/store-locator/qsr-store-locator.js');
       const wc = Object.assign(document.createElement('qsr-store-locator'), {
         market,
@@ -40,10 +38,7 @@ export default async function decorate(block) {
         lng,
         place,
       });
-      block.replaceWith(wc);
+      return wc;
     },
-    { rootMargin: '200px' },
-  );
-
-  observer.observe(block);
+  });
 }

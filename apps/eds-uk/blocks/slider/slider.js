@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -22,16 +23,15 @@ export default function decorate(block) {
   const max = maxCol?.textContent.trim() || '100';
   const value = valueCol?.textContent.trim() || '50';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/slider/qsr-slider.js');
-    const wc = document.createElement('qsr-slider');
-    wc.setAttribute('label', label);
-    wc.setAttribute('min', min);
-    wc.setAttribute('max', max);
-    wc.setAttribute('value', value);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/slider/qsr-slider.js');
+      const wc = document.createElement('qsr-slider');
+      wc.setAttribute('label', label);
+      wc.setAttribute('min', min);
+      wc.setAttribute('max', max);
+      wc.setAttribute('value', value);
+      return wc;
+    },
+  });
 }

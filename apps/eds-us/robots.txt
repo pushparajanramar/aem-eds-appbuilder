@@ -1,0 +1,14 @@
+# robots.txt for QSR US site
+# https://www.robotstxt.org/
+
+User-agent: *
+Allow: /
+
+# Disallow internal/draft paths
+Disallow: /drafts/
+Disallow: /tools/
+Disallow: /ue/
+Disallow: /config/
+
+# Sitemap
+Sitemap: https://main--qsr-us--org.aem.live/sitemap.xml

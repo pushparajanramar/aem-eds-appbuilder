@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -23,14 +24,13 @@ export default function decorate(block) {
     return col?.textContent.trim() || '';
   }).filter(Boolean);
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/select-dropdown/qsr-select-dropdown.js');
-    const wc = document.createElement('qsr-select-dropdown');
-    wc.setAttribute('label', label);
-    wc.setAttribute('options', JSON.stringify(options));
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/select-dropdown/qsr-select-dropdown.js');
+      const wc = document.createElement('qsr-select-dropdown');
+      wc.setAttribute('label', label);
+      wc.setAttribute('options', JSON.stringify(options));
+      return wc;
+    },
+  });
 }

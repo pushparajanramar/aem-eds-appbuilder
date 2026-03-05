@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -25,13 +26,13 @@ export default function decorate(block) {
     });
   });
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/columns/qsr-columns.js');
-    const wc = document.createElement('qsr-columns');
-    wc.setAttribute('columndata', JSON.stringify(columndata));
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/columns/qsr-columns.js');
+      const wc = document.createElement('qsr-columns');
+      wc.setAttribute('columndata', JSON.stringify(columndata));
+      wc.setAttribute('devicetype', document.documentElement.dataset.device || 'desktop');
+      return wc;
+    },
+  });
 }

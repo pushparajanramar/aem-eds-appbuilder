@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -20,15 +21,14 @@ export default function decorate(block) {
   const contenthtml = contentCol?.innerHTML || '';
   const position = block.classList.contains('right') ? 'right' : 'left';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/drawer/qsr-drawer.js');
-    const wc = document.createElement('qsr-drawer');
-    wc.setAttribute('title', title);
-    wc.setAttribute('contenthtml', contenthtml);
-    wc.setAttribute('position', position);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/drawer/qsr-drawer.js');
+      const wc = document.createElement('qsr-drawer');
+      wc.setAttribute('title', title);
+      wc.setAttribute('contenthtml', contenthtml);
+      wc.setAttribute('position', position);
+      return wc;
+    },
+  });
 }

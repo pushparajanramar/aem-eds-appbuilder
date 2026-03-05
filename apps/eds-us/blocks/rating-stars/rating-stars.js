@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -20,15 +21,14 @@ export default function decorate(block) {
   const max = maxCol?.textContent.trim() || '5';
   const readonly = block.classList.contains('readonly') ? 'true' : 'false';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/rating-stars/qsr-rating-stars.js');
-    const wc = document.createElement('qsr-rating-stars');
-    wc.setAttribute('value', value);
-    wc.setAttribute('max', max);
-    wc.setAttribute('readonly', readonly);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/rating-stars/qsr-rating-stars.js');
+      const wc = document.createElement('qsr-rating-stars');
+      wc.setAttribute('value', value);
+      wc.setAttribute('max', max);
+      wc.setAttribute('readonly', readonly);
+      return wc;
+    },
+  });
 }

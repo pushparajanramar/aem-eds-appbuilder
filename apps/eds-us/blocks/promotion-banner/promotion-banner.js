@@ -18,6 +18,9 @@ export default async function decorate(block) {
     label: 'Promotion Banner',
   });
 
+  block.setAttribute('role', 'banner');
+  block.setAttribute('aria-label', 'Promotion');
+
   // Extract content from EDS block table rows
   const rows = [...block.querySelectorAll(':scope > div')];
   const title = rows[0]?.querySelector('h1, h2, h3, p');
@@ -40,6 +43,11 @@ export default async function decorate(block) {
   if (picture) {
     const mediaWrap = document.createElement('div');
     mediaWrap.className = 'promotion-banner__media';
+    const img = picture.querySelector('img');
+    if (img && !img.alt) {
+      const titleText = title?.textContent?.trim() || '';
+      img.alt = titleText ? `Promotion: ${titleText}` : 'Promotional banner';
+    }
     mediaWrap.append(picture);
     banner.append(mediaWrap);
   }

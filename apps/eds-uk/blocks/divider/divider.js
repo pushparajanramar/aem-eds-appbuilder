@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -18,14 +19,13 @@ export default function decorate(block) {
   const variant = block.classList.contains('dashed') ? 'dashed'
     : block.classList.contains('dotted') ? 'dotted' : 'solid';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/divider/qsr-divider.js');
-    const wc = document.createElement('qsr-divider');
-    wc.setAttribute('label', label);
-    wc.setAttribute('variant', variant);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/divider/qsr-divider.js');
+      const wc = document.createElement('qsr-divider');
+      wc.setAttribute('label', label);
+      wc.setAttribute('variant', variant);
+      return wc;
+    },
+  });
 }

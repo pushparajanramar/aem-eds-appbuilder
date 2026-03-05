@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -17,14 +18,13 @@ export default function decorate(block) {
   const label = labelCol?.textContent.trim() || '';
   const checked = block.classList.contains('checked') ? 'true' : 'false';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/toggle-switch/qsr-toggle-switch.js');
-    const wc = document.createElement('qsr-toggle-switch');
-    wc.setAttribute('label', label);
-    wc.setAttribute('checked', checked);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/toggle-switch/qsr-toggle-switch.js');
+      const wc = document.createElement('qsr-toggle-switch');
+      wc.setAttribute('label', label);
+      wc.setAttribute('checked', checked);
+      return wc;
+    },
+  });
 }

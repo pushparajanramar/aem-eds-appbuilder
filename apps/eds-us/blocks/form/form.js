@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -35,14 +36,13 @@ export default function decorate(block) {
     fields.push({ type, name, label, placeholder, required, options });
   });
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/form/qsr-form.js');
-    const wc = document.createElement('qsr-form');
-    wc.setAttribute('fields', JSON.stringify(fields));
-    wc.setAttribute('action', action);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/form/qsr-form.js');
+      const wc = document.createElement('qsr-form');
+      wc.setAttribute('fields', JSON.stringify(fields));
+      wc.setAttribute('action', action);
+      return wc;
+    },
+  });
 }

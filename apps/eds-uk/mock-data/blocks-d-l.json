@@ -1,0 +1,190 @@
+{
+  "drawer": {
+    "items": [
+      {
+        "title": "Filter Menu",
+        "contentHtml": "<ul><li><a href=\"/menu/drinks\">Drinks</a></li><li><a href=\"/menu/food\">Food</a></li><li><a href=\"/menu/merchandise\">Merchandise</a></li></ul>",
+        "position": "left"
+      },
+      {
+        "title": "Cart",
+        "contentHtml": "<div><p>Grande Caramel Macchiato x1 — $5.95</p><p>Blueberry Muffin x1 — $3.45</p><hr><p><strong>Total: $9.40</strong></p></div>",
+        "position": "right"
+      }
+    ]
+  },
+  "dropdown-menu": {
+    "items": [
+      {
+        "trigger": "Drinks",
+        "menuItems": [
+          { "label": "Hot Coffees", "href": "/menu/drinks/hot-coffees" },
+          { "label": "Cold Coffees", "href": "/menu/drinks/cold-coffees" },
+          { "label": "Hot Teas", "href": "/menu/drinks/hot-teas" },
+          { "label": "Iced Teas", "href": "/menu/drinks/iced-teas" },
+          { "label": "Refreshers", "href": "/menu/drinks/refreshers" }
+        ]
+      }
+    ]
+  },
+  "embed": {
+    "items": [
+      {
+        "src": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "provider": "youtube",
+        "posterurl": "/media/embed/video-poster.jpg"
+      },
+      {
+        "src": "https://vimeo.com/123456789",
+        "provider": "vimeo",
+        "posterurl": ""
+      }
+    ]
+  },
+  "file-upload": {
+    "label": "Upload receipt for rewards verification",
+    "accept": "image/*,.pdf"
+  },
+  "footer": {
+    "path": "/footer",
+    "sections": [
+      {
+        "title": "About Us",
+        "links": [
+          { "label": "Our Company", "href": "/about" },
+          { "label": "Our Coffee", "href": "/about/coffee" },
+          { "label": "Stories & News", "href": "/news" },
+          { "label": "Careers", "href": "/careers" }
+        ]
+      },
+      {
+        "title": "Customer Service",
+        "links": [
+          { "label": "Contact Us", "href": "/contact" },
+          { "label": "FAQs", "href": "/faq" },
+          { "label": "Store Policies", "href": "/policies" }
+        ]
+      },
+      {
+        "title": "Quick Links",
+        "links": [
+          { "label": "Find a Store", "href": "/stores" },
+          { "label": "Order Online", "href": "/menu" },
+          { "label": "Gift Cards", "href": "/gift-cards" }
+        ]
+      }
+    ],
+    "social": [
+      { "platform": "instagram", "url": "https://instagram.com/qsr" },
+      { "platform": "twitter", "url": "https://twitter.com/qsr" },
+      { "platform": "facebook", "url": "https://facebook.com/qsr" }
+    ],
+    "copyright": "© 2026 QSR. All rights reserved."
+  },
+  "form": {
+    "action": "/api/contact",
+    "fields": [
+      { "type": "text", "name": "fullName", "label": "Full Name", "placeholder": "Enter your name", "required": true, "options": [] },
+      { "type": "text", "name": "email", "label": "Email Address", "placeholder": "you@example.com", "required": true, "options": [] },
+      { "type": "text", "name": "phone", "label": "Phone Number", "placeholder": "(555) 123-4567", "required": false, "options": [] },
+      { "type": "select", "name": "topic", "label": "Topic", "placeholder": "Select a topic", "required": true, "options": ["General Inquiry", "Order Issue", "Rewards Program", "Store Feedback", "Other"] },
+      { "type": "textarea", "name": "message", "label": "Message", "placeholder": "Tell us how we can help...", "required": true, "options": [] }
+    ]
+  },
+  "fragment": {
+    "path": "/fragments/promo-banner"
+  },
+  "header": {
+    "path": "/nav",
+    "brand": {
+      "name": "QSR",
+      "logo": "/icons/logo.svg",
+      "href": "/"
+    },
+    "nav": [
+      { "label": "Menu", "href": "/menu" },
+      { "label": "Rewards", "href": "/rewards" },
+      { "label": "Gift Cards", "href": "/gift-cards" },
+      { "label": "Find a Store", "href": "/stores" }
+    ],
+    "tools": [
+      { "label": "Sign In", "href": "/account" },
+      { "label": "Order", "href": "/menu" }
+    ]
+  },
+  "hero": {
+    "items": [
+      {
+        "imageUrl": "/media/hero/spring-launch.jpg",
+        "imageAlt": "Barista pouring a spring seasonal drink against a garden backdrop",
+        "contentHtml": "<h1>Welcome to QSR</h1><p>Handcrafted beverages and fresh food, made just for you.</p><a href=\"/menu\" class=\"hero__cta\">View Our Menu</a>",
+        "devicetype": "desktop"
+      },
+      {
+        "imageUrl": "/media/hero/rewards-hero.jpg",
+        "imageAlt": "A mobile phone showing QSR Rewards app with star balance",
+        "contentHtml": "<h1>Earn Free Rewards</h1><p>Join today and start earning Stars with every purchase.</p><a href=\"/rewards\" class=\"hero__cta\">Join Rewards</a>",
+        "devicetype": "desktop"
+      }
+    ]
+  },
+  "icon": {
+    "items": [
+      { "name": "coffee", "size": "medium" },
+      { "name": "store", "size": "large" },
+      { "name": "star", "size": "small" },
+      { "name": "cart", "size": "medium" },
+      { "name": "user", "size": "medium" }
+    ]
+  },
+  "image": {
+    "items": [
+      {
+        "imageUrl": "/media/images/store-interior.jpg",
+        "imageAlt": "Modern QSR store interior with warm wooden accents and green seating",
+        "caption": "Our newly renovated flagship store in Seattle"
+      },
+      {
+        "imageUrl": "/media/images/latte-art.jpg",
+        "imageAlt": "Close-up of a barista creating a rosetta latte art pattern",
+        "caption": ""
+      }
+    ]
+  },
+  "input-field": {
+    "items": [
+      { "label": "Email Address", "placeholder": "you@example.com", "type": "email" },
+      { "label": "Store Search", "placeholder": "Enter city or zip code", "type": "text" },
+      { "label": "Promo Code", "placeholder": "Enter code", "type": "text" }
+    ]
+  },
+  "link": {
+    "items": [
+      { "label": "View our full menu", "href": "/menu", "variant": "default" },
+      { "label": "Visit our Instagram", "href": "https://instagram.com/qsr", "variant": "external" },
+      { "label": "Download the app", "href": "https://apps.apple.com/qsr", "variant": "external" }
+    ]
+  },
+  "list": {
+    "items": [
+      {
+        "variant": "unordered",
+        "items": [
+          "Sustainably sourced coffee beans",
+          "Ethically traded ingredients",
+          "100% recyclable cups by 2027",
+          "Community-first store design"
+        ]
+      },
+      {
+        "variant": "ordered",
+        "items": [
+          "Download the QSR app",
+          "Create your free account",
+          "Start earning Stars on every purchase",
+          "Redeem Stars for free rewards"
+        ]
+      }
+    ]
+  }
+}

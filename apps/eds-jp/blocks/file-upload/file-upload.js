@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -18,14 +19,13 @@ export default function decorate(block) {
   const label = labelCol?.textContent.trim() || 'Upload file';
   const accept = acceptCol?.textContent.trim() || '';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/file-upload/qsr-file-upload.js');
-    const wc = document.createElement('qsr-file-upload');
-    wc.setAttribute('label', label);
-    wc.setAttribute('accept', accept);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/file-upload/qsr-file-upload.js');
+      const wc = document.createElement('qsr-file-upload');
+      wc.setAttribute('label', label);
+      wc.setAttribute('accept', accept);
+      return wc;
+    },
+  });
 }
