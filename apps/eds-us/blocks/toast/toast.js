@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -20,15 +21,14 @@ export default function decorate(block) {
   const variant = variantCol?.textContent.trim() || 'info';
   const position = block.classList.contains('top') ? 'top' : 'bottom';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/toast/qsr-toast.js');
-    const wc = document.createElement('qsr-toast');
-    wc.setAttribute('message', message);
-    wc.setAttribute('variant', variant);
-    wc.setAttribute('position', position);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/toast/qsr-toast.js');
+      const wc = document.createElement('qsr-toast');
+      wc.setAttribute('message', message);
+      wc.setAttribute('variant', variant);
+      wc.setAttribute('position', position);
+      return wc;
+    },
+  });
 }

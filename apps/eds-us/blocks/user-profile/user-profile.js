@@ -6,6 +6,7 @@
  * Follows RULE 1 (Vanilla JS only) and RULE 2 (UE annotations required).
  */
 
+import { withLazyLoading } from '../../scripts/a11y.js';
 import { annotateBlock, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
 
 export default async function decorate(block) {
@@ -21,17 +22,11 @@ export default async function decorate(block) {
 
   const market = document.documentElement.lang?.substring(0, 2) || 'us';
 
-  // RULE 1: use IntersectionObserver — never top-level await import
-  const observer = new IntersectionObserver(
-    async ([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
+  withLazyLoading(block, {
+    loadComponent: async () => {
       await import('/blocks/user-profile/qsr-user-profile.js');
       const wc = Object.assign(document.createElement('qsr-user-profile'), { market });
-      block.replaceWith(wc);
+      return wc;
     },
-    { rootMargin: '200px' },
-  );
-
-  observer.observe(block);
+  });
 }
