@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -22,15 +23,14 @@ export default function decorate(block) {
     : block.classList.contains('left') ? 'left'
       : block.classList.contains('right') ? 'right' : 'top';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/tooltip/qsr-tooltip.js');
-    const wc = document.createElement('qsr-tooltip');
-    wc.setAttribute('triggerhtml', triggerhtml);
-    wc.setAttribute('content', content);
-    wc.setAttribute('placement', placement);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/tooltip/qsr-tooltip.js');
+      const wc = document.createElement('qsr-tooltip');
+      wc.setAttribute('triggerhtml', triggerhtml);
+      wc.setAttribute('content', content);
+      wc.setAttribute('placement', placement);
+      return wc;
+    },
+  });
 }

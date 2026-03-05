@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -19,14 +20,13 @@ export default function decorate(block) {
   const total = totalCol?.textContent.trim() || '1';
   const current = currentCol?.textContent.trim() || '1';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/pagination/qsr-pagination.js');
-    const wc = document.createElement('qsr-pagination');
-    wc.setAttribute('total', total);
-    wc.setAttribute('current', current);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/pagination/qsr-pagination.js');
+      const wc = document.createElement('qsr-pagination');
+      wc.setAttribute('total', total);
+      wc.setAttribute('current', current);
+      return wc;
+    },
+  });
 }

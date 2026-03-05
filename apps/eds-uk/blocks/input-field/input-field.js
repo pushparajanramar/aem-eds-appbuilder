@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -21,15 +22,14 @@ export default function decorate(block) {
   const placeholder = placeholderCol?.textContent.trim() || '';
   const inputtype = typeCol?.textContent.trim() || 'text';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/input-field/qsr-input-field.js');
-    const wc = document.createElement('qsr-input-field');
-    wc.setAttribute('label', label);
-    wc.setAttribute('placeholder', placeholder);
-    wc.setAttribute('inputtype', inputtype);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/input-field/qsr-input-field.js');
+      const wc = document.createElement('qsr-input-field');
+      wc.setAttribute('label', label);
+      wc.setAttribute('placeholder', placeholder);
+      wc.setAttribute('inputtype', inputtype);
+      return wc;
+    },
+  });
 }

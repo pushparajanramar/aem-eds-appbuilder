@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -23,15 +24,14 @@ export default function decorate(block) {
   const imagealt = img?.alt || '';
   const caption = captionCol?.textContent.trim() || '';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/image/qsr-image.js');
-    const wc = document.createElement('qsr-image');
-    wc.setAttribute('imageurl', imageurl);
-    wc.setAttribute('imagealt', imagealt);
-    wc.setAttribute('caption', caption);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/image/qsr-image.js');
+      const wc = document.createElement('qsr-image');
+      wc.setAttribute('imageurl', imageurl);
+      wc.setAttribute('imagealt', imagealt);
+      wc.setAttribute('caption', caption);
+      return wc;
+    },
+  });
 }

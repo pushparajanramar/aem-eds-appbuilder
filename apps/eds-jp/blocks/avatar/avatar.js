@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -24,16 +25,15 @@ export default function decorate(block) {
   const name = nameCol?.textContent.trim() || '';
   const size = block.classList.contains('large') ? 'large' : block.classList.contains('small') ? 'small' : 'medium';
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/avatar/qsr-avatar.js');
-    const wc = document.createElement('qsr-avatar');
-    wc.setAttribute('imageurl', imageurl);
-    wc.setAttribute('imagealt', imagealt);
-    wc.setAttribute('name', name);
-    wc.setAttribute('size', size);
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/avatar/qsr-avatar.js');
+      const wc = document.createElement('qsr-avatar');
+      wc.setAttribute('imageurl', imageurl);
+      wc.setAttribute('imagealt', imagealt);
+      wc.setAttribute('name', name);
+      wc.setAttribute('size', size);
+      return wc;
+    },
+  });
 }

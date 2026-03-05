@@ -1,11 +1,12 @@
 /**
  * Menu Item Block
  *
- * Lazy-loads the qsr-menu-card Web Component via IntersectionObserver.
+ * Lazy-loads the qsr-menu-card Web Component via withLazyLoading.
  * Follows RULE 1 (Vanilla JS only) and RULE 2 (UE annotations required).
  */
 
 import { readBlockConfig } from '../../scripts/aem.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
 
 export default async function decorate(block) {
@@ -37,21 +38,16 @@ export default async function decorate(block) {
   const market = config.market || document.documentElement.lang?.substring(0, 2) || 'us';
   const category = config.category || 'drinks';
 
-  // RULE 1: lazy-load Web Component via IntersectionObserver
-  const observer = new IntersectionObserver(
-    async ([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
+  // RULE 1: lazy-load Web Component via withLazyLoading
+  withLazyLoading(block, {
+    loadComponent: async () => {
       await import('/blocks/menu-item/qsr-menu-card.js');
       const wc = Object.assign(document.createElement('qsr-menu-card'), {
         itemid: itemId,
         market,
         category,
       });
-      block.replaceWith(wc);
+      return wc;
     },
-    { rootMargin: '200px' },
-  );
-
-  observer.observe(block);
+  });
 }

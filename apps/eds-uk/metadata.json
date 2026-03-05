@@ -1,0 +1,48 @@
+{
+  "title": "QSR — Quick Service Restaurant",
+  "description": "Discover our menu, find nearby stores, earn rewards, and order online at QSR — your favorite quick service restaurant.",
+  "keywords": "QSR, restaurant, menu, food, drinks, order online, rewards, store locator",
+  "author": "QSR Brand",
+  "og:site_name": "QSR",
+  "og:type": "website",
+  "og:locale": "en_GB",
+  "twitter:site": "@qsr",
+  "twitter:card": "summary_large_image",
+  "robots": "index, follow",
+  "lang": "en",
+  "data": [
+    {
+      "url": "/",
+      "title": "QSR — Quick Service Restaurant",
+      "description": "Discover our menu, find nearby stores, earn rewards, and order online.",
+      "og:image": "/media/hero-home.jpg"
+    },
+    {
+      "url": "/menu",
+      "title": "Menu — QSR",
+      "description": "Explore our full menu of drinks, food, and merchandise. Order ahead for pickup or delivery.",
+      "og:image": "/media/hero-menu.jpg",
+      "keywords": "menu, drinks, food, coffee, tea, pastries"
+    },
+    {
+      "url": "/stores",
+      "title": "Store Locator — QSR",
+      "description": "Find a QSR store near you. View hours, amenities, and get directions.",
+      "og:image": "/media/hero-stores.jpg",
+      "keywords": "store locator, find a store, directions, hours"
+    },
+    {
+      "url": "/rewards",
+      "title": "Rewards — QSR",
+      "description": "Join QSR Rewards to earn stars on every purchase. Redeem for free drinks, food, and more.",
+      "og:image": "/media/hero-rewards.jpg",
+      "keywords": "rewards, loyalty, stars, free drinks"
+    },
+    {
+      "url": "/account",
+      "title": "My Account — QSR",
+      "description": "Manage your QSR account, view order history, and update your profile.",
+      "robots": "noindex, nofollow"
+    }
+  ]
+}

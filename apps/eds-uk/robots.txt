@@ -1,0 +1,14 @@
+# robots.txt for QSR UK site
+# https://www.robotstxt.org/
+
+User-agent: *
+Allow: /
+
+# Disallow internal/draft paths
+Disallow: /drafts/
+Disallow: /tools/
+Disallow: /ue/
+Disallow: /config/
+
+# Sitemap
+Sitemap: https://main--qsr-uk--org.aem.live/sitemap.xml

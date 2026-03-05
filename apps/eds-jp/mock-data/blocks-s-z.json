@@ -1,0 +1,240 @@
+{
+  "search": {
+    "placeholder": "Search menu, stores, rewards...",
+    "suggestions": [
+      "Caramel Macchiato",
+      "Cold Brew",
+      "Nearest Store",
+      "Rewards Balance",
+      "Gift Cards"
+    ]
+  },
+  "select-dropdown": {
+    "items": [
+      {
+        "label": "Select Size",
+        "options": ["Tall (12 oz)", "Grande (16 oz)", "Venti (20 oz)"]
+      },
+      {
+        "label": "Select Store",
+        "options": ["Downtown Seattle", "Pike Place", "Capitol Hill", "University District", "Bellevue"]
+      }
+    ]
+  },
+  "sidebar": {
+    "items": [
+      { "label": "My Account", "href": "/account", "active": true },
+      { "label": "Order History", "href": "/account/orders", "active": false },
+      { "label": "Rewards", "href": "/account/rewards", "active": false },
+      { "label": "Saved Favorites", "href": "/account/favorites", "active": false },
+      { "label": "Payment Methods", "href": "/account/payments", "active": false },
+      { "label": "Settings", "href": "/account/settings", "active": false }
+    ]
+  },
+  "skeleton-loader": {
+    "items": [
+      { "type": "text", "lines": 3 },
+      { "type": "card", "lines": 1 },
+      { "type": "image", "lines": 1 },
+      { "type": "avatar", "lines": 1 }
+    ]
+  },
+  "slider": {
+    "items": [
+      { "label": "Sweetness Level", "min": 0, "max": 100, "value": 50 },
+      { "label": "Search Radius (miles)", "min": 1, "max": 50, "value": 10 },
+      { "label": "Price Range ($)", "min": 0, "max": 20, "value": 8 }
+    ]
+  },
+  "spinner": {
+    "items": [
+      { "label": "Loading menu...", "size": "large" },
+      { "label": "Processing order...", "size": "medium" },
+      { "label": "Loading", "size": "small" }
+    ]
+  },
+  "stepper": {
+    "items": [
+      {
+        "steps": [
+          { "label": "Choose Items", "description": "Select your drinks and food from the menu" },
+          { "label": "Customize", "description": "Personalize your order with your preferred options" },
+          { "label": "Checkout", "description": "Review your order and complete payment" },
+          { "label": "Pickup", "description": "Grab your order at the selected store" }
+        ],
+        "current": 2
+      }
+    ]
+  },
+  "store-locator": {
+    "market": "us",
+    "radius": 10,
+    "stores": [
+      {
+        "id": "sea-downtown",
+        "name": "QSR Downtown Seattle",
+        "address": "1124 Pike Street, Seattle, WA 98101",
+        "phone": "(206) 555-0142",
+        "hours": "5:00 AM - 9:00 PM",
+        "lat": 47.6131,
+        "lng": -122.3281,
+        "amenities": ["Drive-Thru", "Mobile Order", "Wi-Fi", "Seating"],
+        "distance": "0.3 mi"
+      },
+      {
+        "id": "sea-pike-place",
+        "name": "QSR Pike Place",
+        "address": "1912 Pike Place, Seattle, WA 98101",
+        "phone": "(206) 555-0187",
+        "hours": "6:00 AM - 8:00 PM",
+        "lat": 47.6097,
+        "lng": -122.3422,
+        "amenities": ["Mobile Order", "Wi-Fi", "Seating"],
+        "distance": "0.8 mi"
+      },
+      {
+        "id": "sea-capitol-hill",
+        "name": "QSR Capitol Hill",
+        "address": "434 Broadway E, Seattle, WA 98102",
+        "phone": "(206) 555-0234",
+        "hours": "5:30 AM - 9:30 PM",
+        "lat": 47.6243,
+        "lng": -122.3207,
+        "amenities": ["Drive-Thru", "Mobile Order", "Wi-Fi", "Seating", "Nitro Cold Brew"],
+        "distance": "1.2 mi"
+      }
+    ]
+  },
+  "table": {
+    "items": [
+      {
+        "hasHeader": true,
+        "variant": "striped",
+        "headers": ["Drink", "Tall", "Grande", "Venti"],
+        "rows": [
+          ["Caramel Macchiato", "$4.75", "$5.45", "$5.95"],
+          ["Cold Brew", "$3.95", "$4.45", "$4.95"],
+          ["Matcha Latte", "$4.95", "$5.65", "$6.15"],
+          ["Chai Tea Latte", "$4.45", "$5.15", "$5.65"]
+        ]
+      }
+    ]
+  },
+  "tabs": {
+    "items": [
+      {
+        "label": "Hot Drinks",
+        "contentHtml": "<ul><li>Caffè Latte — $4.95</li><li>Cappuccino — $4.75</li><li>Caramel Macchiato — $5.45</li><li>Flat White — $5.25</li></ul>"
+      },
+      {
+        "label": "Cold Drinks",
+        "contentHtml": "<ul><li>Cold Brew — $4.45</li><li>Iced Latte — $4.95</li><li>Iced Matcha — $5.65</li><li>Refreshers — $4.75</li></ul>"
+      },
+      {
+        "label": "Food",
+        "contentHtml": "<ul><li>Blueberry Muffin — $3.45</li><li>Croissant — $3.25</li><li>Turkey Sandwich — $6.95</li><li>Protein Box — $5.95</li></ul>"
+      }
+    ]
+  },
+  "tag": {
+    "items": [
+      { "label": "Vegan", "variant": "default" },
+      { "label": "Gluten-Free", "variant": "default" },
+      { "label": "Seasonal", "variant": "success" },
+      { "label": "New", "variant": "info" },
+      { "label": "Spicy", "variant": "warning" }
+    ]
+  },
+  "testimonials": {
+    "items": [
+      {
+        "quote": "The best cold brew I've ever had. Perfectly smooth every single time.",
+        "author": "Sarah M.",
+        "image": "/media/testimonials/sarah.jpg"
+      },
+      {
+        "quote": "I love the rewards program — I've earned so many free drinks!",
+        "author": "James T.",
+        "image": "/media/testimonials/james.jpg"
+      },
+      {
+        "quote": "The mobile ordering feature saves me so much time on busy mornings.",
+        "author": "Emily R.",
+        "image": "/media/testimonials/emily.jpg"
+      }
+    ]
+  },
+  "textarea": {
+    "label": "Additional order notes",
+    "placeholder": "Any special requests or allergies we should know about?"
+  },
+  "timeline": {
+    "items": [
+      { "date": "March 2026", "contentHtml": "<h4>Spring Menu Launch</h4><p>New seasonal drinks and treats arrive in stores nationwide.</p>" },
+      { "date": "January 2026", "contentHtml": "<h4>New Rewards Tier</h4><p>Introducing Gold Rewards with double stars and exclusive perks.</p>" },
+      { "date": "October 2025", "contentHtml": "<h4>500th Store Opening</h4><p>We celebrated opening our 500th location in Austin, TX.</p>" },
+      { "date": "June 2025", "contentHtml": "<h4>Mobile Ordering</h4><p>Launched mobile order-ahead feature in all US locations.</p>" }
+    ]
+  },
+  "toast": {
+    "items": [
+      { "message": "Item added to your order!", "variant": "success", "position": "top" },
+      { "message": "Your session will expire in 5 minutes.", "variant": "warning", "position": "top" },
+      { "message": "Unable to connect. Please check your internet connection.", "variant": "error", "position": "bottom" },
+      { "message": "New rewards available! Check your account.", "variant": "info", "position": "top" }
+    ]
+  },
+  "toggle-switch": {
+    "items": [
+      { "label": "Email notifications", "checked": true },
+      { "label": "Push notifications", "checked": false },
+      { "label": "Auto-reload rewards card", "checked": true },
+      { "label": "Location services", "checked": false }
+    ]
+  },
+  "tooltip": {
+    "items": [
+      {
+        "triggerhtml": "<span>Stars ⓘ</span>",
+        "content": "Stars are earned with every purchase and can be redeemed for free drinks, food, and merchandise.",
+        "placement": "top"
+      },
+      {
+        "triggerhtml": "<span>Nitro ⓘ</span>",
+        "content": "Nitro Cold Brew is infused with nitrogen for a smooth, creamy texture without any dairy.",
+        "placement": "bottom"
+      }
+    ]
+  },
+  "user-profile": {
+    "market": "us",
+    "user": {
+      "name": "Sarah Mitchell",
+      "email": "sarah.mitchell@example.com",
+      "memberSince": "2024-06-15",
+      "tier": "Gold",
+      "starsBalance": 342,
+      "starsToNextReward": 58,
+      "favoriteStore": "QSR Downtown Seattle",
+      "favoriteOrder": "Grande Caramel Macchiato with oat milk"
+    }
+  },
+  "video": {
+    "items": [
+      {
+        "src": "https://www.youtube.com/watch?v=abc123",
+        "posterurl": "/media/video/coffee-journey-poster.jpg",
+        "videotype": "youtube",
+        "autoplay": "false",
+        "title": "Our Coffee Journey — From Farm to Cup"
+      },
+      {
+        "src": "/media/video/store-tour.mp4",
+        "posterurl": "/media/video/store-tour-poster.jpg",
+        "videotype": "video",
+        "autoplay": "false",
+        "title": "Take a Tour of Our Flagship Store"
+      }
+    ]
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "menu-item": {
+    "items": [
+      {
+        "itemId": "caramel-macchiato",
+        "market": "us",
+        "category": "drinks",
+        "title": "Caramel Macchiato",
+        "description": "Freshly steamed milk with vanilla-flavored syrup, marked with espresso and topped with a caramel drizzle.",
+        "image": "/media/menu/caramel-macchiato.jpg",
+        "price": "$5.95"
+      },
+      {
+        "itemId": "blueberry-muffin",
+        "market": "us",
+        "category": "food",
+        "title": "Blueberry Muffin",
+        "description": "A moist muffin bursting with juicy blueberries and topped with a sweet streusel crumble.",
+        "image": "/media/menu/blueberry-muffin.jpg",
+        "price": "$3.45"
+      },
+      {
+        "itemId": "cold-brew",
+        "market": "us",
+        "category": "drinks",
+        "title": "Cold Brew",
+        "description": "Slow-steeped for 20 hours for a super-smooth flavor. Served cold and sweetened over ice.",
+        "image": "/media/menu/cold-brew.jpg",
+        "price": "$4.75"
+      },
+      {
+        "itemId": "turkey-sandwich",
+        "market": "us",
+        "category": "food",
+        "title": "Turkey & Havarti Sandwich",
+        "description": "Sliced turkey, creamy Havarti cheese, and greens on artisan bread, pressed to perfection.",
+        "image": "/media/menu/turkey-sandwich.jpg",
+        "price": "$6.95"
+      }
+    ]
+  },
+  "modal": {
+    "items": [
+      {
+        "contenthtml": "<h2>Order Confirmation</h2><p>Your order #4521 has been confirmed. Estimated pickup time: <strong>3:45 PM</strong>.</p><p>You earned <strong>12 Stars</strong> with this order!</p>",
+        "label": "Order Confirmation"
+      },
+      {
+        "contenthtml": "<h2>Sign In Required</h2><p>Please sign in to your QSR account to access your rewards, order history, and saved favorites.</p><a href=\"/account\" class=\"btn btn--primary\">Sign In</a>",
+        "label": "Sign In"
+      }
+    ]
+  },
+  "pagination": {
+    "total": 12,
+    "current": 1,
+    "pageSize": 10
+  },
+  "popover": {
+    "items": [
+      {
+        "triggerhtml": "<button>Nutrition Info</button>",
+        "contenthtml": "<dl><dt>Calories</dt><dd>250</dd><dt>Fat</dt><dd>7g</dd><dt>Protein</dt><dd>13g</dd><dt>Carbs</dt><dd>38g</dd></dl>",
+        "placement": "bottom"
+      }
+    ]
+  },
+  "pricing-table": {
+    "plans": [
+      {
+        "name": "Basic Rewards",
+        "price": "Free",
+        "features": ["Earn 1 Star per $1", "Birthday reward", "Free in-store refills", "Order ahead"],
+        "ctahtml": "<a href=\"/rewards/join\">Join Free</a>",
+        "highlighted": false
+      },
+      {
+        "name": "Gold Rewards",
+        "price": "Free (300 Stars/year)",
+        "features": ["Earn 2 Stars per $1", "Monthly double-star days", "Free drink customizations", "Exclusive offers", "Priority support"],
+        "ctahtml": "<a href=\"/rewards/join\">Join & Earn</a>",
+        "highlighted": true
+      },
+      {
+        "name": "QSR Card",
+        "price": "$25+",
+        "features": ["Auto-reload convenience", "Stars on every reload", "Perfect for gifting", "Track balance online"],
+        "ctahtml": "<a href=\"/gift-cards\">Buy Card</a>",
+        "highlighted": false
+      }
+    ]
+  },
+  "product-detail": {
+    "items": [
+      {
+        "productId": "caramel-macchiato",
+        "market": "us",
+        "name": "Caramel Macchiato",
+        "description": "Freshly steamed milk with vanilla-flavored syrup, marked with espresso and topped with a caramel drizzle for a layered experience.",
+        "image": "/media/products/caramel-macchiato-detail.jpg",
+        "price": "$5.95",
+        "sizes": ["Tall", "Grande", "Venti"],
+        "customizations": [
+          { "name": "Milk", "options": ["Whole", "2%", "Oat", "Almond", "Soy", "Coconut"] },
+          { "name": "Espresso", "options": ["Blonde", "Signature", "Decaf"] },
+          { "name": "Add-ins", "options": ["Extra shot", "Whipped cream", "Vanilla syrup", "Caramel drizzle"] }
+        ],
+        "nutrition": {
+          "calories": 250,
+          "fat": "7g",
+          "protein": "10g",
+          "carbs": "35g",
+          "sugar": "33g"
+        }
+      }
+    ]
+  },
+  "progress-bar": {
+    "items": [
+      { "label": "Stars to next reward", "value": 65 },
+      { "label": "Order preparation", "value": 40 },
+      { "label": "Delivery progress", "value": 80 }
+    ]
+  },
+  "promotion-banner": {
+    "items": [
+      {
+        "title": "Spring Collection is Here!",
+        "description": "Try our refreshing new spring drinks and treats. Available for a limited time.",
+        "bannerImage": "/media/promotions/spring-banner.jpg",
+        "bannerImageAlt": "Spring seasonal drinks in a garden setting",
+        "ctaLink": "/menu/seasonal",
+        "ctaText": "Explore Spring Menu"
+      },
+      {
+        "title": "Double Star Days",
+        "description": "Earn twice the Stars on all purchases every Tuesday this month.",
+        "bannerImage": "/media/promotions/double-stars.jpg",
+        "bannerImageAlt": "Gold stars falling into a coffee cup",
+        "ctaLink": "/rewards",
+        "ctaText": "Learn More"
+      }
+    ]
+  },
+  "quote": {
+    "items": [
+      {
+        "quotehtml": "<blockquote>Coffee is a language in itself.</blockquote>",
+        "attributionhtml": "<cite>— Jackie Chan</cite>"
+      },
+      {
+        "quotehtml": "<blockquote>Every cup tells a story of the people who grew it, roasted it, and served it.</blockquote>",
+        "attributionhtml": "<cite>— QSR Founding Team</cite>"
+      }
+    ]
+  },
+  "radio-button": {
+    "items": [
+      {
+        "groupName": "drinkSize",
+        "options": [
+          { "label": "Tall (12 oz)", "value": "tall" },
+          { "label": "Grande (16 oz)", "value": "grande" },
+          { "label": "Venti (20 oz)", "value": "venti" }
+        ]
+      },
+      {
+        "groupName": "milkType",
+        "options": [
+          { "label": "Whole Milk", "value": "whole" },
+          { "label": "2% Milk", "value": "2pct" },
+          { "label": "Oat Milk", "value": "oat" },
+          { "label": "Almond Milk", "value": "almond" }
+        ]
+      }
+    ]
+  },
+  "rating-stars": {
+    "items": [
+      { "value": 4.5, "max": 5, "readonly": true },
+      { "value": 3, "max": 5, "readonly": false },
+      { "value": 5, "max": 5, "readonly": true }
+    ]
+  },
+  "rewards-feed": {
+    "market": "us",
+    "limit": 20,
+    "items": [
+      {
+        "type": "earn",
+        "date": "2026-03-04",
+        "description": "Grande Caramel Macchiato",
+        "stars": 12,
+        "store": "Downtown Seattle"
+      },
+      {
+        "type": "earn",
+        "date": "2026-03-02",
+        "description": "Blueberry Muffin + Cold Brew",
+        "stars": 16,
+        "store": "Pike Place"
+      },
+      {
+        "type": "redeem",
+        "date": "2026-02-28",
+        "description": "Free drink reward redeemed",
+        "stars": -150,
+        "store": "Capitol Hill"
+      },
+      {
+        "type": "bonus",
+        "date": "2026-02-25",
+        "description": "Double Star Day bonus",
+        "stars": 24,
+        "store": "University District"
+      }
+    ]
+  }
+}

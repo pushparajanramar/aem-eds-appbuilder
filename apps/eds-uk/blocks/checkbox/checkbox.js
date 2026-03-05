@@ -1,4 +1,5 @@
 import { annotateBlock, annotateField, getCFPath, buildAEMUrn } from '../../ue/instrumentation.js';
+import { withLazyLoading } from '../../scripts/a11y.js';
 
 export default function decorate(block) {
   const cfPath = getCFPath(block);
@@ -21,13 +22,12 @@ export default function decorate(block) {
     };
   });
 
-  const observer = new IntersectionObserver(async ([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    await import('/blocks/checkbox/qsr-checkbox.js');
-    const wc = document.createElement('qsr-checkbox');
-    wc.setAttribute('items', JSON.stringify(items));
-    block.replaceWith(wc);
-  }, { rootMargin: '200px' });
-  observer.observe(block);
+  withLazyLoading(block, {
+    loadComponent: async () => {
+      await import('/blocks/checkbox/qsr-checkbox.js');
+      const wc = document.createElement('qsr-checkbox');
+      wc.setAttribute('items', JSON.stringify(items));
+      return wc;
+    },
+  });
 }

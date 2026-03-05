@@ -1,0 +1,48 @@
+{
+  "title": "QSR — Quick Service Restaurant",
+  "description": "メニューの発見、近くの店舗検索、リワード獲得、オンライン注文 — QSRはあなたのお気に入りのクイックサービスレストランです。",
+  "keywords": "QSR, restaurant, menu, food, drinks, order online, rewards, store locator",
+  "author": "QSR Brand",
+  "og:site_name": "QSR",
+  "og:type": "website",
+  "og:locale": "ja_JP",
+  "twitter:site": "@qsr",
+  "twitter:card": "summary_large_image",
+  "robots": "index, follow",
+  "lang": "ja",
+  "data": [
+    {
+      "url": "/",
+      "title": "QSR — Quick Service Restaurant",
+      "description": "メニューの発見、近くの店舗検索、リワード獲得、オンライン注文。",
+      "og:image": "/media/hero-home.jpg"
+    },
+    {
+      "url": "/menu",
+      "title": "Menu — QSR",
+      "description": "ドリンク、フード、グッズの全メニューをご覧ください。ピックアップやデリバリーの事前注文も可能です。",
+      "og:image": "/media/hero-menu.jpg",
+      "keywords": "menu, drinks, food, coffee, tea, pastries"
+    },
+    {
+      "url": "/stores",
+      "title": "Store Locator — QSR",
+      "description": "お近くのQSR店舗を検索。営業時間、設備、アクセス情報をご確認ください。",
+      "og:image": "/media/hero-stores.jpg",
+      "keywords": "store locator, find a store, directions, hours"
+    },
+    {
+      "url": "/rewards",
+      "title": "Rewards — QSR",
+      "description": "QSRリワードに参加して、毎回のお買い物でスターを獲得。無料ドリンク、フードなどと交換できます。",
+      "og:image": "/media/hero-rewards.jpg",
+      "keywords": "rewards, loyalty, stars, free drinks"
+    },
+    {
+      "url": "/account",
+      "title": "My Account — QSR",
+      "description": "QSRアカウントの管理、注文履歴の確認、プロフィールの更新。",
+      "robots": "noindex, nofollow"
+    }
+  ]
+}
