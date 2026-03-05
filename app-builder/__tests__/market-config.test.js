@@ -1,13 +1,13 @@
 /**
- * Tests for shared/market-config.js (Fastly Compute ESM version)
+ * Tests for shared/market-config.js (App Builder CJS version)
  */
 
-import {
+const {
   MARKET_CONFIG,
   getMarketConfig,
   CONTENT_SOURCE_AEM,
   CONTENT_SOURCE_DA,
-} from '../src/shared/market-config.js';
+} = require('../actions/shared/market-config');
 
 describe('market-config', () => {
   it('returns US config for "us"', () => {
@@ -88,6 +88,16 @@ describe('market-config', () => {
     it('does not mutate MARKET_CONFIG when switching source', () => {
       getMarketConfig('us', 'da');
       expect(MARKET_CONFIG.us.edsHost).toBe('main--qsr-us--org.aem.live');
+    });
+  });
+
+  describe('exported constants', () => {
+    it('exports CONTENT_SOURCE_AEM as "aem"', () => {
+      expect(CONTENT_SOURCE_AEM).toBe('aem');
+    });
+
+    it('exports CONTENT_SOURCE_DA as "da"', () => {
+      expect(CONTENT_SOURCE_DA).toBe('da');
     });
   });
 });

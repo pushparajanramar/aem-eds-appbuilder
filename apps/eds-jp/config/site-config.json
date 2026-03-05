@@ -54,5 +54,7 @@
     }
   },
   "market": "jp",
-  "edsHost": "main--qsr-jp--org.aem.live"
+  "contentSource": "aem",
+  "edsHost": "main--qsr-jp--org.aem.live",
+  "daHost": "main--qsr-jp--org.da.live"
 }

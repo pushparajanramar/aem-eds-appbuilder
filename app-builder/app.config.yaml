@@ -15,6 +15,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -27,6 +28,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -39,6 +41,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -51,6 +54,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -63,6 +67,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -75,6 +80,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -86,6 +92,7 @@ packages:
           require-adobe-auth: true
           final: true
         inputs:
+          CONTENT_SOURCE: aem
           LOG_LEVEL: info
           DATALOG_LEVEL: all
 
@@ -98,6 +105,7 @@ packages:
           final: true
         inputs:
           market: us
+          CONTENT_SOURCE: aem
           push: true
           LOG_LEVEL: info
           DATALOG_LEVEL: all

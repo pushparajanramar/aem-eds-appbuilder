@@ -85,7 +85,7 @@ async function main(params) {
   logRequest(logger, 'rewards-provider', params);
 
   const market = params.market || 'us';
-  const { edsHost, locale } = getMarketConfig(market);
+  const { edsHost, locale } = getMarketConfig(market, params.CONTENT_SOURCE);
   const deviceType = getDeviceType(params);
 
   logger.info(`rewards-provider: market=${market}, device=${deviceType}, host=${edsHost}`);

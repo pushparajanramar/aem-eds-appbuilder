@@ -63,7 +63,7 @@ export async function handleWebhook(req) {
     );
   }
 
-  const { edsHost } = getMarketConfig(market);
+  const { edsHost } = getMarketConfig(market, body.contentSource);
 
   try {
     await triggerEDSUpdate(edsHost, path, event);

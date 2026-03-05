@@ -3,6 +3,8 @@
     "locale": "en-US",
     "currency": "USD",
     "timezone": "America/Los_Angeles",
+    "contentSource": "aem",
     "edsHost": "main--qsr-us--org.aem.live",
+    "daHost": "main--qsr-us--org.da.live",
     "contentRoot": "/content/qsr/us"
 }

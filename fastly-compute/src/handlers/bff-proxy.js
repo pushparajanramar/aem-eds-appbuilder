@@ -96,7 +96,8 @@ export async function handleBffProxy(req) {
 
   // Sanitise sub-path to prevent traversal
   const subpath = sanitizeSubpath(rawSubpath);
-  const { edsHost } = getMarketConfig(market);
+  const contentSource = url.searchParams.get('contentSource') || undefined;
+  const { edsHost } = getMarketConfig(market, contentSource);
 
   let reqBody = null;
   if (['POST', 'PUT', 'PATCH'].includes(method)) {

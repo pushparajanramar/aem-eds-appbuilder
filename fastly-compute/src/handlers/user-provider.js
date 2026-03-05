@@ -68,7 +68,8 @@ export async function handleUserProvider(req) {
   // Extract access token exclusively from the Authorization header.
   const authHeader = req.headers.get('authorization') || '';
   const accessToken = authHeader.replace(/^Bearer\s+/i, '');
-  const { edsHost } = getMarketConfig(market);
+  const contentSource = url.searchParams.get('contentSource') || undefined;
+  const { edsHost } = getMarketConfig(market, contentSource);
 
   logRequest('user-provider', req, market);
 

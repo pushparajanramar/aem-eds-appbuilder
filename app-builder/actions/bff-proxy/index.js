@@ -118,7 +118,7 @@ async function main(params) {
   // Sanitise sub-path to prevent traversal
   const subpath = sanitizeSubpath(rawSubpath);
 
-  const { edsHost } = getMarketConfig(market);
+  const { edsHost } = getMarketConfig(market, params.CONTENT_SOURCE);
   logger.info(`bff-proxy: market=${market}, module=${module}, subpath=${subpath}, method=${method}`);
 
   try {

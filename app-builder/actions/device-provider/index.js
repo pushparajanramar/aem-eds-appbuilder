@@ -63,7 +63,7 @@ async function main(params) {
 
   try {
     const market = params.market || 'us';
-    const { locale } = getMarketConfig(market);
+    const { locale } = getMarketConfig(market, params.CONTENT_SOURCE);
     const deviceType = getDeviceType(params);
     const layout = getDeviceLayout(deviceType);
 

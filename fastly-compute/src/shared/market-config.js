@@ -2,23 +2,36 @@
  * Shared Market Configuration
  *
  * Centralised EDS host and locale settings for all Fastly Compute handlers.
+ *
+ * Each market supports two content sources:
+ *   - 'aem'  → AEM (JCR) as a Cloud Service  (default)
+ *   - 'da'   → DA.live (Document Authoring)
+ *
+ * The active source is selected via the contentSource parameter
+ * passed to getMarketConfig().
  */
+
+export const CONTENT_SOURCE_AEM = 'aem';
+export const CONTENT_SOURCE_DA = 'da';
 
 export const MARKET_CONFIG = {
   us: {
     edsHost: 'main--qsr-us--org.aem.live',
+    daHost: 'main--qsr-us--org.da.live',
     locale: 'en-US',
     currency: 'USD',
     timezone: 'America/Los_Angeles',
   },
   uk: {
     edsHost: 'main--qsr-uk--org.aem.live',
+    daHost: 'main--qsr-uk--org.da.live',
     locale: 'en-GB',
     currency: 'GBP',
     timezone: 'Europe/London',
   },
   jp: {
     edsHost: 'main--qsr-jp--org.aem.live',
+    daHost: 'main--qsr-jp--org.da.live',
     locale: 'ja-JP',
     currency: 'JPY',
     timezone: 'Asia/Tokyo',
@@ -26,12 +39,20 @@ export const MARKET_CONFIG = {
 };
 
 /**
- * Returns market configuration for the given market code.
+ * Returns market configuration for the given market code and content source.
  * Falls back to 'us' if the market is not found.
+ * When contentSource is 'da', the returned edsHost is swapped to the DA.live host.
  *
  * @param {string} market - Market code: 'us' | 'uk' | 'jp'
- * @returns {{ edsHost: string, locale: string, currency: string, timezone: string }}
+ * @param {string} [contentSource='aem'] - Content source: 'aem' | 'da'
+ * @returns {{ edsHost: string, daHost: string, locale: string, currency: string, timezone: string, contentSource: string }}
  */
-export function getMarketConfig(market) {
-  return MARKET_CONFIG[market] || MARKET_CONFIG.us;
+export function getMarketConfig(market, contentSource) {
+  const config = MARKET_CONFIG[market] || MARKET_CONFIG.us;
+  const source = contentSource === CONTENT_SOURCE_DA ? CONTENT_SOURCE_DA : CONTENT_SOURCE_AEM;
+  return {
+    ...config,
+    edsHost: source === CONTENT_SOURCE_DA ? config.daHost : config.edsHost,
+    contentSource: source,
+  };
 }

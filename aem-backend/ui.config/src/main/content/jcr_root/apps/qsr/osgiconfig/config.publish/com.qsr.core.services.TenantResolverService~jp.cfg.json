@@ -3,6 +3,8 @@
     "locale": "ja-JP",
     "currency": "JPY",
     "timezone": "Asia/Tokyo",
+    "contentSource": "aem",
     "edsHost": "main--qsr-jp--org.aem.live",
+    "daHost": "main--qsr-jp--org.da.live",
     "contentRoot": "/content/qsr/jp"
 }

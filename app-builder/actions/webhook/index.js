@@ -60,7 +60,7 @@ async function main(params) {
     };
   }
 
-  const { edsHost } = getMarketConfig(market);
+  const { edsHost } = getMarketConfig(market, params.CONTENT_SOURCE);
   logger.info(`webhook: event=${event}, market=${market}, path=${path}, host=${edsHost}`);
 
   try {
